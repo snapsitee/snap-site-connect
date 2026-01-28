@@ -18,11 +18,11 @@ const testimonials = [
   },
   {
     name: { en: 'Fatma El-Sayed', ar: 'فاطمة السيد' },
-    role: { en: 'Boutique Owner', ar: 'صاحبة بوتيك' },
+    role: { en: 'Law Firm Partner', ar: 'شريكة مكتب محاماة' },
     rating: 5,
     review: {
-      en: "Professional team that truly understands design. They delivered my e-commerce site faster than expected and the monthly support is excellent.",
-      ar: "فريق محترف فاهم التصميم فعلاً. سلّموا موقع التجارة الإلكترونية أسرع من المتوقع والدعم الشهري ممتاز."
+      en: "Professional team that truly understands design. They delivered our law firm website faster than expected and the monthly support is excellent.",
+      ar: "فريق محترف فاهم التصميم فعلاً. سلّموا موقع مكتب المحاماة أسرع من المتوقع والدعم الشهري ممتاز."
     },
     initials: 'FE',
   },
