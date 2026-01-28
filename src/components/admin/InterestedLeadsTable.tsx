@@ -14,7 +14,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { Download, Search, Phone, Trash2, CheckCircle, Archive } from 'lucide-react';
-import * as XLSX from 'xlsx';
+import { downloadCSV } from '@/lib/csv-export';
 
 interface InterestedLead {
   id: string;
@@ -100,7 +100,7 @@ const InterestedLeadsTable = () => {
     }
   };
 
-  const exportToExcel = () => {
+  const exportToCSV = () => {
     const exportData = leads.map(lead => ({
       [t('admin.name')]: lead.name,
       [t('admin.email')]: lead.email,
@@ -111,10 +111,7 @@ const InterestedLeadsTable = () => {
       [t('admin.date')]: new Date(lead.created_at).toLocaleDateString(language === 'ar' ? 'ar-EG' : 'en-US'),
     }));
 
-    const worksheet = XLSX.utils.json_to_sheet(exportData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Interested Leads');
-    XLSX.writeFile(workbook, `interested_leads_${new Date().toISOString().split('T')[0]}.xlsx`);
+    downloadCSV(exportData, `interested_leads_${new Date().toISOString().split('T')[0]}.csv`);
   };
 
   const filteredLeads = leads.filter(lead =>
@@ -173,7 +170,7 @@ const InterestedLeadsTable = () => {
               className={`w-64 bg-muted border-border ${isRTL ? 'pr-10 text-right' : 'pl-10'}`}
             />
           </div>
-          <Button onClick={exportToExcel} className="gradient-bg hover:opacity-90">
+          <Button onClick={exportToCSV} className="gradient-bg hover:opacity-90">
             <Download className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
             {t('admin.exportExcel')}
           </Button>
