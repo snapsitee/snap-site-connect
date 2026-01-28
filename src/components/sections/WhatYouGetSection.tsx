@@ -1,8 +1,14 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Check } from 'lucide-react';
+import { Check, Gift } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import ScrollReveal from '@/components/ui/scroll-reveal';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 
 const WhatYouGetSection = () => {
   const { t, isRTL } = useLanguage();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: true, margin: '-100px' });
 
   const benefits = [
     t('whatYouGet.customWebsite'),
@@ -14,35 +20,70 @@ const WhatYouGetSection = () => {
   ];
 
   return (
-    <section className="py-24 relative">
-      <div className="container mx-auto px-4">
+    <section className="py-28 relative overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-purple/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-blue/10 rounded-full blur-3xl" />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+          <ScrollReveal className="text-center mb-16">
+            <Badge variant="outline" className="mb-4 border-gradient-purple/30 text-gradient-purple bg-gradient-purple/5">
+              <Gift className="w-3 h-3 mr-1" />
+              {isRTL ? 'ما تحصل عليه' : 'What You Get'}
+            </Badge>
+            <h2 className={`text-3xl md:text-5xl font-bold mb-4 ${isRTL ? 'font-cairo' : 'font-sans'}`}>
               <span className="gradient-text">{t('whatYouGet.title')}</span>
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               {t('whatYouGet.subtitle')}
             </p>
-          </div>
+          </ScrollReveal>
 
-          <div className="glass rounded-3xl p-8 md:p-12 gradient-border">
-            <div className="grid sm:grid-cols-2 gap-6">
-              {benefits.map((benefit, index) => (
-                <div
-                  key={index}
-                  className={`flex items-center gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}
-                >
-                  <div className="w-8 h-8 rounded-full gradient-bg flex items-center justify-center flex-shrink-0">
-                    <Check className="w-5 h-5 text-white" />
-                  </div>
-                  <span className={`text-lg ${isRTL ? 'font-cairo text-right' : 'font-sans'}`}>
-                    {benefit}
-                  </span>
-                </div>
-              ))}
+          <ScrollReveal delay={0.2}>
+            <div 
+              ref={containerRef}
+              className="glass rounded-3xl p-8 md:p-12 gradient-border relative overflow-hidden"
+            >
+              {/* Decorative gradient */}
+              <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-gradient-purple/20 to-transparent rounded-full blur-2xl" />
+              
+              <div className="grid sm:grid-cols-2 gap-6 relative z-10">
+                {benefits.map((benefit, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ 
+                      duration: 0.5, 
+                      delay: 0.1 * index,
+                      ease: [0.25, 0.1, 0.25, 1]
+                    }}
+                    className={`flex items-center gap-4 p-3 rounded-xl hover:bg-muted/50 transition-colors ${isRTL ? 'flex-row-reverse' : ''}`}
+                  >
+                    <motion.div 
+                      initial={{ scale: 0 }}
+                      animate={isInView ? { scale: 1 } : {}}
+                      transition={{ 
+                        duration: 0.4, 
+                        delay: 0.15 * index,
+                        type: 'spring',
+                        stiffness: 200
+                      }}
+                      className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center flex-shrink-0 shadow-lg shadow-gradient-purple/25"
+                    >
+                      <Check className="w-5 h-5 text-white" />
+                    </motion.div>
+                    <span className={`text-lg ${isRTL ? 'font-cairo text-right' : 'font-sans'}`}>
+                      {benefit}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>
