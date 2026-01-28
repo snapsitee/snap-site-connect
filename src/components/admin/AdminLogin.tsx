@@ -10,7 +10,7 @@ import logoWhite from '@/assets/logo-white.png';
 import { z } from 'zod';
 
 const loginSchema = z.object({
-  email: z.string().trim().email('Invalid email').max(255),
+  username: z.string().trim().min(1, 'Username is required').max(50),
   password: z.string().min(6, 'Password must be at least 6 characters').max(100),
 });
 
@@ -19,7 +19,7 @@ const AdminLogin = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: '',
   });
 
@@ -43,15 +43,17 @@ const AdminLogin = () => {
 
     setIsLoading(true);
 
+    // Map username to email format for Supabase Auth
+    const email = `${formData.username.trim().toLowerCase()}@admin.snapsite.local`;
+
     const { error } = await supabase.auth.signInWithPassword({
-      email: formData.email.trim(),
+      email,
       password: formData.password,
     });
 
     setIsLoading(false);
 
     if (error) {
-      // Use generic error message to prevent account enumeration
       toast({
         title: 'Login Failed',
         description: 'Please check your credentials and try again.',
@@ -77,16 +79,17 @@ const AdminLogin = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email" className={isRTL ? 'block text-right' : ''}>
-                {t('admin.email')}
+              <Label htmlFor="username" className={isRTL ? 'block text-right' : ''}>
+                {isRTL ? 'اسم المستخدم' : 'Username'}
               </Label>
               <Input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
+                id="username"
+                name="username"
+                type="text"
+                value={formData.username}
                 onChange={handleChange}
                 required
+                autoComplete="username"
                 className={`bg-muted border-border ${isRTL ? 'text-right' : ''}`}
               />
             </div>
@@ -102,6 +105,7 @@ const AdminLogin = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
+                autoComplete="current-password"
                 className={`bg-muted border-border ${isRTL ? 'text-right' : ''}`}
               />
             </div>
@@ -114,7 +118,6 @@ const AdminLogin = () => {
               {isLoading ? '...' : t('admin.signIn')}
             </Button>
           </form>
-
         </div>
       </div>
     </div>
