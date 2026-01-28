@@ -21,7 +21,7 @@ Deno.serve(async (req) => {
       },
     });
 
-    const adminEmail = "afia@admin.snapsite.local";
+    const adminEmail = "afia@snapsitee.com";
     const adminPassword = "Afia@2026";
 
     // Check if user already exists
