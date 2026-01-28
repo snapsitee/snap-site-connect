@@ -10,7 +10,6 @@ import ContactSection from '@/components/sections/ContactSection';
 import FAQSection from '@/components/sections/FAQSection';
 import FinalCTASection from '@/components/sections/FinalCTASection';
 import Footer from '@/components/Footer';
-import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 
 const Index = () => {
   return (
@@ -29,7 +28,6 @@ const Index = () => {
         <FinalCTASection />
       </main>
       <Footer />
-      <FloatingWhatsApp />
     </div>
   );
 };
