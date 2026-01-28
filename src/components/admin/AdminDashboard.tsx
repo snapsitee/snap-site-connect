@@ -1,0 +1,119 @@
+import { useState } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { supabase } from '@/integrations/supabase/client';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { Button } from '@/components/ui/button';
+import { LogOut, Users, UserCheck, DollarSign, Menu, X } from 'lucide-react';
+import LeadsTable from './LeadsTable';
+import InterestedLeadsTable from './InterestedLeadsTable';
+import PricingManager from './PricingManager';
+import logoWhite from '@/assets/logo-white.png';
+
+type Tab = 'leads' | 'interested' | 'pricing';
+
+const AdminDashboard = () => {
+  const { t, isRTL } = useLanguage();
+  const [activeTab, setActiveTab] = useState<Tab>('leads');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
+
+  const tabs = [
+    { id: 'leads' as Tab, label: t('admin.leads'), icon: Users },
+    { id: 'interested' as Tab, label: t('admin.interestedLeads'), icon: UserCheck },
+    { id: 'pricing' as Tab, label: t('admin.pricing'), icon: DollarSign },
+  ];
+
+  return (
+    <div className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+      {/* Mobile header */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 glass border-b border-border">
+        <div className="flex items-center justify-between p-4">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          >
+            {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
+          <img src={logoWhite} alt="SnapSite" className="h-6 w-auto" />
+          <LanguageSwitcher />
+        </div>
+      </div>
+
+      {/* Sidebar */}
+      <aside className={`fixed top-0 ${isRTL ? 'right-0' : 'left-0'} h-full w-64 bg-sidebar border-${isRTL ? 'l' : 'r'} border-sidebar-border z-40 transform transition-transform duration-300 ${
+        isSidebarOpen ? 'translate-x-0' : isRTL ? 'translate-x-full' : '-translate-x-full'
+      } lg:translate-x-0`}>
+        <div className="flex flex-col h-full">
+          {/* Logo */}
+          <div className="p-6 border-b border-sidebar-border">
+            <img src={logoWhite} alt="SnapSite" className="h-8 w-auto" />
+            <p className="text-sm text-sidebar-foreground/60 mt-1">
+              {t('admin.dashboard')}
+            </p>
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex-1 p-4 space-y-2">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setIsSidebarOpen(false);
+                }}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                  isRTL ? 'flex-row-reverse text-right' : ''
+                } ${
+                  activeTab === tab.id
+                    ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+                    : 'text-sidebar-foreground/80 hover:bg-sidebar-accent/50'
+                }`}
+              >
+                <tab.icon className="w-5 h-5" />
+                <span>{tab.label}</span>
+              </button>
+            ))}
+          </nav>
+
+          {/* Footer */}
+          <div className="p-4 border-t border-sidebar-border space-y-4">
+            <div className="hidden lg:block">
+              <LanguageSwitcher />
+            </div>
+            <Button
+              variant="ghost"
+              onClick={handleSignOut}
+              className={`w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 ${isRTL ? 'flex-row-reverse' : ''}`}
+            >
+              <LogOut className={`w-5 h-5 ${isRTL ? 'ml-2' : 'mr-2'}`} />
+              {t('admin.signOut')}
+            </Button>
+          </div>
+        </div>
+      </aside>
+
+      {/* Overlay for mobile */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-30 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Main content */}
+      <main className={`${isRTL ? 'lg:mr-64' : 'lg:ml-64'} min-h-screen pt-16 lg:pt-0`}>
+        <div className="p-6 lg:p-8">
+          {activeTab === 'leads' && <LeadsTable />}
+          {activeTab === 'interested' && <InterestedLeadsTable />}
+          {activeTab === 'pricing' && <PricingManager />}
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default AdminDashboard;
