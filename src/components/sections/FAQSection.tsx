@@ -53,7 +53,7 @@ const FAQSection = () => {
               transition={{ duration: 0.6 }}
               className="glass rounded-3xl p-6 md:p-8 gradient-border"
             >
-              <Accordion type="single" collapsible className="space-y-4">
+              <Accordion type="single" collapsible className="space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
                 {faqs.map((faq, index) => (
                   <motion.div
                     key={index}
@@ -65,10 +65,10 @@ const FAQSection = () => {
                       value={`item-${index}`}
                       className="border-border/50 rounded-xl px-4 hover:bg-muted/30 transition-colors data-[state=open]:bg-muted/50"
                     >
-                      <AccordionTrigger className={`text-left hover:no-underline py-5 ${isRTL ? 'flex-row-reverse text-right font-cairo' : 'font-sans'}`}>
+                      <AccordionTrigger className={`hover:no-underline py-5 ${isRTL ? 'text-right font-cairo' : 'text-left font-sans'}`}>
                         <span className="font-semibold text-lg">{faq.q}</span>
                       </AccordionTrigger>
-                      <AccordionContent className={`text-muted-foreground pb-5 leading-relaxed ${isRTL ? 'text-right font-cairo' : 'font-sans'}`}>
+                      <AccordionContent className={`text-muted-foreground pb-5 leading-relaxed ${isRTL ? 'text-right font-cairo' : 'text-left font-sans'}`}>
                         {faq.a}
                       </AccordionContent>
                     </AccordionItem>
