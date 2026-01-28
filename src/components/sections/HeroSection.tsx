@@ -129,7 +129,7 @@ const HeroSection = () => {
           >
             {[
               { value: isRTL ? '+٥٠' : '50+', label: isRTL ? 'مشروع مكتمل' : 'Projects Done' },
-              { value: isRTL ? '٤٨ ساعة' : '48h', label: isRTL ? 'وقت التسليم' : 'Delivery Time' },
+              { value: isRTL ? '٧-١٠ أيام' : '7-10 Days', label: isRTL ? 'وقت التسليم' : 'Delivery Time' },
               { value: isRTL ? '+٩٨%' : '98%', label: isRTL ? 'رضا العملاء' : 'Satisfaction' },
             ].map((stat, i) => (
               <motion.div
