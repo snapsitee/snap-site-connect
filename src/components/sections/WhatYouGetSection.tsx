@@ -50,7 +50,7 @@ const WhatYouGetSection = () => {
               {/* Decorative gradient */}
               <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-gradient-purple/20 to-transparent rounded-full blur-2xl" />
               
-              <div className="grid sm:grid-cols-2 gap-6 relative z-10">
+              <div className={`grid sm:grid-cols-2 gap-6 relative z-10 ${isRTL ? 'text-right' : 'text-left'}`} dir={isRTL ? 'rtl' : 'ltr'}>
                 {benefits.map((benefit, index) => (
                   <motion.div
                     key={index}
@@ -61,7 +61,7 @@ const WhatYouGetSection = () => {
                       delay: 0.1 * index,
                       ease: [0.25, 0.1, 0.25, 1]
                     }}
-                    className={`flex items-center gap-4 p-3 rounded-xl hover:bg-muted/50 transition-colors ${isRTL ? 'flex-row-reverse' : ''}`}
+                    className="flex items-center gap-4 p-3 rounded-xl hover:bg-muted/50 transition-colors"
                   >
                     <motion.div 
                       initial={{ scale: 0 }}
@@ -76,7 +76,7 @@ const WhatYouGetSection = () => {
                     >
                       <Check className="w-5 h-5 text-white" />
                     </motion.div>
-                    <span className={`text-lg ${isRTL ? 'font-cairo text-right' : 'font-sans'}`}>
+                    <span className={`text-lg ${isRTL ? 'font-cairo' : 'font-sans'}`}>
                       {benefit}
                     </span>
                   </motion.div>
