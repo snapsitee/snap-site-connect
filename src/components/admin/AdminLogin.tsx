@@ -10,7 +10,7 @@ import logoWhite from '@/assets/logo-white.png';
 import { z } from 'zod';
 
 const loginSchema = z.object({
-  username: z.string().trim().min(1, 'Username is required').max(50),
+  email: z.string().trim().email('Invalid email address').max(255),
   password: z.string().min(6, 'Password must be at least 6 characters').max(100),
 });
 
@@ -19,7 +19,7 @@ const AdminLogin = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: '',
   });
 
@@ -43,11 +43,8 @@ const AdminLogin = () => {
 
     setIsLoading(true);
 
-    // Map username to email format for Supabase Auth
-    const email = `${formData.username.trim().toLowerCase()}@admin.snapsite.local`;
-
     const { error } = await supabase.auth.signInWithPassword({
-      email,
+      email: formData.email.trim().toLowerCase(),
       password: formData.password,
     });
 
@@ -79,17 +76,17 @@ const AdminLogin = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="username" className={isRTL ? 'block text-right' : ''}>
-                {isRTL ? 'اسم المستخدم' : 'Username'}
+              <Label htmlFor="email" className={isRTL ? 'block text-right' : ''}>
+                {isRTL ? 'البريد الإلكتروني' : 'Email'}
               </Label>
               <Input
-                id="username"
-                name="username"
-                type="text"
-                value={formData.username}
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
                 onChange={handleChange}
                 required
-                autoComplete="username"
+                autoComplete="email"
                 className={`bg-muted border-border ${isRTL ? 'text-right' : ''}`}
               />
             </div>
