@@ -18,6 +18,7 @@ const AdminLogin = () => {
   const { t, isRTL } = useLanguage();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -43,21 +44,49 @@ const AdminLogin = () => {
 
     setIsLoading(true);
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email: formData.email.trim(),
-      password: formData.password,
-    });
-
-    setIsLoading(false);
-
-    if (error) {
-      toast({
-        title: 'Login Failed',
-        description: error.message === 'Invalid login credentials' 
-          ? 'Invalid email or password' 
-          : error.message,
-        variant: 'destructive',
+    if (isSignUp) {
+      const redirectUrl = `${window.location.origin}/admin`;
+      
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email.trim(),
+        password: formData.password,
+        options: {
+          emailRedirectTo: redirectUrl
+        }
       });
+
+      setIsLoading(false);
+
+      if (error) {
+        toast({
+          title: 'Sign Up Failed',
+          description: error.message,
+          variant: 'destructive',
+        });
+      } else if (data.user) {
+        toast({
+          title: 'Account Created!',
+          description: `Your user ID is: ${data.user.id}. Copy this ID to grant admin access.`,
+          duration: 30000,
+        });
+      }
+    } else {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: formData.email.trim(),
+        password: formData.password,
+      });
+
+      setIsLoading(false);
+
+      if (error) {
+        toast({
+          title: 'Login Failed',
+          description: error.message === 'Invalid login credentials' 
+            ? 'Invalid email or password' 
+            : error.message,
+          variant: 'destructive',
+        });
+      }
     }
   };
 
@@ -72,7 +101,7 @@ const AdminLogin = () => {
           <div className="text-center mb-8">
             <img src={logoWhite} alt="SnapSite" className="h-10 w-auto mx-auto mb-4" />
             <h1 className={`text-2xl font-bold gradient-text ${isRTL ? 'font-cairo' : 'font-sans'}`}>
-              {t('admin.login')}
+              {isSignUp ? 'Create Account' : t('admin.login')}
             </h1>
           </div>
 
@@ -112,9 +141,19 @@ const AdminLogin = () => {
               className="w-full gradient-bg hover:opacity-90 transition-opacity"
               disabled={isLoading}
             >
-              {isLoading ? '...' : t('admin.signIn')}
+              {isLoading ? '...' : isSignUp ? 'Sign Up' : t('admin.signIn')}
             </Button>
           </form>
+
+          <div className="mt-4 text-center">
+            <button
+              type="button"
+              onClick={() => setIsSignUp(!isSignUp)}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
+            </button>
+          </div>
         </div>
       </div>
     </div>
