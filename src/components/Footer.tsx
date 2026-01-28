@@ -1,6 +1,6 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
-import { Mail, Phone, Heart } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import logoWhite from '@/assets/logo-white.png';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
@@ -22,17 +22,17 @@ const Footer = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className={`grid md:grid-cols-3 gap-8 items-start ${isRTL ? 'md:grid-flow-col-dense' : ''}`}
+          className={`flex flex-col md:flex-row justify-between items-center gap-8 ${isRTL ? 'md:flex-row-reverse' : ''}`}
         >
           {/* Logo and slogan */}
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className={`${isRTL ? 'md:col-start-3' : ''}`}
+            className={`flex flex-col items-center md:items-start ${isRTL ? 'md:items-end' : ''}`}
           >
-            <img src={logoWhite} alt="SnapSite" className="h-10 w-auto mb-4" />
-            <p className={`text-muted-foreground leading-relaxed ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+            <img src={logoWhite} alt="SnapSite" className="h-10 w-auto mb-3" />
+            <p className={`text-muted-foreground text-sm ${isRTL ? 'font-cairo text-right' : 'font-sans text-left'}`}>
               {t('footer.slogan')}
             </p>
           </motion.div>
@@ -42,28 +42,23 @@ const Footer = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className={`${isRTL ? 'md:col-start-2 text-right' : 'text-center'}`}
+            className="flex flex-col sm:flex-row items-center gap-4"
           >
-            <h4 className={`font-semibold mb-4 text-lg ${isRTL ? 'font-cairo' : 'font-sans'}`}>
-              {t('contact.title')}
-            </h4>
-            <div className="space-y-3">
-              <div className={`flex items-center gap-3 justify-center ${isRTL ? 'flex-row-reverse' : ''}`}>
-                <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center">
-                  <Mail className="w-4 h-4 text-gradient-purple" />
-                </div>
-                <a href="mailto:contact@snapsitee.com" className="text-muted-foreground hover:text-foreground transition-colors">
-                  contact@snapsitee.com
-                </a>
+            <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center">
+                <Mail className="w-4 h-4 text-gradient-purple" />
               </div>
-              <div className={`flex items-center gap-3 justify-center ${isRTL ? 'flex-row-reverse' : ''}`}>
-                <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center">
-                  <Phone className="w-4 h-4 text-gradient-blue" />
-                </div>
-                <a href="tel:+201033865141" className="text-muted-foreground hover:text-foreground transition-colors">
-                  +20-1033865141
-                </a>
+              <a href="mailto:contact@snapsitee.com" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+                contact@snapsitee.com
+              </a>
+            </div>
+            <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center">
+                <Phone className="w-4 h-4 text-gradient-blue" />
               </div>
+              <a href="tel:+201033865141" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+                +20-1033865141
+              </a>
             </div>
           </motion.div>
 
@@ -72,19 +67,17 @@ const Footer = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className={`${isRTL ? 'md:col-start-1 text-left' : 'text-right'}`}
+            className={`flex items-center gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}
           >
-            <div className={`flex flex-col items-end gap-4 ${isRTL ? 'items-start' : ''}`}>
-              <LanguageSwitcher />
-              <a
-                href="https://drive.google.com/file/d/1Cl1YDolJvo05SCPnqVP1NhDNqNVFijRq/view?usp=drive_link"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`text-muted-foreground hover:text-foreground transition-colors text-sm hover:underline ${isRTL ? 'font-cairo' : 'font-sans'}`}
-              >
-                {t('footer.terms')}
-              </a>
-            </div>
+            <a
+              href="https://drive.google.com/file/d/1Cl1YDolJvo05SCPnqVP1NhDNqNVFijRq/view?usp=drive_link"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`text-muted-foreground hover:text-foreground transition-colors text-sm hover:underline ${isRTL ? 'font-cairo' : 'font-sans'}`}
+            >
+              {t('footer.terms')}
+            </a>
+            <LanguageSwitcher />
           </motion.div>
         </motion.div>
 
@@ -93,14 +86,10 @@ const Footer = () => {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 pt-8 border-t border-border text-center"
+          className="mt-8 pt-6 border-t border-border text-center"
         >
-          <p className={`text-muted-foreground text-sm flex items-center justify-center gap-2 ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+          <p className={`text-muted-foreground text-sm ${isRTL ? 'font-cairo' : 'font-sans'}`}>
             © {new Date().getFullYear()} SnapSite. {t('footer.rights')}.
-            <span className="inline-flex items-center gap-1">
-              <span>{isRTL ? 'صنع بـ' : 'Made with'}</span>
-              <Heart className="w-4 h-4 text-destructive fill-destructive" />
-            </span>
           </p>
         </motion.div>
       </div>
