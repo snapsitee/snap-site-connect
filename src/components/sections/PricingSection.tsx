@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
-import { Check, Sparkles } from 'lucide-react';
+import { Check, Sparkles, Star } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import SubscribePopup from '@/components/SubscribePopup';
+import { Badge } from '@/components/ui/badge';
+import ScrollReveal from '@/components/ui/scroll-reveal';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 
 interface Pricing {
   setup_fee: number;
@@ -16,6 +20,8 @@ const PricingSection = () => {
   const { t, isRTL, language } = useLanguage();
   const [pricing, setPricing] = useState<Pricing | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(cardRef, { once: true, margin: '-100px' });
 
   useEffect(() => {
     const fetchPricing = async () => {
@@ -55,42 +61,66 @@ const PricingSection = () => {
 
   return (
     <>
-      <section id="pricing" className="py-24 relative">
+      <section id="pricing" className="py-28 relative">
         {/* Background effect */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-gradient-to-b from-gradient-purple/5 to-transparent" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-gradient-to-b from-gradient-purple/10 to-transparent" />
+          <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-gradient-blue/10 rounded-full blur-3xl" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
-            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+          <ScrollReveal className="text-center mb-16">
+            <Badge variant="outline" className="mb-4 border-gradient-purple/30 text-gradient-purple bg-gradient-purple/5">
+              <Star className="w-3 h-3 mr-1" />
+              {isRTL ? 'أسعارنا' : 'Pricing'}
+            </Badge>
+            <h2 className={`text-3xl md:text-5xl font-bold mb-4 ${isRTL ? 'font-cairo' : 'font-sans'}`}>
               <span className="gradient-text">{t('pricing.title')}</span>
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               {t('pricing.subtitle')}
             </p>
-          </div>
+          </ScrollReveal>
 
-          <div className="max-w-lg mx-auto">
-            <div className="glass rounded-3xl p-8 relative overflow-hidden gradient-border">
+          <div className="max-w-lg mx-auto" ref={cardRef}>
+            <motion.div 
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+              className="glass rounded-3xl p-8 relative overflow-hidden gradient-border hover:shadow-2xl hover:shadow-gradient-purple/10 transition-shadow duration-500"
+            >
+              {/* Decorative elements */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gradient-purple via-gradient-blue to-gradient-purple" />
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-gradient-purple/20 rounded-full blur-3xl" />
+              
               {/* Discount badge */}
               {pricing?.discount_enabled && pricing.discount_percent > 0 && (
-                <div className="absolute top-4 right-4 gradient-bg px-3 py-1 rounded-full flex items-center gap-1">
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.8, rotate: -12 }}
+                  animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="absolute top-4 right-4 gradient-bg px-4 py-2 rounded-full flex items-center gap-2 shadow-lg"
+                >
                   <Sparkles className="w-4 h-4 text-white" />
                   <span className="text-white text-sm font-bold">
                     {pricing.discount_percent}% {t('pricing.discount')}
                   </span>
-                </div>
+                </motion.div>
               )}
 
-              <h3 className={`text-2xl font-bold mb-8 text-center ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+              <h3 className={`text-2xl font-bold mb-8 text-center pt-4 ${isRTL ? 'font-cairo' : 'font-sans'}`}>
                 {t('pricing.cardTitle')}
               </h3>
 
               {/* Setup Fee */}
-              <div className="mb-6 p-4 rounded-xl bg-muted/50 border border-border">
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="mb-6 p-5 rounded-2xl bg-muted/50 border border-border hover:bg-muted/70 transition-colors"
+              >
                 <div className={`flex items-baseline justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
-                  <span className="text-muted-foreground">{t('pricing.setupFee')}</span>
+                  <span className="text-muted-foreground font-medium">{t('pricing.setupFee')}</span>
                   <div className={`flex items-baseline gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                     {pricing?.discount_enabled && pricing.discount_percent > 0 && (
                       <span className="text-muted-foreground line-through text-lg">
@@ -103,12 +133,17 @@ const PricingSection = () => {
                   </div>
                 </div>
                 <span className="text-sm text-muted-foreground">({t('pricing.oneTime')})</span>
-              </div>
+              </motion.div>
 
               {/* Monthly Fee */}
-              <div className="mb-8 p-4 rounded-xl bg-muted/50 border border-border">
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="mb-8 p-5 rounded-2xl bg-muted/50 border border-border hover:bg-muted/70 transition-colors"
+              >
                 <div className={`flex items-baseline justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
-                  <span className="text-muted-foreground">{t('pricing.monthly')}</span>
+                  <span className="text-muted-foreground font-medium">{t('pricing.monthly')}</span>
                   <div className={`flex items-baseline gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                     {pricing?.discount_enabled && pricing.discount_percent > 0 && (
                       <span className="text-muted-foreground line-through text-lg">
@@ -121,29 +156,41 @@ const PricingSection = () => {
                     <span className="text-muted-foreground">{t('pricing.perMonth')}</span>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Features */}
               <div className="space-y-4 mb-8">
                 {features.map((feature, index) => (
-                  <div key={index} className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                    <div className="w-5 h-5 rounded-full gradient-bg flex items-center justify-center flex-shrink-0">
-                      <Check className="w-3 h-3 text-white" />
+                  <motion.div 
+                    key={index} 
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.4, delay: 0.4 + index * 0.05 }}
+                    className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}
+                  >
+                    <div className="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0 shadow-md shadow-gradient-purple/20">
+                      <Check className="w-3.5 h-3.5 text-white" />
                     </div>
                     <span className={isRTL ? 'font-cairo' : 'font-sans'}>{feature}</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
               {/* CTA Button */}
-              <Button
-                size="lg"
-                className="w-full gradient-bg hover:opacity-90 transition-opacity text-lg py-6"
-                onClick={() => setIsPopupOpen(true)}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.7 }}
               >
-                {t('pricing.subscribe')}
-              </Button>
-            </div>
+                <Button
+                  size="lg"
+                  className="w-full gradient-bg hover:opacity-90 transition-all hover:scale-[1.02] text-lg py-6 shadow-lg shadow-gradient-purple/25"
+                  onClick={() => setIsPopupOpen(true)}
+                >
+                  {t('pricing.subscribe')}
+                </Button>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
