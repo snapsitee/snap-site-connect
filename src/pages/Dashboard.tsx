@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -24,7 +24,7 @@ interface Order {
   created_at: string;
 }
 
-const Dashboard = () => {
+const Dashboard = forwardRef<HTMLDivElement>((_, ref) => {
   const { t, isRTL } = useLanguage();
   const navigate = useNavigate();
   const [user, setUser] = useState<SupabaseUser | null>(null);
@@ -76,7 +76,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+    <div ref={ref} className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
       <Navbar />
       
       <main className="pt-24 pb-16">
@@ -179,6 +179,8 @@ const Dashboard = () => {
       <Footer />
     </div>
   );
-};
+});
+
+Dashboard.displayName = 'Dashboard';
 
 export default Dashboard;

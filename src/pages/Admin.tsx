@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { User, Session } from '@supabase/supabase-js';
 import AdminLogin from '@/components/admin/AdminLogin';
 import AdminDashboard from '@/components/admin/AdminDashboard';
 
-const Admin = () => {
+const Admin = forwardRef<HTMLDivElement>((_, ref) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -59,19 +59,23 @@ const Admin = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div ref={ref} className="min-h-screen bg-background flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   if (!user || !session) {
-    return <AdminLogin />;
+    return (
+      <div ref={ref}>
+        <AdminLogin />
+      </div>
+    );
   }
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div ref={ref} className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-destructive mb-2">Access Denied</h1>
           <p className="text-muted-foreground">You don't have admin privileges.</p>
@@ -87,11 +91,15 @@ const Admin = () => {
   }
 
   return (
-    <Routes>
-      <Route path="/" element={<AdminDashboard />} />
-      <Route path="*" element={<Navigate to="/admin" replace />} />
-    </Routes>
+    <div ref={ref}>
+      <Routes>
+        <Route path="/" element={<AdminDashboard />} />
+        <Route path="*" element={<Navigate to="/admin" replace />} />
+      </Routes>
+    </div>
   );
-};
+});
+
+Admin.displayName = 'Admin';
 
 export default Admin;

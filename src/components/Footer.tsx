@@ -3,9 +3,9 @@ import LanguageSwitcher from './LanguageSwitcher';
 import { Mail, Phone } from 'lucide-react';
 import logoWhite from '@/assets/logo-white.png';
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, forwardRef } from 'react';
 
-const Footer = () => {
+const Footer = forwardRef<HTMLElement>((_, ref) => {
   const { t, isRTL } = useLanguage();
   const footerRef = useRef<HTMLElement>(null);
   const isInView = useInView(footerRef, { once: true, margin: '-50px' });
@@ -95,6 +95,8 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = 'Footer';
 
 export default Footer;
