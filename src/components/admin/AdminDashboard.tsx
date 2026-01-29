@@ -4,16 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
-import { LogOut, Users, DollarSign, Menu, X, ShoppingCart, CreditCard, Settings, Home, BarChart3 } from 'lucide-react';
+import { LogOut, Users, DollarSign, Menu, X, ShoppingCart, CreditCard, Settings, Home, BarChart3, Ticket } from 'lucide-react';
 import LeadsTable from './LeadsTable';
 import PricingManager from './PricingManager';
 import SubscribersTable from './SubscribersTable';
 import PaymentSettingsManager from './PaymentSettingsManager';
 import AddonSettingsManager from './AddonSettingsManager';
 import AnalyticsDashboard from './AnalyticsDashboard';
+import CouponManager from './CouponManager';
 import logoWhite from '@/assets/logo-white.png';
 
-type Tab = 'analytics' | 'leads' | 'subscribers' | 'pricing' | 'payment' | 'addons';
+type Tab = 'analytics' | 'leads' | 'subscribers' | 'pricing' | 'payment' | 'addons' | 'coupons';
 
 const AdminDashboard = () => {
   const { t, isRTL } = useLanguage();
@@ -30,6 +31,7 @@ const AdminDashboard = () => {
     { id: 'subscribers' as Tab, label: isRTL ? 'المشتركين' : 'Subscribers', icon: ShoppingCart },
     { id: 'leads' as Tab, label: t('admin.leads'), icon: Users },
     { id: 'pricing' as Tab, label: t('admin.pricing'), icon: DollarSign },
+    { id: 'coupons' as Tab, label: isRTL ? 'الكوبونات' : 'Coupons', icon: Ticket },
     { id: 'payment' as Tab, label: isRTL ? 'إعدادات الدفع' : 'Payment Settings', icon: CreditCard },
     { id: 'addons' as Tab, label: isRTL ? 'الإضافات' : 'Add-ons', icon: Settings },
   ];
@@ -127,6 +129,7 @@ const AdminDashboard = () => {
           {activeTab === 'subscribers' && <SubscribersTable />}
           {activeTab === 'leads' && <LeadsTable />}
           {activeTab === 'pricing' && <PricingManager />}
+          {activeTab === 'coupons' && <CouponManager />}
           {activeTab === 'payment' && <PaymentSettingsManager />}
           {activeTab === 'addons' && <AddonSettingsManager />}
         </div>
