@@ -87,6 +87,20 @@ const CartStep = ({ orderData, updateOrderData, onNext, isRenewal = false }: Car
       discount_type: data.discount_type as 'fixed' | 'percentage',
       discount_value: data.discount_value,
     });
+
+    // Calculate and save discount to order data
+    const subtotal = orderData.setupFee + orderData.addonTotal;
+    let discountAmount = 0;
+    if (data.discount_type === 'percentage') {
+      discountAmount = Math.round(subtotal * data.discount_value / 100);
+    } else {
+      discountAmount = Math.min(data.discount_value, subtotal);
+    }
+    
+    updateOrderData({
+      couponCode: data.code,
+      couponDiscount: discountAmount,
+    });
     
     toast.success(isRTL ? 'تم تطبيق الكوبون بنجاح!' : 'Coupon applied successfully!');
     setIsValidating(false);
@@ -95,6 +109,10 @@ const CartStep = ({ orderData, updateOrderData, onNext, isRenewal = false }: Car
   const removeCoupon = () => {
     setAppliedCoupon(null);
     setCouponCode('');
+    updateOrderData({
+      couponCode: '',
+      couponDiscount: 0,
+    });
   };
 
   const calculateDiscount = () => {
