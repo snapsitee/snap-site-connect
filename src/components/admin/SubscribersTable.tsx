@@ -368,7 +368,7 @@ const SubscribersTable = () => {
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'رقم الطلب' : 'Order ID'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'العميل' : 'Client'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'النشاط' : 'Business'}</TableHead>
-              <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'تاريخ الطلب' : 'Order Date'}</TableHead>
+              <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'المبلغ المدفوع' : 'Amount Paid'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'الاشتراك' : 'Subscription'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'المشروع' : 'Project'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'الموقع' : 'Website'}</TableHead>
@@ -410,8 +410,18 @@ const SubscribersTable = () => {
                     </div>
                   </TableCell>
                   <TableCell>{order.business_name}</TableCell>
-                  <TableCell className="text-sm">
-                    {format(new Date(order.created_at), 'PP', { locale: dateLocale })}
+                  <TableCell>
+                    <div className={`flex flex-col ${isRTL ? 'items-end' : 'items-start'}`}>
+                      <span className="font-medium text-primary">
+                        {(order.setup_fee + order.addon_total - (order.coupon_discount || 0)).toLocaleString()} EGP
+                      </span>
+                      {order.coupon_code && (
+                        <span className="text-xs text-muted-foreground flex items-center gap-1">
+                          <Ticket className="w-3 h-3" />
+                          {order.coupon_code}
+                        </span>
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell>
                     <Select
