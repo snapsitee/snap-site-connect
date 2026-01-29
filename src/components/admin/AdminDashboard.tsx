@@ -1,21 +1,22 @@
 import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
-import { LogOut, Users, UserCheck, DollarSign, Menu, X, ShoppingCart, CreditCard, Settings } from 'lucide-react';
+import { LogOut, Users, DollarSign, Menu, X, ShoppingCart, CreditCard, Settings, Home } from 'lucide-react';
 import LeadsTable from './LeadsTable';
-import InterestedLeadsTable from './InterestedLeadsTable';
 import PricingManager from './PricingManager';
 import SubscribersTable from './SubscribersTable';
 import PaymentSettingsManager from './PaymentSettingsManager';
 import AddonSettingsManager from './AddonSettingsManager';
 import logoWhite from '@/assets/logo-white.png';
 
-type Tab = 'leads' | 'interested' | 'subscribers' | 'pricing' | 'payment' | 'addons';
+type Tab = 'leads' | 'subscribers' | 'pricing' | 'payment' | 'addons';
 
 const AdminDashboard = () => {
   const { t, isRTL } = useLanguage();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>('subscribers');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -26,7 +27,6 @@ const AdminDashboard = () => {
   const tabs = [
     { id: 'subscribers' as Tab, label: isRTL ? 'المشتركين' : 'Subscribers', icon: ShoppingCart },
     { id: 'leads' as Tab, label: t('admin.leads'), icon: Users },
-    { id: 'interested' as Tab, label: t('admin.interestedLeads'), icon: UserCheck },
     { id: 'pricing' as Tab, label: t('admin.pricing'), icon: DollarSign },
     { id: 'payment' as Tab, label: isRTL ? 'إعدادات الدفع' : 'Payment Settings', icon: CreditCard },
     { id: 'addons' as Tab, label: isRTL ? 'الإضافات' : 'Add-ons', icon: Settings },
@@ -91,6 +91,14 @@ const AdminDashboard = () => {
               <LanguageSwitcher />
             </div>
             <Button
+              variant="outline"
+              onClick={() => navigate('/')}
+              className={`w-full justify-start ${isRTL ? 'flex-row-reverse' : ''}`}
+            >
+              <Home className={`w-5 h-5 ${isRTL ? 'ml-2' : 'mr-2'}`} />
+              {isRTL ? 'العودة للموقع' : 'Back to Website'}
+            </Button>
+            <Button
               variant="ghost"
               onClick={handleSignOut}
               className={`w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 ${isRTL ? 'flex-row-reverse' : ''}`}
@@ -115,7 +123,6 @@ const AdminDashboard = () => {
         <div className="p-6 lg:p-8">
           {activeTab === 'subscribers' && <SubscribersTable />}
           {activeTab === 'leads' && <LeadsTable />}
-          {activeTab === 'interested' && <InterestedLeadsTable />}
           {activeTab === 'pricing' && <PricingManager />}
           {activeTab === 'payment' && <PaymentSettingsManager />}
           {activeTab === 'addons' && <AddonSettingsManager />}

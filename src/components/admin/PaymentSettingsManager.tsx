@@ -1,19 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Save, Smartphone, CreditCard } from 'lucide-react';
+import { Save, Smartphone, CreditCard, Upload, Image } from 'lucide-react';
 
 interface PaymentSettings {
   id: string;
   instapay_account_number: string;
   instapay_username: string;
   instapay_link: string;
+  instapay_qr_url: string | null;
   vodafone_number: string;
   vodafone_link: string;
+  vodafone_qr_url: string | null;
 }
 
 const PaymentSettingsManager = () => {
@@ -22,6 +24,10 @@ const PaymentSettingsManager = () => {
   const [settings, setSettings] = useState<PaymentSettings | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [uploadingInstapay, setUploadingInstapay] = useState(false);
+  const [uploadingVodafone, setUploadingVodafone] = useState(false);
+  const instapayInputRef = useRef<HTMLInputElement>(null);
+  const vodafoneInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetchSettings();
@@ -49,8 +55,10 @@ const PaymentSettingsManager = () => {
         instapay_account_number: settings.instapay_account_number,
         instapay_username: settings.instapay_username,
         instapay_link: settings.instapay_link,
+        instapay_qr_url: settings.instapay_qr_url,
         vodafone_number: settings.vodafone_number,
         vodafone_link: settings.vodafone_link,
+        vodafone_qr_url: settings.vodafone_qr_url,
       })
       .eq('id', settings.id);
 
@@ -67,6 +75,45 @@ const PaymentSettingsManager = () => {
       });
     }
     setIsSaving(false);
+  };
+
+  const handleQRUpload = async (file: File, type: 'instapay' | 'vodafone') => {
+    const setUploading = type === 'instapay' ? setUploadingInstapay : setUploadingVodafone;
+    setUploading(true);
+
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${type}-qr-${Date.now()}.${fileExt}`;
+      const filePath = `qr-codes/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('receipts')
+        .upload(filePath, file, { upsert: true });
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('receipts')
+        .getPublicUrl(filePath);
+
+      setSettings(prev => prev ? {
+        ...prev,
+        [type === 'instapay' ? 'instapay_qr_url' : 'vodafone_qr_url']: publicUrl
+      } : null);
+
+      toast({
+        title: isRTL ? 'تم الرفع' : 'Uploaded',
+        description: isRTL ? 'تم رفع رمز QR بنجاح' : 'QR code uploaded successfully',
+      });
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: isRTL ? 'خطأ في الرفع' : 'Upload Error',
+        description: error.message,
+      });
+    } finally {
+      setUploading(false);
+    }
   };
 
   if (isLoading) {
@@ -140,6 +187,41 @@ const PaymentSettingsManager = () => {
                 className={isRTL ? 'text-right' : ''}
               />
             </div>
+
+            <div className="space-y-2">
+              <Label className={isRTL ? 'text-right block' : ''}>
+                {isRTL ? 'رمز QR' : 'QR Code'}
+              </Label>
+              <div className="flex items-center gap-4">
+                {settings.instapay_qr_url && (
+                  <img src={settings.instapay_qr_url} alt="Instapay QR" className="w-20 h-20 rounded-lg border" />
+                )}
+                <input
+                  ref={instapayInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => e.target.files?.[0] && handleQRUpload(e.target.files[0], 'instapay')}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => instapayInputRef.current?.click()}
+                  disabled={uploadingInstapay}
+                  className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}
+                >
+                  {uploadingInstapay ? (
+                    <span className="animate-pulse">{isRTL ? 'جاري الرفع...' : 'Uploading...'}</span>
+                  ) : (
+                    <>
+                      <Upload className="w-4 h-4" />
+                      {isRTL ? 'رفع صورة' : 'Upload Image'}
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -175,6 +257,41 @@ const PaymentSettingsManager = () => {
                 }
                 className={isRTL ? 'text-right' : ''}
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label className={isRTL ? 'text-right block' : ''}>
+                {isRTL ? 'رمز QR' : 'QR Code'}
+              </Label>
+              <div className="flex items-center gap-4">
+                {settings.vodafone_qr_url && (
+                  <img src={settings.vodafone_qr_url} alt="Vodafone QR" className="w-20 h-20 rounded-lg border" />
+                )}
+                <input
+                  ref={vodafoneInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => e.target.files?.[0] && handleQRUpload(e.target.files[0], 'vodafone')}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => vodafoneInputRef.current?.click()}
+                  disabled={uploadingVodafone}
+                  className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}
+                >
+                  {uploadingVodafone ? (
+                    <span className="animate-pulse">{isRTL ? 'جاري الرفع...' : 'Uploading...'}</span>
+                  ) : (
+                    <>
+                      <Upload className="w-4 h-4" />
+                      {isRTL ? 'رفع صورة' : 'Upload Image'}
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
