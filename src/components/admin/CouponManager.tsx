@@ -10,7 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
-import { Plus, Trash2, Ticket, Percent, DollarSign } from 'lucide-react';
+import { Plus, Trash2, Ticket, Percent, DollarSign, Copy } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -282,7 +282,20 @@ const CouponManager = () => {
                   {coupons.map((coupon) => (
                     <TableRow key={coupon.id}>
                       <TableCell className={`font-mono font-bold ${isRTL ? 'text-right' : ''}`}>
-                        {coupon.code}
+                        <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                          {coupon.code}
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6"
+                            onClick={() => {
+                              navigator.clipboard.writeText(coupon.code);
+                              toast.success(isRTL ? 'تم نسخ الكود' : 'Code copied');
+                            }}
+                          >
+                            <Copy className="w-3.5 h-3.5" />
+                          </Button>
+                        </div>
                       </TableCell>
                       <TableCell className={isRTL ? 'text-right' : ''}>
                         <Badge variant="outline" className={`${isRTL ? 'flex-row-reverse' : ''}`}>
