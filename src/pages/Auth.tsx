@@ -9,8 +9,10 @@ import { useToast } from '@/hooks/use-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { motion } from 'framer-motion';
-import { Mail, Lock, User, Phone, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Mail, Lock, User, Phone, ArrowRight, ArrowLeft, CheckCircle } from 'lucide-react';
 import { z } from 'zod';
+
+type AuthView = 'login' | 'signup' | 'forgot-password';
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -24,13 +26,18 @@ const signupSchema = z.object({
   password: z.string().min(6),
 });
 
+const forgotPasswordSchema = z.object({
+  email: z.string().email(),
+});
+
 const Auth = () => {
-  const { t, isRTL } = useLanguage();
+  const { isRTL } = useLanguage();
   const navigate = useNavigate();
   const { toast } = useToast();
   
-  const [isLogin, setIsLogin] = useState(true);
+  const [view, setView] = useState<AuthView>('login');
   const [isLoading, setIsLoading] = useState(false);
+  const [resetEmailSent, setResetEmailSent] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -56,12 +63,50 @@ const Auth = () => {
     return () => subscription.unsubscribe();
   }, [navigate]);
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const validation = forgotPasswordSchema.safeParse({ email: formData.email });
+      if (!validation.success) {
+        toast({
+          variant: 'destructive',
+          title: isRTL ? 'خطأ في البيانات' : 'Invalid data',
+          description: isRTL ? 'يرجى إدخال بريد إلكتروني صحيح' : 'Please enter a valid email address',
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      const redirectUrl = `${window.location.origin}/reset-password`;
+      
+      const { error } = await supabase.auth.resetPasswordForEmail(formData.email, {
+        redirectTo: redirectUrl,
+      });
+
+      if (error) {
+        toast({
+          variant: 'destructive',
+          title: isRTL ? 'خطأ' : 'Error',
+          description: error.message,
+        });
+      } else {
+        setResetEmailSent(true);
+      }
+    } catch (error) {
+      console.error('Forgot password error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      if (isLogin) {
+      if (view === 'login') {
         const validation = loginSchema.safeParse(formData);
         if (!validation.success) {
           toast({
@@ -87,7 +132,7 @@ const Auth = () => {
               : error.message,
           });
         }
-      } else {
+      } else if (view === 'signup') {
         const validation = signupSchema.safeParse(formData);
         if (!validation.success) {
           toast({
@@ -150,6 +195,131 @@ const Auth = () => {
 
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
 
+  // Forgot Password Success View
+  if (view === 'forgot-password' && resetEmailSent) {
+    return (
+      <div className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+        <Navbar />
+        
+        <main className="pt-24 pb-16">
+          <div className="container mx-auto px-4 max-w-md">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="glass rounded-3xl p-8 gradient-border text-center"
+            >
+              <CheckCircle className="w-16 h-16 text-primary mx-auto mb-4" />
+              <h1 className="text-2xl font-bold mb-2">
+                {isRTL ? 'تم إرسال الرابط!' : 'Reset Link Sent!'}
+              </h1>
+              <p className="text-muted-foreground mb-6">
+                {isRTL 
+                  ? 'تحقق من بريدك الإلكتروني للحصول على رابط إعادة تعيين كلمة المرور.'
+                  : 'Check your email for a password reset link.'
+                }
+              </p>
+              <Button
+                onClick={() => {
+                  setView('login');
+                  setResetEmailSent(false);
+                }}
+                className="gradient-bg hover:opacity-90 transition-all"
+              >
+                <span className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  {isRTL ? 'العودة لتسجيل الدخول' : 'Back to Login'}
+                  <ArrowIcon className="w-4 h-4" />
+                </span>
+              </Button>
+            </motion.div>
+          </div>
+        </main>
+
+        <Footer />
+      </div>
+    );
+  }
+
+  // Forgot Password Form View
+  if (view === 'forgot-password') {
+    return (
+      <div className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+        <Navbar />
+        
+        <main className="pt-24 pb-16">
+          <div className="container mx-auto px-4 max-w-md">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="glass rounded-3xl p-8 gradient-border"
+            >
+              <div className="text-center mb-8">
+                <h1 className="text-2xl font-bold mb-2">
+                  {isRTL ? 'نسيت كلمة المرور؟' : 'Forgot Password?'}
+                </h1>
+                <p className="text-muted-foreground">
+                  {isRTL 
+                    ? 'أدخل بريدك الإلكتروني لاستلام رابط إعادة التعيين'
+                    : 'Enter your email to receive a reset link'
+                  }
+                </p>
+              </div>
+
+              <form onSubmit={handleForgotPassword} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email" className={isRTL ? 'text-right block' : ''}>
+                    {isRTL ? 'البريد الإلكتروني' : 'Email'}
+                  </Label>
+                  <div className="relative">
+                    <Mail className={`absolute top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground ${isRTL ? 'right-3' : 'left-3'}`} />
+                    <Input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                      className={`${isRTL ? 'pr-10 text-right' : 'pl-10'}`}
+                      placeholder={isRTL ? 'أدخل بريدك الإلكتروني' : 'Enter your email'}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full gradient-bg hover:opacity-90 transition-all"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <span className="animate-pulse">{isRTL ? 'جاري الإرسال...' : 'Sending...'}</span>
+                  ) : (
+                    <span className={`flex items-center justify-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                      {isRTL ? 'إرسال رابط إعادة التعيين' : 'Send Reset Link'}
+                      <ArrowIcon className="w-4 h-4" />
+                    </span>
+                  )}
+                </Button>
+              </form>
+
+              <div className="mt-6 text-center">
+                <button
+                  type="button"
+                  onClick={() => setView('login')}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {isRTL ? 'العودة لتسجيل الدخول' : 'Back to Login'}
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        </main>
+
+        <Footer />
+      </div>
+    );
+  }
+
+  // Login / Signup View
   return (
     <div className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
       <Navbar />
@@ -164,13 +334,13 @@ const Auth = () => {
           >
             <div className="text-center mb-8">
               <h1 className="text-2xl font-bold mb-2">
-                {isLogin 
+                {view === 'login' 
                   ? (isRTL ? 'تسجيل الدخول' : 'Login')
                   : (isRTL ? 'إنشاء حساب' : 'Create Account')
                 }
               </h1>
               <p className="text-muted-foreground">
-                {isLogin
+                {view === 'login'
                   ? (isRTL ? 'أدخل بياناتك للوصول لحسابك' : 'Enter your credentials to access your account')
                   : (isRTL ? 'أنشئ حساباً جديداً للبدء' : 'Create a new account to get started')
                 }
@@ -178,7 +348,7 @@ const Auth = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              {!isLogin && (
+              {view === 'signup' && (
                 <div className="space-y-2">
                   <Label htmlFor="fullName" className={isRTL ? 'text-right block' : ''}>
                     {isRTL ? 'الاسم الكامل' : 'Full Name'}
@@ -192,7 +362,7 @@ const Auth = () => {
                       onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
                       className={`${isRTL ? 'pr-10 text-right' : 'pl-10'}`}
                       placeholder={isRTL ? 'أدخل اسمك الكامل' : 'Enter your full name'}
-                      required={!isLogin}
+                      required={view === 'signup'}
                     />
                   </div>
                 </div>
@@ -216,7 +386,7 @@ const Auth = () => {
                 </div>
               </div>
 
-              {!isLogin && (
+              {view === 'signup' && (
                 <div className="space-y-2">
                   <Label htmlFor="phone" className={isRTL ? 'text-right block' : ''}>
                     {isRTL ? 'رقم الهاتف' : 'Phone Number'}
@@ -230,7 +400,7 @@ const Auth = () => {
                       onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                       className={`${isRTL ? 'pr-10 text-right' : 'pl-10'}`}
                       placeholder={isRTL ? 'أدخل رقم هاتفك' : 'Enter your phone number'}
-                      required={!isLogin}
+                      required={view === 'signup'}
                     />
                   </div>
                 </div>
@@ -254,6 +424,18 @@ const Auth = () => {
                 </div>
               </div>
 
+              {view === 'login' && (
+                <div className={`text-sm ${isRTL ? 'text-right' : 'text-left'}`}>
+                  <button
+                    type="button"
+                    onClick={() => setView('forgot-password')}
+                    className="text-primary hover:underline transition-colors"
+                  >
+                    {isRTL ? 'نسيت كلمة المرور؟' : 'Forgot your password?'}
+                  </button>
+                </div>
+              )}
+
               <Button
                 type="submit"
                 className="w-full gradient-bg hover:opacity-90 transition-all"
@@ -263,7 +445,7 @@ const Auth = () => {
                   <span className="animate-pulse">{isRTL ? 'جاري التحميل...' : 'Loading...'}</span>
                 ) : (
                   <span className={`flex items-center justify-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                    {isLogin ? (isRTL ? 'تسجيل الدخول' : 'Login') : (isRTL ? 'إنشاء الحساب' : 'Create Account')}
+                    {view === 'login' ? (isRTL ? 'تسجيل الدخول' : 'Login') : (isRTL ? 'إنشاء الحساب' : 'Create Account')}
                     <ArrowIcon className="w-4 h-4" />
                   </span>
                 )}
@@ -273,10 +455,10 @@ const Auth = () => {
             <div className="mt-6 text-center">
               <button
                 type="button"
-                onClick={() => setIsLogin(!isLogin)}
+                onClick={() => setView(view === 'login' ? 'signup' : 'login')}
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                {isLogin
+                {view === 'login'
                   ? (isRTL ? 'ليس لديك حساب؟ أنشئ حساباً' : "Don't have an account? Sign up")
                   : (isRTL ? 'لديك حساب بالفعل؟ سجل دخول' : 'Already have an account? Log in')
                 }
