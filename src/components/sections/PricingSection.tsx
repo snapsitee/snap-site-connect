@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Check, Sparkles, Star } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import SubscribePopup from '@/components/SubscribePopup';
 import { Badge } from '@/components/ui/badge';
 import ScrollReveal from '@/components/ui/scroll-reveal';
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
 
 interface Pricing {
   setup_fee: number;
@@ -18,8 +17,8 @@ interface Pricing {
 
 const PricingSection = () => {
   const { t, isRTL, language } = useLanguage();
+  const navigate = useNavigate();
   const [pricing, setPricing] = useState<Pricing | null>(null);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(cardRef, { once: true, margin: '-100px' });
 
@@ -185,7 +184,7 @@ const PricingSection = () => {
                 <Button
                   size="lg"
                   className="w-full gradient-bg hover:opacity-90 transition-all hover:scale-[1.02] text-lg py-6 shadow-lg shadow-gradient-purple/25"
-                  onClick={() => setIsPopupOpen(true)}
+                  onClick={() => navigate('/subscribe')}
                 >
                   {t('pricing.subscribe')}
                 </Button>
@@ -194,8 +193,6 @@ const PricingSection = () => {
           </div>
         </div>
       </section>
-
-      <SubscribePopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
     </>
   );
 };

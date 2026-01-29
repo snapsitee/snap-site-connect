@@ -3,17 +3,20 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
-import { LogOut, Users, UserCheck, DollarSign, Menu, X } from 'lucide-react';
+import { LogOut, Users, UserCheck, DollarSign, Menu, X, ShoppingCart, CreditCard, Settings } from 'lucide-react';
 import LeadsTable from './LeadsTable';
 import InterestedLeadsTable from './InterestedLeadsTable';
 import PricingManager from './PricingManager';
+import SubscribersTable from './SubscribersTable';
+import PaymentSettingsManager from './PaymentSettingsManager';
+import AddonSettingsManager from './AddonSettingsManager';
 import logoWhite from '@/assets/logo-white.png';
 
-type Tab = 'leads' | 'interested' | 'pricing';
+type Tab = 'leads' | 'interested' | 'subscribers' | 'pricing' | 'payment' | 'addons';
 
 const AdminDashboard = () => {
   const { t, isRTL } = useLanguage();
-  const [activeTab, setActiveTab] = useState<Tab>('leads');
+  const [activeTab, setActiveTab] = useState<Tab>('subscribers');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleSignOut = async () => {
@@ -21,9 +24,12 @@ const AdminDashboard = () => {
   };
 
   const tabs = [
+    { id: 'subscribers' as Tab, label: isRTL ? 'المشتركين' : 'Subscribers', icon: ShoppingCart },
     { id: 'leads' as Tab, label: t('admin.leads'), icon: Users },
     { id: 'interested' as Tab, label: t('admin.interestedLeads'), icon: UserCheck },
     { id: 'pricing' as Tab, label: t('admin.pricing'), icon: DollarSign },
+    { id: 'payment' as Tab, label: isRTL ? 'إعدادات الدفع' : 'Payment Settings', icon: CreditCard },
+    { id: 'addons' as Tab, label: isRTL ? 'الإضافات' : 'Add-ons', icon: Settings },
   ];
 
   return (
@@ -107,9 +113,12 @@ const AdminDashboard = () => {
       {/* Main content */}
       <main className={`${isRTL ? 'lg:mr-64' : 'lg:ml-64'} min-h-screen pt-16 lg:pt-0`}>
         <div className="p-6 lg:p-8">
+          {activeTab === 'subscribers' && <SubscribersTable />}
           {activeTab === 'leads' && <LeadsTable />}
           {activeTab === 'interested' && <InterestedLeadsTable />}
           {activeTab === 'pricing' && <PricingManager />}
+          {activeTab === 'payment' && <PaymentSettingsManager />}
+          {activeTab === 'addons' && <AddonSettingsManager />}
         </div>
       </main>
     </div>

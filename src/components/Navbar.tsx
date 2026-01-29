@@ -1,15 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
 import LanguageSwitcher from './LanguageSwitcher';
 import { Button } from '@/components/ui/button';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, User, LayoutDashboard } from 'lucide-react';
 import logoWhite from '@/assets/logo-white.png';
 import { motion, AnimatePresence } from 'framer-motion';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 const Navbar = () => {
   const { t, isRTL } = useLanguage();
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +22,20 @@ const Navbar = () => {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+    };
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const scrollToSection = (id: string) => {
@@ -73,21 +92,54 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Right side */}
+          {/* Right side - Desktop */}
           <div className="hidden md:flex items-center gap-4">
             <LanguageSwitcher />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: 0.3 }}
-            >
-              <Button
-                onClick={() => scrollToSection('contact')}
-                className="gradient-bg hover:opacity-90 transition-all hover:scale-105 shadow-md shadow-gradient-purple/20"
+            {user ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: 0.3 }}
               >
-                {t('nav.getStarted')}
-              </Button>
-            </motion.div>
+                <Button
+                  onClick={() => navigate('/dashboard')}
+                  variant="outline"
+                  className="flex items-center gap-2"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  {isRTL ? 'لوحة التحكم' : 'Dashboard'}
+                </Button>
+              </motion.div>
+            ) : (
+              <>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: 0.3 }}
+                >
+                  <Button
+                    onClick={() => navigate('/auth')}
+                    variant="ghost"
+                    className="flex items-center gap-2"
+                  >
+                    <User className="w-4 h-4" />
+                    {isRTL ? 'تسجيل الدخول' : 'Login'}
+                  </Button>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: 0.4 }}
+                >
+                  <Button
+                    onClick={() => scrollToSection('contact')}
+                    className="gradient-bg hover:opacity-90 transition-all hover:scale-105 shadow-md shadow-gradient-purple/20"
+                  >
+                    {t('nav.getStarted')}
+                  </Button>
+                </motion.div>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -150,17 +202,47 @@ const Navbar = () => {
                       {t(link.key)}
                     </motion.button>
                   ))}
+                  
+                  {/* Mobile Auth Buttons */}
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: 0.25 }}
+                    className="mt-2 space-y-2"
                   >
-                    <Button
-                      onClick={() => scrollToSection('contact')}
-                      className="gradient-bg hover:opacity-90 transition-opacity mt-2 w-full"
-                    >
-                      {t('nav.getStarted')}
-                    </Button>
+                    {user ? (
+                      <Button
+                        onClick={() => {
+                          navigate('/dashboard');
+                          setIsMenuOpen(false);
+                        }}
+                        variant="outline"
+                        className="w-full flex items-center justify-center gap-2"
+                      >
+                        <LayoutDashboard className="w-4 h-4" />
+                        {isRTL ? 'لوحة التحكم' : 'Dashboard'}
+                      </Button>
+                    ) : (
+                      <>
+                        <Button
+                          onClick={() => {
+                            navigate('/auth');
+                            setIsMenuOpen(false);
+                          }}
+                          variant="outline"
+                          className="w-full flex items-center justify-center gap-2"
+                        >
+                          <User className="w-4 h-4" />
+                          {isRTL ? 'تسجيل الدخول' : 'Login'}
+                        </Button>
+                        <Button
+                          onClick={() => scrollToSection('contact')}
+                          className="gradient-bg hover:opacity-90 transition-opacity w-full"
+                        >
+                          {t('nav.getStarted')}
+                        </Button>
+                      </>
+                    )}
                   </motion.div>
                 </div>
               </div>
