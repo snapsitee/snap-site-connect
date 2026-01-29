@@ -145,10 +145,18 @@ const OrderCard = ({ order }: OrderCardProps) => {
                 <span className="text-xs text-muted-foreground mb-1">
                   {isRTL ? 'تاريخ التجديد القادم' : 'Next Renewal'}
                 </span>
-                <div className={`flex items-center gap-1 text-sm font-medium ${daysLeft !== null && daysLeft <= 7 ? 'text-destructive' : ''} ${isRTL ? 'flex-row-reverse' : ''}`}>
-                  <RefreshCw className="w-4 h-4" />
+                <div className={`flex items-center gap-1 text-sm font-bold ${daysLeft !== null && daysLeft <= 7 ? 'text-destructive' : 'text-primary'} ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  <RefreshCw className={`w-4 h-4 ${daysLeft !== null && daysLeft <= 7 ? 'animate-pulse' : ''}`} />
                   <span>{format(new Date(order.renewal_date), 'PP', { locale: dateLocale })}</span>
                 </div>
+                {daysLeft !== null && (
+                  <span className={`text-xs mt-1 ${daysLeft <= 7 ? 'text-destructive font-medium' : 'text-muted-foreground'}`}>
+                    {isRTL 
+                      ? `${daysLeft} ${daysLeft === 1 ? 'يوم' : 'أيام'} متبقية`
+                      : `${daysLeft} ${daysLeft === 1 ? 'day' : 'days'} remaining`
+                    }
+                  </span>
+                )}
               </div>
             )}
           </div>
