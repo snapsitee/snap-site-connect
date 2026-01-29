@@ -88,13 +88,12 @@ const CartStep = ({ orderData, updateOrderData, onNext, isRenewal = false }: Car
       discount_value: data.discount_value,
     });
 
-    // Calculate and save discount to order data
-    const subtotal = orderData.setupFee + orderData.addonTotal;
+    // Calculate and save discount to order data (applies only to setup/renewal fee, not add-ons)
     let discountAmount = 0;
     if (data.discount_type === 'percentage') {
-      discountAmount = Math.round(subtotal * data.discount_value / 100);
+      discountAmount = Math.round(orderData.setupFee * data.discount_value / 100);
     } else {
-      discountAmount = Math.min(data.discount_value, subtotal);
+      discountAmount = Math.min(data.discount_value, orderData.setupFee);
     }
     
     updateOrderData({
@@ -118,11 +117,11 @@ const CartStep = ({ orderData, updateOrderData, onNext, isRenewal = false }: Car
   const calculateDiscount = () => {
     if (!appliedCoupon) return 0;
     
-    const subtotal = orderData.setupFee + orderData.addonTotal;
+    // Coupon applies only to setup/renewal fee, not add-ons
     if (appliedCoupon.discount_type === 'percentage') {
-      return Math.round(subtotal * appliedCoupon.discount_value / 100);
+      return Math.round(orderData.setupFee * appliedCoupon.discount_value / 100);
     }
-    return Math.min(appliedCoupon.discount_value, subtotal);
+    return Math.min(appliedCoupon.discount_value, orderData.setupFee);
   };
 
   const discount = calculateDiscount();
