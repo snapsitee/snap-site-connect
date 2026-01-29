@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import LanguageSwitcher from './LanguageSwitcher';
 import { Button } from '@/components/ui/button';
-import { Menu, X, User, LayoutDashboard } from 'lucide-react';
+import { Menu, X, User, LayoutDashboard, Home } from 'lucide-react';
 import logoWhite from '@/assets/logo-white.png';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
@@ -12,9 +12,12 @@ import type { User as SupabaseUser } from '@supabase/supabase-js';
 const Navbar = () => {
   const { t, isRTL } = useLanguage();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [user, setUser] = useState<SupabaseUser | null>(null);
+
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,12 +42,32 @@ const Navbar = () => {
   }, []);
 
   const scrollToSection = (id: string) => {
+    setIsMenuOpen(false);
+    
+    if (!isHomePage) {
+      // Navigate to home page with hash, then scroll after navigation
+      navigate('/#' + id);
+      return;
+    }
+    
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
-    setIsMenuOpen(false);
   };
+
+  // Handle hash navigation when arriving from another page
+  useEffect(() => {
+    if (isHomePage && location.hash) {
+      const id = location.hash.replace('#', '');
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [location, isHomePage]);
 
   const navLinks = [
     { key: 'nav.home', id: 'hero' },
@@ -67,11 +90,12 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+          {/* Logo - clickable to go home */}
           <motion.div 
-            className="flex items-center"
+            className="flex items-center cursor-pointer"
             whileHover={{ scale: 1.05 }}
             transition={{ type: 'spring', stiffness: 400 }}
+            onClick={() => navigate('/')}
           >
             <img src={logoWhite} alt="SnapSite" className="h-8 w-auto" />
           </motion.div>
