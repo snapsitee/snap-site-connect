@@ -7,8 +7,8 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { CreditCard, ArrowRight, ArrowLeft, Copy, Check, Upload, Smartphone } from 'lucide-react';
 import type { OrderData } from '@/pages/Subscribe';
-import instapayQR from '@/assets/instapay-qr.jpeg';
-import vodafoneQR from '@/assets/vodafone-qr.jpeg';
+import instapayQRDefault from '@/assets/instapay-qr.jpeg';
+import vodafoneQRDefault from '@/assets/vodafone-qr.jpeg';
 
 interface PaymentStepProps {
   orderData: OrderData;
@@ -21,8 +21,10 @@ interface PaymentSettings {
   instapay_account_number: string;
   instapay_username: string;
   instapay_link: string;
+  instapay_qr_url: string | null;
   vodafone_number: string;
   vodafone_link: string;
+  vodafone_qr_url: string | null;
 }
 
 const PaymentStep = ({ orderData, updateOrderData, onNext, onBack }: PaymentStepProps) => {
@@ -168,9 +170,9 @@ const PaymentStep = ({ orderData, updateOrderData, onNext, onBack }: PaymentStep
             <div className="space-y-4">
               <div className="flex justify-center">
                 <img 
-                  src={instapayQR} 
+                  src={paymentSettings.instapay_qr_url || instapayQRDefault} 
                   alt="Instapay QR Code" 
-                  className="w-48 h-48 rounded-lg"
+                  className="w-48 h-48 rounded-lg object-cover"
                 />
               </div>
               
@@ -242,9 +244,9 @@ const PaymentStep = ({ orderData, updateOrderData, onNext, onBack }: PaymentStep
             <div className="space-y-4">
               <div className="flex justify-center">
                 <img 
-                  src={vodafoneQR} 
+                  src={paymentSettings.vodafone_qr_url || vodafoneQRDefault} 
                   alt="Vodafone Cash QR Code" 
-                  className="w-48 h-48 rounded-lg"
+                  className="w-48 h-48 rounded-lg object-cover"
                 />
               </div>
               
