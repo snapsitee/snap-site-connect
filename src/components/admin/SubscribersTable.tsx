@@ -251,9 +251,11 @@ const SubscribersTable = () => {
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'رقم الطلب' : 'Order ID'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'العميل' : 'Client'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'النشاط' : 'Business'}</TableHead>
+              <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'تاريخ الطلب' : 'Order Date'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'الاشتراك' : 'Subscription'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'المشروع' : 'Project'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'الموقع' : 'Website'}</TableHead>
+              <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'تاريخ البدء' : 'Start Date'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'التجديد' : 'Renewal'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'إجراءات' : 'Actions'}</TableHead>
             </TableRow>
@@ -261,13 +263,13 @@ const SubscribersTable = () => {
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={8} className="text-center py-8">
+                <TableCell colSpan={10} className="text-center py-8">
                   <div className="animate-pulse">{isRTL ? 'جاري التحميل...' : 'Loading...'}</div>
                 </TableCell>
               </TableRow>
             ) : filteredOrders.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={10} className="text-center py-8 text-muted-foreground">
                   {isRTL ? 'لا توجد نتائج' : 'No results found'}
                 </TableCell>
               </TableRow>
@@ -285,6 +287,9 @@ const SubscribersTable = () => {
                     </div>
                   </TableCell>
                   <TableCell>{order.business_name}</TableCell>
+                  <TableCell className="text-sm">
+                    {format(new Date(order.created_at), 'PP', { locale: dateLocale })}
+                  </TableCell>
                   <TableCell>
                     <Select
                       value={order.subscription_status}
@@ -340,6 +345,9 @@ const SubscribersTable = () => {
                         <SelectItem value="paused">{getStatusLabel('paused')}</SelectItem>
                       </SelectContent>
                     </Select>
+                  </TableCell>
+                  <TableCell className="text-sm">
+                    {order.start_date ? format(new Date(order.start_date), 'PP', { locale: dateLocale }) : '-'}
                   </TableCell>
                   <TableCell>
                     {order.renewal_date ? (
