@@ -117,21 +117,38 @@ const OrderCard = ({ order }: OrderCardProps) => {
           </div>
 
           {/* Dates */}
-          <div className={`flex flex-wrap gap-4 text-sm text-muted-foreground ${isRTL ? 'justify-end' : ''}`}>
+          <div className={`grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4 p-3 rounded-xl bg-muted/50 ${isRTL ? 'text-right' : ''}`}>
+            <div className={`flex flex-col ${isRTL ? 'items-end' : ''}`}>
+              <span className="text-xs text-muted-foreground mb-1">
+                {isRTL ? 'تاريخ الاشتراك' : 'Subscription Date'}
+              </span>
+              <div className={`flex items-center gap-1 text-sm font-medium ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <Calendar className="w-4 h-4 text-primary" />
+                <span>{format(new Date(order.created_at), 'PP', { locale: dateLocale })}</span>
+              </div>
+            </div>
+            
             {order.start_date && (
-              <div className={`flex items-center gap-1 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                <Calendar className="w-4 h-4" />
-                <span>
-                  {isRTL ? 'بدأ:' : 'Started:'} {format(new Date(order.start_date), 'PP', { locale: dateLocale })}
+              <div className={`flex flex-col ${isRTL ? 'items-end' : ''}`}>
+                <span className="text-xs text-muted-foreground mb-1">
+                  {isRTL ? 'تاريخ البدء' : 'Start Date'}
                 </span>
+                <div className={`flex items-center gap-1 text-sm font-medium ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  <Calendar className="w-4 h-4 text-green-500" />
+                  <span>{format(new Date(order.start_date), 'PP', { locale: dateLocale })}</span>
+                </div>
               </div>
             )}
+            
             {order.renewal_date && (
-              <div className={`flex items-center gap-1 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                <RefreshCw className="w-4 h-4" />
-                <span>
-                  {isRTL ? 'التجديد:' : 'Renewal:'} {format(new Date(order.renewal_date), 'PP', { locale: dateLocale })}
+              <div className={`flex flex-col ${isRTL ? 'items-end' : ''}`}>
+                <span className="text-xs text-muted-foreground mb-1">
+                  {isRTL ? 'تاريخ التجديد القادم' : 'Next Renewal'}
                 </span>
+                <div className={`flex items-center gap-1 text-sm font-medium ${daysLeft !== null && daysLeft <= 7 ? 'text-destructive' : ''} ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  <RefreshCw className="w-4 h-4" />
+                  <span>{format(new Date(order.renewal_date), 'PP', { locale: dateLocale })}</span>
+                </div>
               </div>
             )}
           </div>
