@@ -108,14 +108,13 @@
   .gradient-border {
     position: relative;
     background: hsl(var(--card));
-    border-radius: var(--radius);
   }
 
   .gradient-border::before {
     content: '';
     position: absolute;
     inset: 0;
-    border-radius: var(--radius);
+    border-radius: inherit;
     padding: 1px;
     background: linear-gradient(135deg, hsl(var(--gradient-purple)), hsl(var(--gradient-blue)));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
