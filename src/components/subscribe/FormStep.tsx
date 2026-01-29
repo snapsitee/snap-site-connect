@@ -152,23 +152,7 @@ const FormStep = ({ orderData, updateOrderData, onComplete, onBack, isRenewal = 
 
         if (error) throw error;
         
-        // Increment coupon usage count if a coupon was used
-        if (orderData.couponCode) {
-          const { data: couponData } = await supabase
-            .from('coupons')
-            .select('usage_count')
-            .eq('code', orderData.couponCode)
-            .single();
-          
-          if (couponData) {
-            await supabase
-              .from('coupons')
-              .update({ usage_count: couponData.usage_count + 1 })
-              .eq('code', orderData.couponCode);
-          }
-        }
-        
-        
+        // Coupon usage count is automatically incremented by database trigger
         onComplete(data.order_id);
       }
 
