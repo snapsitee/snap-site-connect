@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      addon_settings: {
+        Row: {
+          business_email_enabled: boolean
+          business_email_price: number
+          custom_domain_enabled: boolean
+          custom_domain_price: number
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          business_email_enabled?: boolean
+          business_email_price?: number
+          custom_domain_enabled?: boolean
+          custom_domain_price?: number
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          business_email_enabled?: boolean
+          business_email_price?: number
+          custom_domain_enabled?: boolean
+          custom_domain_price?: number
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       interested_leads: {
         Row: {
           business_type: string
@@ -80,6 +107,120 @@ export type Database = {
         }
         Relationships: []
       }
+      orders: {
+        Row: {
+          addon_total: number
+          business_email_addon: boolean
+          business_name: string
+          created_at: string
+          custom_domain_addon: boolean
+          email: string
+          full_name: string
+          id: string
+          monthly_fee: number
+          order_id: string
+          payment_method: string | null
+          phone: string
+          project_status: Database["public"]["Enums"]["project_status"]
+          receipt_url: string | null
+          renewal_date: string | null
+          setup_fee: number
+          start_date: string | null
+          subscription_status: Database["public"]["Enums"]["subscription_status"]
+          updated_at: string
+          user_id: string | null
+          website_requirements: string | null
+          website_status: Database["public"]["Enums"]["website_status"]
+          whatsapp: string
+        }
+        Insert: {
+          addon_total?: number
+          business_email_addon?: boolean
+          business_name: string
+          created_at?: string
+          custom_domain_addon?: boolean
+          email: string
+          full_name: string
+          id?: string
+          monthly_fee?: number
+          order_id: string
+          payment_method?: string | null
+          phone: string
+          project_status?: Database["public"]["Enums"]["project_status"]
+          receipt_url?: string | null
+          renewal_date?: string | null
+          setup_fee?: number
+          start_date?: string | null
+          subscription_status?: Database["public"]["Enums"]["subscription_status"]
+          updated_at?: string
+          user_id?: string | null
+          website_requirements?: string | null
+          website_status?: Database["public"]["Enums"]["website_status"]
+          whatsapp: string
+        }
+        Update: {
+          addon_total?: number
+          business_email_addon?: boolean
+          business_name?: string
+          created_at?: string
+          custom_domain_addon?: boolean
+          email?: string
+          full_name?: string
+          id?: string
+          monthly_fee?: number
+          order_id?: string
+          payment_method?: string | null
+          phone?: string
+          project_status?: Database["public"]["Enums"]["project_status"]
+          receipt_url?: string | null
+          renewal_date?: string | null
+          setup_fee?: number
+          start_date?: string | null
+          subscription_status?: Database["public"]["Enums"]["subscription_status"]
+          updated_at?: string
+          user_id?: string | null
+          website_requirements?: string | null
+          website_status?: Database["public"]["Enums"]["website_status"]
+          whatsapp?: string
+        }
+        Relationships: []
+      }
+      payment_settings: {
+        Row: {
+          id: string
+          instapay_account_number: string | null
+          instapay_link: string | null
+          instapay_qr_url: string | null
+          instapay_username: string | null
+          updated_at: string
+          vodafone_link: string | null
+          vodafone_number: string | null
+          vodafone_qr_url: string | null
+        }
+        Insert: {
+          id?: string
+          instapay_account_number?: string | null
+          instapay_link?: string | null
+          instapay_qr_url?: string | null
+          instapay_username?: string | null
+          updated_at?: string
+          vodafone_link?: string | null
+          vodafone_number?: string | null
+          vodafone_qr_url?: string | null
+        }
+        Update: {
+          id?: string
+          instapay_account_number?: string | null
+          instapay_link?: string | null
+          instapay_qr_url?: string | null
+          instapay_username?: string | null
+          updated_at?: string
+          vodafone_link?: string | null
+          vodafone_number?: string | null
+          vodafone_qr_url?: string | null
+        }
+        Relationships: []
+      }
       pricing: {
         Row: {
           discount_enabled: boolean
@@ -104,6 +245,33 @@ export type Database = {
           monthly_fee?: number
           setup_fee?: number
           updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+          whatsapp: string | null
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          whatsapp?: string | null
         }
         Relationships: []
       }
@@ -143,6 +311,16 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      project_status: "received" | "in_progress" | "delivered"
+      subscription_status:
+        | "pending"
+        | "active"
+        | "suspended"
+        | "expired"
+        | "renewed"
+        | "didnt_renew"
+        | "fake_order"
+      website_status: "live" | "disabled" | "maintenance" | "paused"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -271,6 +449,17 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      project_status: ["received", "in_progress", "delivered"],
+      subscription_status: [
+        "pending",
+        "active",
+        "suspended",
+        "expired",
+        "renewed",
+        "didnt_renew",
+        "fake_order",
+      ],
+      website_status: ["live", "disabled", "maintenance", "paused"],
     },
   },
 } as const
