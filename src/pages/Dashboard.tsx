@@ -7,9 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import OrderCard from '@/components/dashboard/OrderCard';
-import ProfileSection from '@/components/dashboard/ProfileSection';
 import OrderHistory from '@/components/dashboard/OrderHistory';
-import { LogOut, Package, LayoutDashboard, User, History } from 'lucide-react';
+import { LogOut, Package, LayoutDashboard, History } from 'lucide-react';
 import { motion } from 'framer-motion';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
@@ -108,7 +107,7 @@ const Dashboard = () => {
 
           {/* Tabs */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className={`grid w-full grid-cols-3 ${isRTL ? 'direction-rtl' : ''}`}>
+            <TabsList className={`grid w-full grid-cols-2 ${isRTL ? 'direction-rtl' : ''}`}>
               <TabsTrigger value="websites" className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <LayoutDashboard className="w-4 h-4" />
                 <span className="hidden sm:inline">{isRTL ? 'مواقعي' : 'My Websites'}</span>
@@ -116,10 +115,6 @@ const Dashboard = () => {
               <TabsTrigger value="history" className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <History className="w-4 h-4" />
                 <span className="hidden sm:inline">{isRTL ? 'السجل' : 'History'}</span>
-              </TabsTrigger>
-              <TabsTrigger value="profile" className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                <User className="w-4 h-4" />
-                <span className="hidden sm:inline">{isRTL ? 'حسابي' : 'Profile'}</span>
               </TabsTrigger>
             </TabsList>
 
@@ -176,11 +171,6 @@ const Dashboard = () => {
             {/* History Tab */}
             <TabsContent value="history">
               {user && <OrderHistory userId={user.id} />}
-            </TabsContent>
-
-            {/* Profile Tab */}
-            <TabsContent value="profile">
-              {user && <ProfileSection userId={user.id} userEmail={user.email || ''} />}
             </TabsContent>
           </Tabs>
         </div>
