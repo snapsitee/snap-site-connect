@@ -151,6 +151,12 @@ const FormStep = ({ orderData, updateOrderData, onComplete, onBack, isRenewal = 
           .single();
 
         if (error) throw error;
+        
+        // Increment coupon usage count if a coupon was used
+        if (orderData.couponCode) {
+          await supabase.rpc('increment_coupon_usage', { coupon_code: orderData.couponCode });
+        }
+        
         onComplete(data.order_id);
       }
 
