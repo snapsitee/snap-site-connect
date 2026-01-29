@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/hooks/use-toast';
-import { Search, Download, MessageCircle, Eye, AlertTriangle, RefreshCw, Calendar, Trash2 } from 'lucide-react';
+import { Search, Download, MessageCircle, Eye, AlertTriangle, RefreshCw, Calendar, Trash2, FileText, Ticket } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -38,6 +38,8 @@ interface Order {
   custom_domain_addon: boolean;
   business_email_addon: boolean;
   addon_total: number;
+  coupon_code: string | null;
+  coupon_discount: number;
 }
 
 const SubscribersTable = () => {
@@ -52,6 +54,7 @@ const SubscribersTable = () => {
   const [selectedReceipt, setSelectedReceipt] = useState<string | null>(null);
   const [selectedOrders, setSelectedOrders] = useState<Set<string>>(new Set());
   const [isDeleting, setIsDeleting] = useState(false);
+  const [selectedOrderDetails, setSelectedOrderDetails] = useState<Order | null>(null);
 
   const dateLocale = language === 'ar' ? ar : enUS;
 
@@ -504,12 +507,21 @@ const SubscribersTable = () => {
                     )}
                   </TableCell>
                   <TableCell>
-                    <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                    <div className={`flex items-center gap-1 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setSelectedOrderDetails(order)}
+                        title={isRTL ? 'تفاصيل الطلب' : 'Order Details'}
+                      >
+                        <FileText className="w-4 h-4" />
+                      </Button>
                       {order.receipt_url && (
                         <Button
                           variant="ghost"
                           size="icon"
                           onClick={() => setSelectedReceipt(order.receipt_url)}
+                          title={isRTL ? 'الإيصال' : 'Receipt'}
                         >
                           <Eye className="w-4 h-4" />
                         </Button>
@@ -518,6 +530,7 @@ const SubscribersTable = () => {
                         variant="ghost"
                         size="icon"
                         onClick={() => window.open(`https://wa.me/${order.whatsapp.replace(/\D/g, '')}`, '_blank')}
+                        title={isRTL ? 'واتساب' : 'WhatsApp'}
                       >
                         <MessageCircle className="w-4 h-4" />
                       </Button>
@@ -538,6 +551,99 @@ const SubscribersTable = () => {
           </DialogHeader>
           {selectedReceipt && (
             <img src={selectedReceipt} alt="Receipt" className="w-full rounded-lg" />
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Order Details Modal */}
+      <Dialog open={!!selectedOrderDetails} onOpenChange={() => setSelectedOrderDetails(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <FileText className="w-5 h-5" />
+              {isRTL ? 'تفاصيل الطلب' : 'Order Details'}
+            </DialogTitle>
+          </DialogHeader>
+          {selectedOrderDetails && (
+            <div className="space-y-4">
+              {/* Order Info */}
+              <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <span className="text-muted-foreground">{isRTL ? 'رقم الطلب' : 'Order ID'}</span>
+                <span className="font-mono font-medium">{selectedOrderDetails.order_id}</span>
+              </div>
+              
+              <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <span className="text-muted-foreground">{isRTL ? 'العميل' : 'Client'}</span>
+                <span className="font-medium">{selectedOrderDetails.full_name}</span>
+              </div>
+
+              <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <span className="text-muted-foreground">{isRTL ? 'المشروع' : 'Business'}</span>
+                <span>{selectedOrderDetails.business_name}</span>
+              </div>
+
+              <div className="border-t pt-4 space-y-3">
+                <h4 className={`font-medium ${isRTL ? 'text-right' : ''}`}>
+                  {isRTL ? 'تفاصيل السعر' : 'Price Breakdown'}
+                </h4>
+
+                <div className={`flex items-center justify-between text-sm ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  <span className="text-muted-foreground">{isRTL ? 'رسوم الإعداد' : 'Setup Fee'}</span>
+                  <span>{selectedOrderDetails.setup_fee.toLocaleString()} EGP</span>
+                </div>
+
+                <div className={`flex items-center justify-between text-sm ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  <span className="text-muted-foreground">{isRTL ? 'الرسوم الشهرية' : 'Monthly Fee'}</span>
+                  <span>{selectedOrderDetails.monthly_fee.toLocaleString()} EGP</span>
+                </div>
+
+                {selectedOrderDetails.addon_total > 0 && (
+                  <div className={`flex items-center justify-between text-sm ${isRTL ? 'flex-row-reverse' : ''}`}>
+                    <span className="text-muted-foreground">{isRTL ? 'الإضافات' : 'Add-ons'}</span>
+                    <span>{selectedOrderDetails.addon_total.toLocaleString()} EGP</span>
+                  </div>
+                )}
+
+                <div className={`flex items-center justify-between text-sm ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  <span className="text-muted-foreground">{isRTL ? 'المجموع الفرعي' : 'Subtotal'}</span>
+                  <span>{(selectedOrderDetails.setup_fee + selectedOrderDetails.addon_total).toLocaleString()} EGP</span>
+                </div>
+
+                {/* Coupon Section */}
+                {selectedOrderDetails.coupon_code && selectedOrderDetails.coupon_discount > 0 && (
+                  <>
+                    <div className="border-t pt-3">
+                      <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+                        <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                          <Ticket className="w-4 h-4 text-primary" />
+                          <span className="text-sm text-muted-foreground">{isRTL ? 'كود الخصم' : 'Coupon'}</span>
+                        </div>
+                        <span className="font-mono text-sm bg-muted px-2 py-1 rounded">{selectedOrderDetails.coupon_code}</span>
+                      </div>
+                      <div className={`flex items-center justify-between text-sm text-primary mt-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                        <span>{isRTL ? 'الخصم' : 'Discount'}</span>
+                        <span>-{selectedOrderDetails.coupon_discount.toLocaleString()} EGP</span>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                <div className="border-t pt-3">
+                  <div className={`flex items-center justify-between font-bold text-lg ${isRTL ? 'flex-row-reverse' : ''}`}>
+                    <span>{isRTL ? 'الإجمالي النهائي' : 'Final Total'}</span>
+                    <span className="text-primary">
+                      {(selectedOrderDetails.setup_fee + selectedOrderDetails.addon_total - (selectedOrderDetails.coupon_discount || 0)).toLocaleString()} EGP
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment Info */}
+              <div className={`flex items-center justify-between pt-2 border-t ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <span className="text-muted-foreground">{isRTL ? 'طريقة الدفع' : 'Payment'}</span>
+                <span>{selectedOrderDetails.payment_method || (isRTL ? 'غير محدد' : 'Not specified')}</span>
+              </div>
+            </div>
           )}
         </DialogContent>
       </Dialog>

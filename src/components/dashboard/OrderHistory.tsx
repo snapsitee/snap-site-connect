@@ -3,11 +3,13 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { History, Package } from 'lucide-react';
+import { History, Package, Eye } from 'lucide-react';
 import { format } from 'date-fns';
 import { ar, enUS } from 'date-fns/locale';
 import { motion } from 'framer-motion';
+import OrderDetailsDialog from './OrderDetailsDialog';
 
 interface OrderHistoryItem {
   id: string;
@@ -16,6 +18,10 @@ interface OrderHistoryItem {
   setup_fee: number;
   monthly_fee: number;
   addon_total: number;
+  custom_domain_addon: boolean;
+  business_email_addon: boolean;
+  coupon_code: string | null;
+  coupon_discount: number;
   payment_method: string | null;
   created_at: string;
   subscription_status: string;
@@ -29,6 +35,7 @@ const OrderHistory = ({ userId }: OrderHistoryProps) => {
   const { isRTL, language } = useLanguage();
   const [orders, setOrders] = useState<OrderHistoryItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedOrder, setSelectedOrder] = useState<OrderHistoryItem | null>(null);
   const dateLocale = language === 'ar' ? ar : enUS;
 
   useEffect(() => {
@@ -39,12 +46,12 @@ const OrderHistory = ({ userId }: OrderHistoryProps) => {
     setIsLoading(true);
     const { data } = await supabase
       .from('orders')
-      .select('id, order_id, business_name, setup_fee, monthly_fee, addon_total, payment_method, created_at, subscription_status')
+      .select('id, order_id, business_name, setup_fee, monthly_fee, addon_total, custom_domain_addon, business_email_addon, coupon_code, coupon_discount, payment_method, created_at, subscription_status')
       .eq('user_id', userId)
       .order('created_at', { ascending: false });
 
     if (data) {
-      setOrders(data);
+      setOrders(data as OrderHistoryItem[]);
     }
     setIsLoading(false);
   };
@@ -73,13 +80,9 @@ const OrderHistory = ({ userId }: OrderHistoryProps) => {
     );
   };
 
-  const getPaymentMethodLabel = (method: string | null) => {
-    if (!method) return '-';
-    const labels: Record<string, { en: string; ar: string }> = {
-      instapay: { en: 'InstaPay', ar: 'إنستاباي' },
-      vodafone: { en: 'Vodafone Cash', ar: 'فودافون كاش' },
-    };
-    return labels[method] ? (language === 'ar' ? labels[method].ar : labels[method].en) : method;
+  const calculateFinalTotal = (order: OrderHistoryItem) => {
+    const subtotal = order.setup_fee + order.addon_total;
+    return subtotal - (order.coupon_discount || 0);
   };
 
   if (isLoading) {
@@ -128,16 +131,16 @@ const OrderHistory = ({ userId }: OrderHistoryProps) => {
                       {isRTL ? 'المشروع' : 'Project'}
                     </TableHead>
                     <TableHead className={isRTL ? 'text-right' : ''}>
-                      {isRTL ? 'المبلغ' : 'Amount'}
-                    </TableHead>
-                    <TableHead className={isRTL ? 'text-right' : ''}>
-                      {isRTL ? 'طريقة الدفع' : 'Payment Method'}
+                      {isRTL ? 'الإجمالي' : 'Total'}
                     </TableHead>
                     <TableHead className={isRTL ? 'text-right' : ''}>
                       {isRTL ? 'التاريخ' : 'Date'}
                     </TableHead>
                     <TableHead className={isRTL ? 'text-right' : ''}>
                       {isRTL ? 'الحالة' : 'Status'}
+                    </TableHead>
+                    <TableHead className={isRTL ? 'text-right' : ''}>
+                      {isRTL ? 'التفاصيل' : 'Details'}
                     </TableHead>
                   </TableRow>
                 </TableHeader>
@@ -151,21 +154,31 @@ const OrderHistory = ({ userId }: OrderHistoryProps) => {
                       <TableCell>
                         <div className={isRTL ? 'text-right' : ''}>
                           <p className="font-medium">
-                            {(order.setup_fee + order.monthly_fee + order.addon_total).toLocaleString()} EGP
+                            {calculateFinalTotal(order).toLocaleString()} EGP
                           </p>
-                          <p className="text-xs text-muted-foreground">
-                            {isRTL ? 'رسوم الإعداد + شهري' : 'Setup + Monthly'}
-                          </p>
+                          {order.coupon_discount > 0 && (
+                            <p className="text-xs text-primary">
+                              {isRTL ? 'يشمل خصم' : 'Includes discount'}
+                            </p>
+                          )}
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        {getPaymentMethodLabel(order.payment_method)}
                       </TableCell>
                       <TableCell>
                         {format(new Date(order.created_at), 'PP', { locale: dateLocale })}
                       </TableCell>
                       <TableCell>
                         {getStatusBadge(order.subscription_status)}
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setSelectedOrder(order)}
+                          className={`flex items-center gap-1 ${isRTL ? 'flex-row-reverse' : ''}`}
+                        >
+                          <Eye className="w-4 h-4" />
+                          {isRTL ? 'التفاصيل' : 'View'}
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -175,6 +188,12 @@ const OrderHistory = ({ userId }: OrderHistoryProps) => {
           )}
         </CardContent>
       </Card>
+
+      <OrderDetailsDialog
+        open={!!selectedOrder}
+        onOpenChange={(open) => !open && setSelectedOrder(null)}
+        order={selectedOrder}
+      />
     </motion.div>
   );
 };
