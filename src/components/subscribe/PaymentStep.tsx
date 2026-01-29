@@ -145,7 +145,13 @@ const PaymentStep = ({ orderData, updateOrderData, onNext, onBack }: PaymentStep
             {isRTL ? 'طريقة الدفع' : 'Payment Method'}
           </h2>
           <p className={`text-muted-foreground text-sm ${isRTL ? 'text-right' : ''}`}>
-            {isRTL ? 'المبلغ المطلوب:' : 'Amount due:'} {formatPrice(orderData.total)} EGP
+            {isRTL ? 'المبلغ المطلوب:' : 'Amount due:'}{' '}
+            <span className="font-bold text-foreground">{formatPrice(orderData.finalTotal)} EGP</span>
+            {orderData.couponDiscount > 0 && (
+              <span className="text-primary ml-2">
+                ({isRTL ? 'بعد الخصم' : 'after discount'})
+              </span>
+            )}
           </p>
         </div>
       </div>

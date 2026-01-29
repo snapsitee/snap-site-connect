@@ -19,6 +19,9 @@ export interface OrderData {
   businessEmailPrice: number;
   addonTotal: number;
   total: number;
+  couponCode: string;
+  couponDiscount: number;
+  finalTotal: number;
   paymentMethod: string;
   receiptUrl: string;
   fullName: string;
@@ -47,6 +50,9 @@ const Subscribe = forwardRef<HTMLDivElement>((_, ref) => {
     businessEmailPrice: 4000,
     addonTotal: 0,
     total: 1500,
+    couponCode: '',
+    couponDiscount: 0,
+    finalTotal: 1500,
     paymentMethod: '',
     receiptUrl: '',
     fullName: '',
@@ -104,6 +110,7 @@ const Subscribe = forwardRef<HTMLDivElement>((_, ref) => {
       if (updated.businessEmailAddon) addonTotal += updated.businessEmailPrice;
       updated.addonTotal = addonTotal;
       updated.total = updated.setupFee + addonTotal;
+      updated.finalTotal = updated.total - updated.couponDiscount;
       return updated;
     });
   };
