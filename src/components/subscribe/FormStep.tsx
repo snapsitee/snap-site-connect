@@ -154,8 +154,20 @@ const FormStep = ({ orderData, updateOrderData, onComplete, onBack, isRenewal = 
         
         // Increment coupon usage count if a coupon was used
         if (orderData.couponCode) {
-          await supabase.rpc('increment_coupon_usage', { coupon_code: orderData.couponCode });
+          const { data: couponData } = await supabase
+            .from('coupons')
+            .select('usage_count')
+            .eq('code', orderData.couponCode)
+            .single();
+          
+          if (couponData) {
+            await supabase
+              .from('coupons')
+              .update({ usage_count: couponData.usage_count + 1 })
+              .eq('code', orderData.couponCode);
+          }
         }
+        
         
         onComplete(data.order_id);
       }
