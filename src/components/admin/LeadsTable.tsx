@@ -12,6 +12,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
 import { Download, Search, Phone, Trash2, CheckCircle, Archive } from 'lucide-react';
 import { downloadCSV } from '@/lib/csv-export';
@@ -33,6 +35,8 @@ const LeadsTable = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedLeads, setSelectedLeads] = useState<Set<string>>(new Set());
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     fetchLeads();
@@ -98,6 +102,54 @@ const LeadsTable = () => {
         description: 'Lead deleted successfully',
       });
     }
+  };
+
+  const toggleSelectLead = (leadId: string) => {
+    setSelectedLeads(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(leadId)) {
+        newSet.delete(leadId);
+      } else {
+        newSet.add(leadId);
+      }
+      return newSet;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedLeads.size === filteredLeads.length && filteredLeads.length > 0) {
+      setSelectedLeads(new Set());
+    } else {
+      setSelectedLeads(new Set(filteredLeads.map(lead => lead.id)));
+    }
+  };
+
+  const deleteSelectedLeads = async () => {
+    if (selectedLeads.size === 0) return;
+    
+    setIsDeleting(true);
+    const { error } = await supabase
+      .from('leads')
+      .delete()
+      .in('id', Array.from(selectedLeads));
+
+    if (error) {
+      toast({
+        variant: 'destructive',
+        title: isRTL ? 'خطأ في الحذف' : 'Delete Error',
+        description: error.message,
+      });
+    } else {
+      toast({
+        title: isRTL ? 'تم الحذف' : 'Deleted',
+        description: isRTL 
+          ? `تم حذف ${selectedLeads.size} عميل(ات) محتمل` 
+          : `${selectedLeads.size} lead(s) deleted`,
+      });
+      setSelectedLeads(new Set());
+      fetchLeads();
+    }
+    setIsDeleting(false);
   };
 
   const exportToCSV = () => {
@@ -174,6 +226,37 @@ const LeadsTable = () => {
             <Download className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
             {t('admin.exportExcel')}
           </Button>
+          
+          {selectedLeads.size > 0 && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button 
+                  variant="destructive" 
+                  className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}
+                  disabled={isDeleting}
+                >
+                  <Trash2 className="w-4 h-4" />
+                  {isRTL ? `حذف (${selectedLeads.size})` : `Delete (${selectedLeads.size})`}
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>{isRTL ? 'تأكيد الحذف' : 'Confirm Delete'}</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {isRTL 
+                      ? `هل أنت متأكد من حذف ${selectedLeads.size} عميل(ات) محتمل؟ لا يمكن التراجع عن هذا الإجراء.`
+                      : `Are you sure you want to delete ${selectedLeads.size} lead(s)? This action cannot be undone.`}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className={isRTL ? 'flex-row-reverse' : ''}>
+                  <AlertDialogCancel>{isRTL ? 'إلغاء' : 'Cancel'}</AlertDialogCancel>
+                  <AlertDialogAction onClick={deleteSelectedLeads} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                    {isRTL ? 'حذف' : 'Delete'}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
         </div>
       </div>
 
@@ -181,6 +264,12 @@ const LeadsTable = () => {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="w-[50px]">
+                <Checkbox 
+                  checked={filteredLeads.length > 0 && selectedLeads.size === filteredLeads.length}
+                  onCheckedChange={toggleSelectAll}
+                />
+              </TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{t('admin.name')}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{t('admin.email')}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{t('admin.phone')}</TableHead>
@@ -194,13 +283,22 @@ const LeadsTable = () => {
           <TableBody>
             {filteredLeads.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={9} className="text-center py-8 text-muted-foreground">
                   No leads found
                 </TableCell>
               </TableRow>
             ) : (
               filteredLeads.map((lead) => (
-                <TableRow key={lead.id}>
+                <TableRow 
+                  key={lead.id}
+                  className={selectedLeads.has(lead.id) ? 'bg-muted/50' : ''}
+                >
+                  <TableCell>
+                    <Checkbox 
+                      checked={selectedLeads.has(lead.id)}
+                      onCheckedChange={() => toggleSelectLead(lead.id)}
+                    />
+                  </TableCell>
                   <TableCell className="font-medium">{lead.full_name}</TableCell>
                   <TableCell>{lead.email}</TableCell>
                   <TableCell>{lead.phone}</TableCell>
