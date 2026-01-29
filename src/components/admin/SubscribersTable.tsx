@@ -8,7 +8,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/hooks/use-toast';
-import { Search, Download, MessageCircle, Eye, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Search, Download, MessageCircle, Eye, AlertTriangle, RefreshCw, Calendar } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { format, differenceInDays } from 'date-fns';
 import { ar, enUS } from 'date-fns/locale';
 import { downloadCSV } from '@/lib/csv-export';
@@ -81,6 +83,29 @@ const SubscribersTable = () => {
     } else {
       toast({
         title: isRTL ? 'تم التحديث' : 'Updated',
+      });
+      fetchOrders();
+    }
+  };
+
+  const updateStartDate = async (orderId: string, date: Date | undefined) => {
+    if (!date) return;
+    
+    const { error } = await supabase
+      .from('orders')
+      .update({ start_date: date.toISOString() })
+      .eq('id', orderId);
+
+    if (error) {
+      toast({
+        variant: 'destructive',
+        title: isRTL ? 'خطأ' : 'Error',
+        description: error.message,
+      });
+    } else {
+      toast({
+        title: isRTL ? 'تم تحديث تاريخ البدء' : 'Start date updated',
+        description: isRTL ? 'سيتم حساب تاريخ التجديد تلقائياً' : 'Renewal date will be auto-calculated',
       });
       fetchOrders();
     }
@@ -346,8 +371,29 @@ const SubscribersTable = () => {
                       </SelectContent>
                     </Select>
                   </TableCell>
-                  <TableCell className="text-sm">
-                    {order.start_date ? format(new Date(order.start_date), 'PP', { locale: dateLocale }) : '-'}
+                  <TableCell>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className={`h-8 justify-start text-left font-normal ${!order.start_date ? 'text-muted-foreground' : ''}`}
+                        >
+                          <Calendar className="w-4 h-4 mr-2" />
+                          {order.start_date 
+                            ? format(new Date(order.start_date), 'PP', { locale: dateLocale })
+                            : (isRTL ? 'تحديد التاريخ' : 'Set date')}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <CalendarComponent
+                          mode="single"
+                          selected={order.start_date ? new Date(order.start_date) : undefined}
+                          onSelect={(date) => updateStartDate(order.id, date)}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
                   </TableCell>
                   <TableCell>
                     {order.renewal_date ? (
