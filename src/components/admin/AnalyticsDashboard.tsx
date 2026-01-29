@@ -49,12 +49,13 @@ const AnalyticsDashboard = () => {
         o.subscription_status === 'active' || o.subscription_status === 'renewed'
       ).length;
       
-      // Revenue calculation
+      // Revenue calculation (actual amount paid after discounts)
       const totalRevenue = orders.reduce((sum, o) => {
         const setupFee = o.setup_fee || 0;
-        const monthlyFee = o.monthly_fee || 0;
         const addonTotal = o.addon_total || 0;
-        return sum + setupFee + monthlyFee + addonTotal;
+        const couponDiscount = o.coupon_discount || 0;
+        // Amount paid = setup fee + addons - coupon discount
+        return sum + setupFee + addonTotal - couponDiscount;
       }, 0);
 
       // Monthly revenue (current month active subscribers)
