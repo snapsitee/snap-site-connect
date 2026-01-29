@@ -11,6 +11,16 @@ import { Badge } from '@/components/ui/badge';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
 import { Plus, Trash2, Ticket, Percent, DollarSign } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 interface Coupon {
   id: string;
@@ -34,6 +44,10 @@ const CouponManager = () => {
   const [discountType, setDiscountType] = useState<'fixed' | 'percentage'>('percentage');
   const [discountValue, setDiscountValue] = useState('');
   const [maxUses, setMaxUses] = useState('');
+  
+  // Delete dialog state
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [couponToDelete, setCouponToDelete] = useState<Coupon | null>(null);
 
   useEffect(() => {
     fetchCoupons();
@@ -103,20 +117,25 @@ const CouponManager = () => {
     }
   };
 
-  const deleteCoupon = async (id: string) => {
-    if (!confirm(isRTL ? 'هل أنت متأكد من حذف هذا الكوبون؟' : 'Are you sure you want to delete this coupon?')) {
-      return;
-    }
+  const handleDeleteClick = (coupon: Coupon) => {
+    setCouponToDelete(coupon);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!couponToDelete) return;
 
     const { error } = await supabase
       .from('coupons')
       .delete()
-      .eq('id', id);
+      .eq('id', couponToDelete.id);
 
     if (!error) {
       toast.success(isRTL ? 'تم حذف الكوبون' : 'Coupon deleted');
       fetchCoupons();
     }
+    setDeleteDialogOpen(false);
+    setCouponToDelete(null);
   };
 
   const formatPrice = (price: number) => {
@@ -288,7 +307,7 @@ const CouponManager = () => {
                           variant="ghost"
                           size="icon"
                           className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                          onClick={() => deleteCoupon(coupon.id)}
+                          onClick={() => handleDeleteClick(coupon)}
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>
@@ -301,6 +320,34 @@ const CouponManager = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className={isRTL ? 'text-right' : ''}>
+              {isRTL ? 'تأكيد الحذف' : 'Confirm Deletion'}
+            </AlertDialogTitle>
+            <AlertDialogDescription className={isRTL ? 'text-right' : ''}>
+              {isRTL 
+                ? `هل أنت متأكد من حذف الكوبون "${couponToDelete?.code}"؟ لا يمكن التراجع عن هذا الإجراء.`
+                : `Are you sure you want to delete the coupon "${couponToDelete?.code}"? This action cannot be undone.`
+              }
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className={isRTL ? 'flex-row-reverse' : ''}>
+            <AlertDialogCancel>
+              {isRTL ? 'إلغاء' : 'Cancel'}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {isRTL ? 'حذف' : 'Delete'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
