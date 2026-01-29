@@ -148,6 +148,8 @@ export type Database = {
           addon_total: number
           business_email_addon: boolean
           business_name: string
+          coupon_code: string | null
+          coupon_discount: number | null
           created_at: string
           custom_domain_addon: boolean
           email: string
@@ -173,6 +175,8 @@ export type Database = {
           addon_total?: number
           business_email_addon?: boolean
           business_name: string
+          coupon_code?: string | null
+          coupon_discount?: number | null
           created_at?: string
           custom_domain_addon?: boolean
           email: string
@@ -198,6 +202,8 @@ export type Database = {
           addon_total?: number
           business_email_addon?: boolean
           business_name?: string
+          coupon_code?: string | null
+          coupon_discount?: number | null
           created_at?: string
           custom_domain_addon?: boolean
           email?: string
