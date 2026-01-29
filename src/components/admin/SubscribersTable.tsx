@@ -8,9 +8,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/hooks/use-toast';
-import { Search, Download, MessageCircle, Eye, AlertTriangle, RefreshCw, Calendar } from 'lucide-react';
+import { Search, Download, MessageCircle, Eye, AlertTriangle, RefreshCw, Calendar, Trash2 } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
+import { Checkbox } from '@/components/ui/checkbox';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { format, differenceInDays } from 'date-fns';
 import { ar, enUS } from 'date-fns/locale';
 import { downloadCSV } from '@/lib/csv-export';
@@ -48,6 +50,8 @@ const SubscribersTable = () => {
   const [projectFilter, setProjectFilter] = useState<string>('all');
   const [websiteFilter, setWebsiteFilter] = useState<string>('all');
   const [selectedReceipt, setSelectedReceipt] = useState<string | null>(null);
+  const [selectedOrders, setSelectedOrders] = useState<Set<string>>(new Set());
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const dateLocale = language === 'ar' ? ar : enUS;
 
@@ -109,6 +113,54 @@ const SubscribersTable = () => {
       });
       fetchOrders();
     }
+  };
+
+  const toggleSelectOrder = (orderId: string) => {
+    setSelectedOrders(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(orderId)) {
+        newSet.delete(orderId);
+      } else {
+        newSet.add(orderId);
+      }
+      return newSet;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedOrders.size === filteredOrders.length && filteredOrders.length > 0) {
+      setSelectedOrders(new Set());
+    } else {
+      setSelectedOrders(new Set(filteredOrders.map(order => order.id)));
+    }
+  };
+
+  const deleteSelectedOrders = async () => {
+    if (selectedOrders.size === 0) return;
+    
+    setIsDeleting(true);
+    const { error } = await supabase
+      .from('orders')
+      .delete()
+      .in('id', Array.from(selectedOrders));
+
+    if (error) {
+      toast({
+        variant: 'destructive',
+        title: isRTL ? 'خطأ في الحذف' : 'Delete Error',
+        description: error.message,
+      });
+    } else {
+      toast({
+        title: isRTL ? 'تم الحذف' : 'Deleted',
+        description: isRTL 
+          ? `تم حذف ${selectedOrders.size} طلب(ات)` 
+          : `${selectedOrders.size} order(s) deleted`,
+      });
+      setSelectedOrders(new Set());
+      fetchOrders();
+    }
+    setIsDeleting(false);
   };
 
   const getStatusVariant = (status: string): 'default' | 'secondary' | 'destructive' | 'outline' => {
@@ -212,6 +264,37 @@ const SubscribersTable = () => {
           <Download className="w-4 h-4" />
           {isRTL ? 'تصدير Excel' : 'Export Excel'}
         </Button>
+        
+        {selectedOrders.size > 0 && (
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button 
+                variant="destructive" 
+                className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}
+                disabled={isDeleting}
+              >
+                <Trash2 className="w-4 h-4" />
+                {isRTL ? `حذف (${selectedOrders.size})` : `Delete (${selectedOrders.size})`}
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>{isRTL ? 'تأكيد الحذف' : 'Confirm Delete'}</AlertDialogTitle>
+                <AlertDialogDescription>
+                  {isRTL 
+                    ? `هل أنت متأكد من حذف ${selectedOrders.size} طلب(ات)؟ لا يمكن التراجع عن هذا الإجراء.`
+                    : `Are you sure you want to delete ${selectedOrders.size} order(s)? This action cannot be undone.`}
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter className={isRTL ? 'flex-row-reverse' : ''}>
+                <AlertDialogCancel>{isRTL ? 'إلغاء' : 'Cancel'}</AlertDialogCancel>
+                <AlertDialogAction onClick={deleteSelectedOrders} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                  {isRTL ? 'حذف' : 'Delete'}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
       </div>
 
       {/* Filters */}
@@ -273,6 +356,12 @@ const SubscribersTable = () => {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="w-[50px]">
+                <Checkbox 
+                  checked={filteredOrders.length > 0 && selectedOrders.size === filteredOrders.length}
+                  onCheckedChange={toggleSelectAll}
+                />
+              </TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'رقم الطلب' : 'Order ID'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'العميل' : 'Client'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'النشاط' : 'Business'}</TableHead>
@@ -288,13 +377,13 @@ const SubscribersTable = () => {
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={10} className="text-center py-8">
+                <TableCell colSpan={11} className="text-center py-8">
                   <div className="animate-pulse">{isRTL ? 'جاري التحميل...' : 'Loading...'}</div>
                 </TableCell>
               </TableRow>
             ) : filteredOrders.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={10} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={11} className="text-center py-8 text-muted-foreground">
                   {isRTL ? 'لا توجد نتائج' : 'No results found'}
                 </TableCell>
               </TableRow>
@@ -302,8 +391,14 @@ const SubscribersTable = () => {
               filteredOrders.map((order) => (
                 <TableRow 
                   key={order.id}
-                  className={`${isRenewalSoon(order.renewal_date) ? 'bg-yellow-500/10' : ''} ${isExpired(order.renewal_date) ? 'bg-destructive/10' : ''}`}
+                  className={`${selectedOrders.has(order.id) ? 'bg-muted/50' : ''} ${isRenewalSoon(order.renewal_date) ? 'bg-yellow-500/10' : ''} ${isExpired(order.renewal_date) ? 'bg-destructive/10' : ''}`}
                 >
+                  <TableCell>
+                    <Checkbox 
+                      checked={selectedOrders.has(order.id)}
+                      onCheckedChange={() => toggleSelectOrder(order.id)}
+                    />
+                  </TableCell>
                   <TableCell className="font-mono text-sm">{order.order_id}</TableCell>
                   <TableCell>
                     <div>
