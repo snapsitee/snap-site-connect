@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -31,7 +31,7 @@ const forgotPasswordSchema = z.object({
   email: z.string().email(),
 });
 
-const Auth = () => {
+const Auth = forwardRef<HTMLDivElement>((_, ref) => {
   const { isRTL } = useLanguage();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -226,7 +226,7 @@ const Auth = () => {
   // Forgot Password Success View
   if (view === 'forgot-password' && resetEmailSent) {
     return (
-      <div className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+      <div ref={ref} className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
         <Navbar />
         
         <main className="pt-24 pb-16">
@@ -271,7 +271,7 @@ const Auth = () => {
   // Forgot Password Form View
   if (view === 'forgot-password') {
     return (
-      <div className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+      <div ref={ref} className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
         <Navbar />
         
         <main className="pt-24 pb-16">
@@ -349,7 +349,7 @@ const Auth = () => {
 
   // Login / Signup View
   return (
-    <div className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+    <div ref={ref} className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
       <Navbar />
       
       <main className="pt-24 pb-16">
@@ -547,6 +547,8 @@ const Auth = () => {
       <Footer />
     </div>
   );
-};
+});
+
+Auth.displayName = 'Auth';
 
 export default Auth;

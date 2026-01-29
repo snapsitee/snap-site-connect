@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -29,7 +29,7 @@ export interface OrderData {
   websiteRequirements: string;
 }
 
-const Subscribe = () => {
+const Subscribe = forwardRef<HTMLDivElement>((_, ref) => {
   const { isRTL } = useLanguage();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -109,7 +109,7 @@ const Subscribe = () => {
   ];
 
   return (
-    <div className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+    <div ref={ref} className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
       <Navbar />
       
       <main className="pt-24 pb-16">
@@ -191,6 +191,8 @@ const Subscribe = () => {
       <Footer />
     </div>
   );
-};
+});
+
+Subscribe.displayName = 'Subscribe';
 
 export default Subscribe;

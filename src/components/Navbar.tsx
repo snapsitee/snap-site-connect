@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -9,7 +9,7 @@ import logoWhite from '@/assets/logo-white.png';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
-const Navbar = () => {
+const Navbar = forwardRef<HTMLElement>((_, ref) => {
   const { t, isRTL } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
@@ -78,7 +78,8 @@ const Navbar = () => {
   ];
 
   return (
-    <motion.nav 
+    <motion.nav
+      ref={ref}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -276,6 +277,8 @@ const Navbar = () => {
       </div>
     </motion.nav>
   );
-};
+});
+
+Navbar.displayName = 'Navbar';
 
 export default Navbar;

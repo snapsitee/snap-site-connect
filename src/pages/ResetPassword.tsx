@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -20,7 +20,7 @@ const resetPasswordSchema = z.object({
   path: ["confirmPassword"],
 });
 
-const ResetPassword = () => {
+const ResetPassword = forwardRef<HTMLDivElement>((_, ref) => {
   const { isRTL } = useLanguage();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -103,7 +103,7 @@ const ResetPassword = () => {
 
   if (isSuccess) {
     return (
-      <div className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+      <div ref={ref} className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
         <Navbar />
         
         <main className="pt-24 pb-16">
@@ -132,7 +132,7 @@ const ResetPassword = () => {
 
   if (!isValidSession) {
     return (
-      <div className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+      <div ref={ref} className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
         <Navbar />
         
         <main className="pt-24 pb-16">
@@ -171,7 +171,7 @@ const ResetPassword = () => {
   }
 
   return (
-    <div className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+    <div ref={ref} className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
       <Navbar />
       
       <main className="pt-24 pb-16">
@@ -262,6 +262,8 @@ const ResetPassword = () => {
       <Footer />
     </div>
   );
-};
+});
+
+ResetPassword.displayName = 'ResetPassword';
 
 export default ResetPassword;
