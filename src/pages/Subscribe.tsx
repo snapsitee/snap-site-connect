@@ -70,12 +70,23 @@ const Subscribe = forwardRef<HTMLDivElement>((_, ref) => {
         .single();
       
       if (pricingData) {
-        const setupFee = isRenewal ? pricingData.monthly_fee : pricingData.setup_fee;
+        // Apply discount if enabled
+        const applyDiscount = (price: number) => {
+          if (pricingData.discount_enabled && pricingData.discount_percent > 0) {
+            return Math.round(price - (price * pricingData.discount_percent / 100));
+          }
+          return price;
+        };
+        
+        const baseSetupFee = isRenewal ? pricingData.monthly_fee : pricingData.setup_fee;
+        const discountedSetupFee = applyDiscount(baseSetupFee);
+        const discountedMonthlyFee = applyDiscount(pricingData.monthly_fee);
+        
         setOrderData(prev => ({
           ...prev,
-          setupFee: setupFee,
-          monthlyFee: pricingData.monthly_fee,
-          total: setupFee,
+          setupFee: discountedSetupFee,
+          monthlyFee: discountedMonthlyFee,
+          total: discountedSetupFee,
           customDomainPrice: addonData?.custom_domain_price || 2000,
           businessEmailPrice: addonData?.business_email_price || 4000,
         }));
