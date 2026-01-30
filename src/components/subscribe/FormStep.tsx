@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { FileText, ArrowLeft, ArrowRight, User, Building, Mail, Phone, MessageSquare, Hash } from 'lucide-react';
+import { FileText, ArrowLeft, ArrowRight, User, Building, Mail, Phone, MessageSquare, Hash, CheckCircle2, XCircle, Loader2 } from 'lucide-react';
 import type { OrderData } from '@/pages/Subscribe';
 import { z } from 'zod';
 
@@ -31,6 +31,8 @@ const FormStep = ({ orderData, updateOrderData, onComplete, onBack, isRenewal = 
   const { isRTL } = useLanguage();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isValidatingOrderId, setIsValidatingOrderId] = useState(false);
+  const [orderIdValid, setOrderIdValid] = useState<boolean | null>(null);
   const [originalOrderId, setOriginalOrderId] = useState(renewalOrderId || '');
   const [formData, setFormData] = useState({
     fullName: orderData.fullName,
@@ -40,6 +42,44 @@ const FormStep = ({ orderData, updateOrderData, onComplete, onBack, isRenewal = 
     whatsapp: orderData.whatsapp,
     websiteRequirements: orderData.websiteRequirements,
   });
+
+  // Validate order ID when it changes
+  useEffect(() => {
+    const validateOrderId = async () => {
+      const trimmedId = originalOrderId.trim().toUpperCase();
+      
+      if (!trimmedId || trimmedId.length < 4) {
+        setOrderIdValid(null);
+        return;
+      }
+
+      setIsValidatingOrderId(true);
+      
+      try {
+        const { data, error } = await supabase
+          .from('orders')
+          .select('order_id')
+          .eq('order_id', trimmedId)
+          .maybeSingle();
+        
+        if (error) {
+          console.error('Order validation error:', error);
+          setOrderIdValid(null);
+        } else {
+          setOrderIdValid(data !== null);
+        }
+      } catch (err) {
+        console.error('Order validation error:', err);
+        setOrderIdValid(null);
+      } finally {
+        setIsValidatingOrderId(false);
+      }
+    };
+
+    // Debounce the validation
+    const timer = setTimeout(validateOrderId, 500);
+    return () => clearTimeout(timer);
+  }, [originalOrderId]);
 
   useEffect(() => {
     // Pre-fill from logged in user if available
@@ -94,6 +134,27 @@ const FormStep = ({ orderData, updateOrderData, onComplete, onBack, isRenewal = 
             variant: 'destructive',
             title: isRTL ? 'خطأ' : 'Error',
             description: isRTL ? 'يرجى إدخال رقم الطلب الأصلي' : 'Please enter the original order ID',
+          });
+          setIsSubmitting(false);
+          return;
+        }
+
+        // Check if order ID exists
+        if (orderIdValid === false) {
+          toast({
+            variant: 'destructive',
+            title: isRTL ? 'رقم الطلب غير موجود' : 'Order ID not found',
+            description: isRTL ? 'يرجى التحقق من رقم الطلب الأصلي' : 'Please verify your original order ID',
+          });
+          setIsSubmitting(false);
+          return;
+        }
+
+        if (orderIdValid === null) {
+          toast({
+            variant: 'destructive',
+            title: isRTL ? 'خطأ في التحقق' : 'Validation error',
+            description: isRTL ? 'يرجى إدخال رقم طلب صحيح' : 'Please enter a valid order ID',
           });
           setIsSubmitting(false);
           return;
@@ -315,13 +376,30 @@ const FormStep = ({ orderData, updateOrderData, onComplete, onBack, isRenewal = 
                 id="originalOrderId"
                 value={originalOrderId}
                 onChange={(e) => setOriginalOrderId(e.target.value.toUpperCase())}
-                className={`${isRTL ? 'pr-10 text-right' : 'pl-10'} uppercase font-mono`}
+                className={`${isRTL ? 'pr-10 text-right' : 'pl-10'} ${isRTL ? 'pl-10' : 'pr-10'} uppercase font-mono ${
+                  orderIdValid === true ? 'border-green-500 focus-visible:ring-green-500' : 
+                  orderIdValid === false ? 'border-destructive focus-visible:ring-destructive' : ''
+                }`}
                 placeholder={isRTL ? 'مثال: SNP-ABC123' : 'e.g., SNP-ABC123'}
                 required
               />
+              <div className={`absolute top-1/2 -translate-y-1/2 ${isRTL ? 'left-3' : 'right-3'}`}>
+                {isValidatingOrderId && (
+                  <Loader2 className="w-5 h-5 text-muted-foreground animate-spin" />
+                )}
+                {!isValidatingOrderId && orderIdValid === true && (
+                  <CheckCircle2 className="w-5 h-5 text-green-500" />
+                )}
+                {!isValidatingOrderId && orderIdValid === false && (
+                  <XCircle className="w-5 h-5 text-destructive" />
+                )}
+              </div>
             </div>
-            <p className="text-sm text-muted-foreground">
-              {isRTL ? 'أدخل رقم الطلب الذي تريد تجديده' : 'Enter the order ID you want to renew'}
+            <p className={`text-sm ${orderIdValid === false ? 'text-destructive' : 'text-muted-foreground'}`}>
+              {orderIdValid === false 
+                ? (isRTL ? 'رقم الطلب غير موجود' : 'Order ID not found')
+                : (isRTL ? 'أدخل رقم الطلب الذي تريد تجديده' : 'Enter the order ID you want to renew')
+              }
             </p>
           </div>
         )}
