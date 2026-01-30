@@ -43,8 +43,10 @@ const FormStep = ({ orderData, updateOrderData, onComplete, onBack, isRenewal = 
     websiteRequirements: orderData.websiteRequirements,
   });
 
-  // Validate order ID when it changes
+  // Validate order ID when it changes (only for renewals)
   useEffect(() => {
+    if (!isRenewal) return;
+    
     const validateOrderId = async () => {
       const trimmedId = originalOrderId.trim().toUpperCase();
       
@@ -79,7 +81,7 @@ const FormStep = ({ orderData, updateOrderData, onComplete, onBack, isRenewal = 
     // Debounce the validation
     const timer = setTimeout(validateOrderId, 500);
     return () => clearTimeout(timer);
-  }, [originalOrderId]);
+  }, [originalOrderId, isRenewal]);
 
   useEffect(() => {
     // Pre-fill from logged in user if available
