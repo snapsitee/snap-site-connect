@@ -99,8 +99,21 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
           </div>
 
           {/* Right side - Desktop */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3">
             <LanguageSwitcher />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, delay: 0.35 }}
+            >
+              <Button
+                variant="outline"
+                onClick={() => navigate('/subscribe?renewal=true')}
+                className="border-gradient-purple/50 hover:bg-gradient-purple/10 hover:border-gradient-purple transition-all hover:scale-105"
+              >
+                {isRTL ? 'تجديد' : 'Renew'}
+              </Button>
+            </motion.div>
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -176,13 +189,23 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
                     </motion.button>
                   ))}
                   
-                  {/* Mobile CTA Button */}
+                  {/* Mobile CTA Buttons */}
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: 0.25 }}
-                    className="mt-2"
+                    className="mt-2 flex flex-col gap-2"
                   >
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        navigate('/subscribe?renewal=true');
+                      }}
+                      className="border-gradient-purple/50 hover:bg-gradient-purple/10 w-full"
+                    >
+                      {isRTL ? 'تجديد' : 'Renew'}
+                    </Button>
                     <Button
                       onClick={() => scrollToSection('contact')}
                       className="gradient-bg hover:opacity-90 transition-opacity w-full"
