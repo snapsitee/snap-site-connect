@@ -4,17 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
-import { LogOut, Users, DollarSign, Menu, X, ShoppingCart, CreditCard, Settings, Home, BarChart3, Ticket } from 'lucide-react';
+import { LogOut, Users, DollarSign, Menu, X, ShoppingCart, CreditCard, Settings, Home, BarChart3, Ticket, RefreshCw } from 'lucide-react';
 import LeadsTable from './LeadsTable';
 import PricingManager from './PricingManager';
 import SubscribersTable from './SubscribersTable';
+import RenewalsTable from './RenewalsTable';
 import PaymentSettingsManager from './PaymentSettingsManager';
 import AddonSettingsManager from './AddonSettingsManager';
 import AnalyticsDashboard from './AnalyticsDashboard';
 import CouponManager from './CouponManager';
 import logoWhite from '@/assets/logo-white.png';
 
-type Tab = 'analytics' | 'leads' | 'subscribers' | 'pricing' | 'payment' | 'addons' | 'coupons';
+type Tab = 'analytics' | 'leads' | 'subscribers' | 'renewals' | 'pricing' | 'payment' | 'addons' | 'coupons';
 
 const AdminDashboard = () => {
   const { t, isRTL } = useLanguage();
@@ -29,6 +30,7 @@ const AdminDashboard = () => {
   const tabs = [
     { id: 'analytics' as Tab, label: isRTL ? 'التحليلات' : 'Analytics', icon: BarChart3 },
     { id: 'subscribers' as Tab, label: isRTL ? 'المشتركين' : 'Subscribers', icon: ShoppingCart },
+    { id: 'renewals' as Tab, label: isRTL ? 'التجديدات' : 'Renewals', icon: RefreshCw },
     { id: 'leads' as Tab, label: t('admin.leads'), icon: Users },
     { id: 'pricing' as Tab, label: t('admin.pricing'), icon: DollarSign },
     { id: 'coupons' as Tab, label: isRTL ? 'الكوبونات' : 'Coupons', icon: Ticket },
@@ -127,6 +129,7 @@ const AdminDashboard = () => {
         <div className="p-6 lg:p-8">
           {activeTab === 'analytics' && <AnalyticsDashboard />}
           {activeTab === 'subscribers' && <SubscribersTable />}
+          {activeTab === 'renewals' && <RenewalsTable />}
           {activeTab === 'leads' && <LeadsTable />}
           {activeTab === 'pricing' && <PricingManager />}
           {activeTab === 'coupons' && <CouponManager />}
