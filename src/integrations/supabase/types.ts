@@ -317,6 +317,60 @@ export type Database = {
         }
         Relationships: []
       }
+      renewals: {
+        Row: {
+          business_name: string
+          coupon_code: string | null
+          coupon_discount: number
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          original_order_id: string
+          payment_method: string | null
+          phone: string
+          receipt_url: string | null
+          renewal_fee: number
+          renewal_id: string
+          status: Database["public"]["Enums"]["renewal_status"]
+          whatsapp: string
+        }
+        Insert: {
+          business_name: string
+          coupon_code?: string | null
+          coupon_discount?: number
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          original_order_id: string
+          payment_method?: string | null
+          phone: string
+          receipt_url?: string | null
+          renewal_fee: number
+          renewal_id: string
+          status?: Database["public"]["Enums"]["renewal_status"]
+          whatsapp: string
+        }
+        Update: {
+          business_name?: string
+          coupon_code?: string | null
+          coupon_discount?: number
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          original_order_id?: string
+          payment_method?: string | null
+          phone?: string
+          receipt_url?: string | null
+          renewal_fee?: number
+          renewal_id?: string
+          status?: Database["public"]["Enums"]["renewal_status"]
+          whatsapp?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -358,6 +412,7 @@ export type Database = {
     Enums: {
       app_role: "admin" | "user"
       project_status: "received" | "in_progress" | "delivered"
+      renewal_status: "pending" | "confirmed" | "rejected"
       subscription_status:
         | "pending"
         | "active"
@@ -496,6 +551,7 @@ export const Constants = {
     Enums: {
       app_role: ["admin", "user"],
       project_status: ["received", "in_progress", "delivered"],
+      renewal_status: ["pending", "confirmed", "rejected"],
       subscription_status: [
         "pending",
         "active",
