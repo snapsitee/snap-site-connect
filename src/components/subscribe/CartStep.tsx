@@ -309,7 +309,11 @@ const CartStep = ({ orderData, updateOrderData, onNext, isRenewal = false }: Car
 
       {/* Next Button */}
       <Button
-        onClick={onNext}
+        onClick={() => {
+          // Ensure finalTotal is updated before moving to payment
+          updateOrderData({ finalTotal });
+          onNext();
+        }}
         className={`w-full gradient-bg hover:opacity-90 text-lg py-6 ${isRTL ? 'flex-row-reverse' : ''}`}
       >
         <span className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
