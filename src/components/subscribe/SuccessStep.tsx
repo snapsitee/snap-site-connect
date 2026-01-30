@@ -1,7 +1,7 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle, Home, LayoutDashboard } from 'lucide-react';
+import { CheckCircle, Home } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface SuccessStepProps {
@@ -51,7 +51,7 @@ const SuccessStep = ({ orderId }: SuccessStepProps) => {
           <p className="text-2xl font-bold font-mono gradient-text">{orderId}</p>
         </div>
 
-        <div className={`flex flex-col sm:flex-row gap-3 justify-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+        <div className="flex justify-center">
           <Button
             variant="outline"
             onClick={() => navigate('/')}
@@ -59,13 +59,6 @@ const SuccessStep = ({ orderId }: SuccessStepProps) => {
           >
             <Home className="w-4 h-4" />
             {isRTL ? 'الصفحة الرئيسية' : 'Go Home'}
-          </Button>
-          <Button
-            onClick={() => navigate('/dashboard')}
-            className={`gradient-bg hover:opacity-90 flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}
-          >
-            <LayoutDashboard className="w-4 h-4" />
-            {isRTL ? 'لوحة التحكم' : 'Go to Dashboard'}
           </Button>
         </div>
       </motion.div>
