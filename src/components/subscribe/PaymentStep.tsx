@@ -200,14 +200,15 @@ const PaymentStep = ({ orderData, updateOrderData, onNext, onBack }: PaymentStep
                   </Button>
                 </div>
                 
-                <div className={`flex items-center justify-between p-3 bg-muted rounded-lg ${isRTL ? 'flex-row-reverse' : ''}`}>
-                  <div className={isRTL ? 'text-right' : ''}>
+                <div className={`flex items-center justify-between gap-2 p-3 bg-muted rounded-lg ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  <div className={`min-w-0 flex-1 ${isRTL ? 'text-right' : ''}`}>
                     <p className="text-xs text-muted-foreground">{isRTL ? 'اسم المستخدم' : 'Username'}</p>
-                    <p className="font-mono font-medium text-sm">{paymentSettings.instapay_username}</p>
+                    <p className="font-mono font-medium text-sm truncate">{paymentSettings.instapay_username}</p>
                   </div>
                   <Button 
                     variant="ghost" 
                     size="icon"
+                    className="shrink-0"
                     onClick={(e) => {
                       e.stopPropagation();
                       copyToClipboard(paymentSettings.instapay_username, 'instapay_username');
