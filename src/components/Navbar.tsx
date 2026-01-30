@@ -1,13 +1,11 @@
 import { useState, useEffect, forwardRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
 import LanguageSwitcher from './LanguageSwitcher';
 import { Button } from '@/components/ui/button';
-import { Menu, X, User, LayoutDashboard, Home } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import logoWhite from '@/assets/logo-white.png';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 const Navbar = forwardRef<HTMLElement>((_, ref) => {
   const { t, isRTL } = useLanguage();
@@ -15,7 +13,6 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [user, setUser] = useState<SupabaseUser | null>(null);
 
   const isHomePage = location.pathname === '/';
 
@@ -27,25 +24,10 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
-    };
-    checkAuth();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
   const scrollToSection = (id: string) => {
     setIsMenuOpen(false);
     
     if (!isHomePage) {
-      // Navigate to home page with hash, then scroll after navigation
       navigate('/#' + id);
       return;
     }
@@ -56,7 +38,6 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
     }
   };
 
-  // Handle hash navigation when arriving from another page
   useEffect(() => {
     if (isHomePage && location.hash) {
       const id = location.hash.replace('#', '');
@@ -120,51 +101,18 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
           {/* Right side - Desktop */}
           <div className="hidden md:flex items-center gap-4">
             <LanguageSwitcher />
-            {user ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: 0.3 }}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, delay: 0.4 }}
+            >
+              <Button
+                onClick={() => scrollToSection('contact')}
+                className="gradient-bg hover:opacity-90 transition-all hover:scale-105 shadow-md shadow-gradient-purple/20"
               >
-                <Button
-                  onClick={() => navigate('/dashboard')}
-                  variant="outline"
-                  className="flex items-center gap-2"
-                >
-                  <LayoutDashboard className="w-4 h-4" />
-                  {isRTL ? 'لوحة التحكم' : 'Dashboard'}
-                </Button>
-              </motion.div>
-            ) : (
-              <>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: 0.3 }}
-                >
-                  <Button
-                    onClick={() => navigate('/auth')}
-                    variant="ghost"
-                    className="flex items-center gap-2"
-                  >
-                    <User className="w-4 h-4" />
-                    {isRTL ? 'تسجيل الدخول' : 'Login'}
-                  </Button>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: 0.4 }}
-                >
-                  <Button
-                    onClick={() => scrollToSection('contact')}
-                    className="gradient-bg hover:opacity-90 transition-all hover:scale-105 shadow-md shadow-gradient-purple/20"
-                  >
-                    {t('nav.getStarted')}
-                  </Button>
-                </motion.div>
-              </>
-            )}
+                {t('nav.getStarted')}
+              </Button>
+            </motion.div>
           </div>
 
           {/* Mobile menu button */}
@@ -228,46 +176,19 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
                     </motion.button>
                   ))}
                   
-                  {/* Mobile Auth Buttons */}
+                  {/* Mobile CTA Button */}
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: 0.25 }}
-                    className="mt-2 space-y-2"
+                    className="mt-2"
                   >
-                    {user ? (
-                      <Button
-                        onClick={() => {
-                          navigate('/dashboard');
-                          setIsMenuOpen(false);
-                        }}
-                        variant="outline"
-                        className="w-full flex items-center justify-center gap-2"
-                      >
-                        <LayoutDashboard className="w-4 h-4" />
-                        {isRTL ? 'لوحة التحكم' : 'Dashboard'}
-                      </Button>
-                    ) : (
-                      <>
-                        <Button
-                          onClick={() => {
-                            navigate('/auth');
-                            setIsMenuOpen(false);
-                          }}
-                          variant="outline"
-                          className="w-full flex items-center justify-center gap-2"
-                        >
-                          <User className="w-4 h-4" />
-                          {isRTL ? 'تسجيل الدخول' : 'Login'}
-                        </Button>
-                        <Button
-                          onClick={() => scrollToSection('contact')}
-                          className="gradient-bg hover:opacity-90 transition-opacity w-full"
-                        >
-                          {t('nav.getStarted')}
-                        </Button>
-                      </>
-                    )}
+                    <Button
+                      onClick={() => scrollToSection('contact')}
+                      className="gradient-bg hover:opacity-90 transition-opacity w-full"
+                    >
+                      {t('nav.getStarted')}
+                    </Button>
                   </motion.div>
                 </div>
               </div>
