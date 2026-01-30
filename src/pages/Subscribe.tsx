@@ -65,6 +65,9 @@ const Subscribe = forwardRef<HTMLDivElement>((_, ref) => {
 
   useEffect(() => {
     const fetchPricing = async () => {
+      // Get fresh isRenewal value from URL
+      const renewalParam = searchParams.get('renewal') === 'true';
+      
       const { data: pricingData } = await supabase
         .from('pricing')
         .select('*')
@@ -84,9 +87,12 @@ const Subscribe = forwardRef<HTMLDivElement>((_, ref) => {
           return price;
         };
         
-        const baseSetupFee = isRenewal ? pricingData.monthly_fee : pricingData.setup_fee;
+        // For renewals, use monthly_fee as the base. For new orders, use setup_fee
+        const baseSetupFee = renewalParam ? pricingData.monthly_fee : pricingData.setup_fee;
         const discountedSetupFee = applyDiscount(baseSetupFee);
         const discountedMonthlyFee = applyDiscount(pricingData.monthly_fee);
+        
+        console.log('Renewal pricing:', { renewalParam, baseSetupFee, discountedSetupFee, monthly_fee: pricingData.monthly_fee });
         
         setOrderData(prev => ({
           ...prev,
@@ -100,7 +106,7 @@ const Subscribe = forwardRef<HTMLDivElement>((_, ref) => {
     };
 
     fetchPricing();
-  }, [isRenewal]);
+  }, [searchParams]);
 
   const updateOrderData = (data: Partial<OrderData>) => {
     setOrderData(prev => {
