@@ -121,13 +121,25 @@ const Subscribe = () => {
     setIsSubmitting(true);
 
     try {
+      if (!receiptFile) {
+        toast({
+          variant: 'destructive',
+          title: isRTL ? 'يرجى رفع إيصال الدفع' : 'Please upload payment receipt',
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
       // Upload receipt
-      const fileName = `${Date.now()}-${receiptFile!.name}`;
+      const fileName = `${Date.now()}-${receiptFile.name}`;
       const { error: uploadError } = await supabase.storage
         .from('receipts')
-        .upload(fileName, receiptFile!);
+        .upload(fileName, receiptFile);
 
-      if (uploadError) throw uploadError;
+      if (uploadError) {
+        console.error('Upload error:', uploadError);
+        throw new Error(`Upload failed: ${uploadError.message}`);
+      }
 
       const { data: { publicUrl } } = supabase.storage
         .from('receipts')
@@ -153,7 +165,7 @@ const Subscribe = () => {
         const { data, error } = await supabase
           .from('renewals')
           .insert([{
-            renewal_id: '',
+            renewal_id: 'TEMP', // Will be overwritten by trigger
             original_order_id: formData.originalOrderId.trim().toUpperCase(),
             full_name: formData.fullName.trim(),
             business_name: formData.businessName.trim(),
@@ -170,13 +182,16 @@ const Subscribe = () => {
           .select('renewal_id')
           .single();
 
-        if (error) throw error;
+        if (error) {
+          console.error('Renewal insert error:', error);
+          throw new Error(`Renewal failed: ${error.message}`);
+        }
         setSubmittedId(data.renewal_id);
       } else {
         const { data, error } = await supabase
           .from('orders')
           .insert([{
-            order_id: '',
+            order_id: 'TEMP', // Will be overwritten by trigger
             full_name: formData.fullName.trim(),
             business_name: formData.businessName.trim(),
             email: formData.email.trim(),
@@ -196,7 +211,10 @@ const Subscribe = () => {
           .select('order_id')
           .single();
 
-        if (error) throw error;
+        if (error) {
+          console.error('Order insert error:', error);
+          throw new Error(`Order failed: ${error.message}`);
+        }
         setSubmittedId(data.order_id);
       }
 
@@ -204,10 +222,11 @@ const Subscribe = () => {
       setCurrentStep(4);
     } catch (error) {
       console.error('Submit error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       toast({
         variant: 'destructive',
         title: isRTL ? 'حدث خطأ' : 'Error occurred',
-        description: isRTL ? 'يرجى المحاولة مرة أخرى' : 'Please try again',
+        description: errorMessage,
       });
     } finally {
       setIsSubmitting(false);
