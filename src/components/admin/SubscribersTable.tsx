@@ -40,6 +40,7 @@ interface Order {
   addon_total: number;
   coupon_code: string | null;
   coupon_discount: number;
+  website_requirements: string | null;
 }
 
 const SubscribersTable = () => {
@@ -643,6 +644,18 @@ const SubscribersTable = () => {
                 <span className="text-muted-foreground">{isRTL ? 'طريقة الدفع' : 'Payment'}</span>
                 <span>{selectedOrderDetails.payment_method || (isRTL ? 'غير محدد' : 'Not specified')}</span>
               </div>
+
+              {/* Website Requirements */}
+              {selectedOrderDetails.website_requirements && (
+                <div className="pt-4 border-t space-y-2">
+                  <h4 className={`font-medium ${isRTL ? 'text-right' : ''}`}>
+                    {isRTL ? 'تعديلات / متطلبات الموقع' : 'Website Edits / Requirements'}
+                  </h4>
+                  <div className="p-3 rounded-lg bg-muted/50 text-sm whitespace-pre-wrap">
+                    {selectedOrderDetails.website_requirements}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </DialogContent>
