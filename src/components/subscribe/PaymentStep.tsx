@@ -90,44 +90,60 @@ const PaymentStep = ({ orderData, updateOrderData, onNext, onBack }: PaymentStep
       return;
     }
 
-    if (!receiptFile) {
-      toast({
-        variant: 'destructive',
-        title: isRTL ? 'ارفع إيصال الدفع' : 'Upload receipt',
-        description: isRTL ? 'يرجى رفع صورة إيصال الدفع' : 'Please upload the payment receipt',
-      });
-      return;
-    }
+    // Receipt upload is optional - proceed even without it
+    if (receiptFile) {
+      setIsUploading(true);
 
-    setIsUploading(true);
+      try {
+        const fileName = `${Date.now()}-${receiptFile.name}`;
+        const { data, error } = await supabase.storage
+          .from('receipts')
+          .upload(fileName, receiptFile);
 
-    try {
-      const fileName = `${Date.now()}-${receiptFile.name}`;
-      const { data, error } = await supabase.storage
-        .from('receipts')
-        .upload(fileName, receiptFile);
+        if (error) {
+          console.error('Upload error:', error);
+          // Don't block - just proceed without receipt URL
+          toast({
+            variant: 'default',
+            title: isRTL ? 'تعذر رفع الإيصال' : 'Receipt upload failed',
+            description: isRTL ? 'سنتابع بدون الإيصال - يمكنك إرساله لاحقاً' : 'Proceeding without receipt - you can send it later',
+          });
+          updateOrderData({ 
+            paymentMethod: selectedMethod,
+            receiptUrl: '',
+          });
+          onNext();
+          return;
+        }
 
-      if (error) throw error;
+        const { data: { publicUrl } } = supabase.storage
+          .from('receipts')
+          .getPublicUrl(fileName);
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('receipts')
-        .getPublicUrl(fileName);
-
+        updateOrderData({ 
+          paymentMethod: selectedMethod,
+          receiptUrl: publicUrl,
+        });
+        
+        onNext();
+      } catch (error) {
+        console.error('Upload error:', error);
+        // Don't block - just proceed without receipt URL
+        updateOrderData({ 
+          paymentMethod: selectedMethod,
+          receiptUrl: '',
+        });
+        onNext();
+      } finally {
+        setIsUploading(false);
+      }
+    } else {
+      // No receipt file - just proceed
       updateOrderData({ 
         paymentMethod: selectedMethod,
-        receiptUrl: publicUrl,
+        receiptUrl: '',
       });
-      
       onNext();
-    } catch (error) {
-      console.error('Upload error:', error);
-      toast({
-        variant: 'destructive',
-        title: isRTL ? 'خطأ في الرفع' : 'Upload error',
-        description: isRTL ? 'حدث خطأ أثناء رفع الإيصال' : 'Error uploading receipt',
-      });
-    } finally {
-      setIsUploading(false);
     }
   };
 
@@ -294,7 +310,7 @@ const PaymentStep = ({ orderData, updateOrderData, onNext, onBack }: PaymentStep
       {/* Receipt Upload */}
       <div className="mb-6">
         <Label className={`mb-2 block ${isRTL ? 'text-right' : ''}`}>
-          {isRTL ? 'ارفع إيصال الدفع' : 'Upload Payment Receipt'}
+          {isRTL ? 'ارفع إيصال الدفع (اختياري)' : 'Upload Payment Receipt (optional)'}
         </Label>
         <div className="relative">
           <Input
