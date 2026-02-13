@@ -178,7 +178,7 @@ const PaymentStep = ({
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      className="space-y-6"
+      className="space-y-4 sm:space-y-6"
     >
       {/* Coupon Section - for renewals */}
       {isRenewal && (
@@ -220,11 +220,11 @@ const PaymentStep = ({
       )}
 
       {/* Amount Display */}
-      <div className="text-center p-4 rounded-xl bg-primary/10 border border-primary/30">
-        <p className="text-sm text-muted-foreground mb-1">
+      <div className="text-center p-3 sm:p-4 rounded-xl bg-primary/10 border border-primary/30">
+        <p className="text-xs sm:text-sm text-muted-foreground mb-1">
           {isRTL ? 'المبلغ المطلوب' : 'Amount Due'}
         </p>
-        <p className="text-3xl font-bold text-primary">
+        <p className="text-2xl sm:text-3xl font-bold text-primary">
           {totalAmount.toLocaleString()} {isRTL ? 'جنيه' : 'EGP'}
         </p>
         {isRenewal && couponData && (

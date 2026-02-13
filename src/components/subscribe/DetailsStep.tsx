@@ -84,7 +84,7 @@ const DetailsStep = ({
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      className="space-y-6"
+      className="space-y-4 sm:space-y-6"
       onSubmit={handleSubmit}
     >
       {/* Personal Info */}
