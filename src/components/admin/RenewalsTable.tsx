@@ -8,12 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/hooks/use-toast';
-import { Search, Download, MessageCircle, Eye, Check, X, Trash2 } from 'lucide-react';
+import { Search, Download, MessageCircle, Eye, Check, X, Trash2, FileText } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { format } from 'date-fns';
 import { ar, enUS } from 'date-fns/locale';
 import { downloadCSV } from '@/lib/csv-export';
+import RenewalDetailsDialog from './RenewalDetailsDialog';
 
 interface Renewal {
   id: string;
@@ -43,6 +44,7 @@ const RenewalsTable = () => {
   const [selectedReceipt, setSelectedReceipt] = useState<string | null>(null);
   const [selectedRenewals, setSelectedRenewals] = useState<Set<string>>(new Set());
   const [isDeleting, setIsDeleting] = useState(false);
+  const [selectedRenewalDetails, setSelectedRenewalDetails] = useState<Renewal | null>(null);
 
   const dateLocale = language === 'ar' ? ar : enUS;
 
@@ -275,8 +277,6 @@ const RenewalsTable = () => {
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'رقم التجديد' : 'Renewal ID'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'الطلب الأصلي' : 'Original Order'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'العميل' : 'Client'}</TableHead>
-              <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'المبلغ' : 'Amount'}</TableHead>
-              <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'طريقة الدفع' : 'Payment'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'التاريخ' : 'Date'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'الحالة' : 'Status'}</TableHead>
               <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'إجراءات' : 'Actions'}</TableHead>
@@ -285,13 +285,13 @@ const RenewalsTable = () => {
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={9} className="text-center py-8">
+                <TableCell colSpan={7} className="text-center py-8">
                   <div className="animate-pulse">{isRTL ? 'جاري التحميل...' : 'Loading...'}</div>
                 </TableCell>
               </TableRow>
             ) : filteredRenewals.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={9} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                   {isRTL ? 'لا توجد نتائج' : 'No results found'}
                 </TableCell>
               </TableRow>
@@ -315,19 +315,6 @@ const RenewalsTable = () => {
                       <p className="text-sm text-muted-foreground">{renewal.business_name}</p>
                     </div>
                   </TableCell>
-                  <TableCell>
-                    <div>
-                      <span className="font-semibold">{formatPrice(renewal.renewal_fee - renewal.coupon_discount)} EGP</span>
-                      {renewal.coupon_discount > 0 && (
-                        <p className="text-xs text-muted-foreground line-through">
-                          {formatPrice(renewal.renewal_fee)} EGP
-                        </p>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {renewal.payment_method || '-'}
-                  </TableCell>
                   <TableCell className="text-sm">
                     {format(new Date(renewal.created_at), 'PP', { locale: dateLocale })}
                   </TableCell>
@@ -338,6 +325,14 @@ const RenewalsTable = () => {
                   </TableCell>
                   <TableCell>
                     <div className={`flex items-center gap-1 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setSelectedRenewalDetails(renewal)}
+                        title={isRTL ? 'تفاصيل الطلب' : 'Order Details'}
+                      >
+                        <FileText className="w-4 h-4" />
+                      </Button>
                       {renewal.receipt_url && (
                         <Button
                           variant="ghost"
@@ -387,6 +382,13 @@ const RenewalsTable = () => {
           </TableBody>
         </Table>
       </div>
+
+      {/* Renewal Details Dialog */}
+      <RenewalDetailsDialog
+        open={!!selectedRenewalDetails}
+        onOpenChange={() => setSelectedRenewalDetails(null)}
+        renewal={selectedRenewalDetails}
+      />
 
       {/* Receipt Modal */}
       <Dialog open={!!selectedReceipt} onOpenChange={() => setSelectedReceipt(null)}>
