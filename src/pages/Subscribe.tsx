@@ -300,10 +300,13 @@ const Subscribe = () => {
                   key="payment"
                   paymentSettings={paymentSettings}
                   totalAmount={totalAmount}
+                  basePrice={basePrice}
                   selectedPayment={selectedPayment}
                   setSelectedPayment={setSelectedPayment}
                   receiptFile={receiptFile}
                   setReceiptFile={setReceiptFile}
+                  couponData={couponData}
+                  setCouponData={setCouponData}
                   onNext={() => setCurrentStep(3)}
                   onBack={() => setCurrentStep(1)}
                   isRenewal={isRenewal}
