@@ -132,7 +132,7 @@ const AddonsStep = ({
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      className="space-y-6"
+      className="space-y-4 sm:space-y-6"
     >
       {/* Add-ons Section */}
       <div className="space-y-4">
@@ -150,20 +150,20 @@ const AddonsStep = ({
             }`}
             onClick={() => setSelectedAddons({ ...selectedAddons, customDomain: !selectedAddons.customDomain })}
           >
-            <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
               <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${selectedAddons.customDomain ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
-                  <Globe className="w-5 h-5" />
+                <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0 ${selectedAddons.customDomain ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+                  <Globe className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
                 <div className={isRTL ? 'text-right' : ''}>
-                  <p className="font-medium">{isRTL ? 'دومين مخصص' : 'Custom Domain'}</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="font-medium text-sm sm:text-base">{isRTL ? 'دومين مخصص' : 'Custom Domain'}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">
                     {isRTL ? 'بدلاً من .snapsitee.com' : 'Instead of .snapsitee.com'}
                   </p>
                 </div>
               </div>
-              <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                <Badge variant="secondary">
+              <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''} ${isRTL ? 'mr-12 sm:mr-0' : 'ml-12 sm:ml-0'}`}>
+                <Badge variant="secondary" className="text-xs sm:text-sm">
                   {addonSettings.custom_domain_price.toLocaleString()} {isRTL ? 'جنيه/سنة' : 'EGP/year'}
                 </Badge>
                 <Switch 
@@ -185,20 +185,20 @@ const AddonsStep = ({
             }`}
             onClick={() => setSelectedAddons({ ...selectedAddons, businessEmail: !selectedAddons.businessEmail })}
           >
-            <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
               <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${selectedAddons.businessEmail ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
-                  <Mail className="w-5 h-5" />
+                <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0 ${selectedAddons.businessEmail ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+                  <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
                 <div className={isRTL ? 'text-right' : ''}>
-                  <p className="font-medium">{isRTL ? 'بريد الكتروني للأعمال' : 'Business Email'}</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="font-medium text-sm sm:text-base">{isRTL ? 'بريد الكتروني للأعمال' : 'Business Email'}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">
                     {isRTL ? 'بريد احترافي باسم نشاطك' : 'Professional email with your domain'}
                   </p>
                 </div>
               </div>
-              <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                <Badge variant="secondary">
+              <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''} ${isRTL ? 'mr-12 sm:mr-0' : 'ml-12 sm:ml-0'}`}>
+                <Badge variant="secondary" className="text-xs sm:text-sm">
                   {addonSettings.business_email_price.toLocaleString()} {isRTL ? 'جنيه/سنة' : 'EGP/year'}
                 </Badge>
                 <Switch 
@@ -282,7 +282,7 @@ const AddonsStep = ({
       </div>
 
       {/* Next Button */}
-      <Button onClick={onNext} className="w-full gradient-bg text-lg py-6">
+      <Button onClick={onNext} className="w-full gradient-bg text-base sm:text-lg py-5 sm:py-6">
         <span className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
           {isRTL ? 'التالي' : 'Next'}
           {isRTL ? <ArrowLeft className="w-5 h-5" /> : <ArrowRight className="w-5 h-5" />}

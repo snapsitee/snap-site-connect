@@ -10,7 +10,7 @@ interface StepIndicatorProps {
 
 const StepIndicator = ({ currentStep, totalSteps, stepLabels, isRTL }: StepIndicatorProps) => {
   return (
-    <div className={`flex items-center justify-center gap-0 mb-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
+    <div className={`flex items-center justify-center gap-0 mb-6 sm:mb-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
       {Array.from({ length: totalSteps }, (_, index) => {
         const stepNumber = index + 1;
         const isCompleted = stepNumber < currentStep;
@@ -23,7 +23,7 @@ const StepIndicator = ({ currentStep, totalSteps, stepLabels, isRTL }: StepIndic
               <motion.div
                 initial={{ scale: 0.8 }}
                 animate={{ scale: isCurrent ? 1.1 : 1 }}
-                className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
+                className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
                   isCompleted 
                     ? 'bg-primary border-primary text-primary-foreground' 
                     : isCurrent 
@@ -32,12 +32,12 @@ const StepIndicator = ({ currentStep, totalSteps, stepLabels, isRTL }: StepIndic
                 }`}
               >
                 {isCompleted ? (
-                  <Check className="w-5 h-5" />
+                  <Check className="w-4 h-4 sm:w-5 sm:h-5" />
                 ) : (
-                  <span className="text-sm font-semibold">{stepNumber}</span>
+                  <span className="text-xs sm:text-sm font-semibold">{stepNumber}</span>
                 )}
               </motion.div>
-              <span className={`text-xs mt-2 font-medium transition-colors ${
+              <span className={`text-[10px] sm:text-xs mt-1.5 sm:mt-2 font-medium transition-colors ${
                 isCurrent ? 'text-primary' : isCompleted ? 'text-foreground' : 'text-muted-foreground'
               }`}>
                 {stepLabels[index]}
@@ -46,7 +46,7 @@ const StepIndicator = ({ currentStep, totalSteps, stepLabels, isRTL }: StepIndic
             
             {/* Connector Line */}
             {stepNumber < totalSteps && (
-              <div className={`w-12 h-0.5 mx-2 transition-colors duration-300 ${
+              <div className={`w-8 sm:w-12 h-0.5 mx-1 sm:mx-2 transition-colors duration-300 ${
                 isCompleted ? 'bg-primary' : 'bg-muted-foreground/30'
               }`} />
             )}

@@ -253,16 +253,16 @@ const Subscribe = () => {
     <div className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
       <Navbar />
       
-      <main className="pt-24 pb-16">
-        <div className="container mx-auto px-4 max-w-2xl">
+      <main className="pt-20 sm:pt-24 pb-10 sm:pb-16">
+        <div className="container mx-auto px-3 sm:px-4 max-w-2xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass rounded-3xl p-8 gradient-border"
+            className="glass rounded-2xl sm:rounded-3xl p-4 sm:p-8 gradient-border"
           >
             {/* Header */}
-            <div className="text-center mb-6">
-              <h1 className="text-3xl font-bold gradient-text mb-2">
+            <div className="text-center mb-4 sm:mb-6">
+              <h1 className="text-2xl sm:text-3xl font-bold gradient-text mb-2">
                 {isRenewal 
                   ? (isRTL ? 'تجديد الاشتراك' : 'Renew Subscription')
                   : (isRTL ? 'اشترك الآن' : 'Subscribe Now')

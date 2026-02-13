@@ -30,16 +30,16 @@ const ConfirmationStep = ({ orderId, isRenewal }: ConfirmationStepProps) => {
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="text-center space-y-6"
+      className="text-center space-y-4 sm:space-y-6"
     >
       {/* Success Animation */}
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-        className="w-24 h-24 rounded-full gradient-bg flex items-center justify-center mx-auto"
+        className="w-20 h-20 sm:w-24 sm:h-24 rounded-full gradient-bg flex items-center justify-center mx-auto"
       >
-        <CheckCircle className="w-12 h-12 text-white" />
+        <CheckCircle className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
       </motion.div>
 
       {/* Success Message */}
@@ -48,10 +48,10 @@ const ConfirmationStep = ({ orderId, isRenewal }: ConfirmationStepProps) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
       >
-        <h1 className="text-3xl font-bold mb-2">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2">
           {isRTL ? 'مبروك 🎉!' : 'Congratulations 🎉!'}
         </h1>
-        <p className="text-lg text-muted-foreground">
+        <p className="text-sm sm:text-lg text-muted-foreground">
           {isRenewal
             ? (isRTL 
                 ? 'تم استلام طلب التجديد بنجاح. فريقنا هيتواصل معاك خلال 24 ساعة.'
@@ -78,7 +78,7 @@ const ConfirmationStep = ({ orderId, isRenewal }: ConfirmationStepProps) => {
             }
           </p>
           <div className={`flex items-center justify-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
-            <p className="text-2xl font-bold font-mono gradient-text">{orderId}</p>
+            <p className="text-xl sm:text-2xl font-bold font-mono gradient-text">{orderId}</p>
             <Button variant="ghost" size="icon" onClick={copyOrderId}>
               {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
             </Button>
