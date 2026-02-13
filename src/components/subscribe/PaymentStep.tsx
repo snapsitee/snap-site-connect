@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Smartphone, Copy, Check, Upload, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Smartphone, Copy, Check, Upload, ArrowRight, ArrowLeft, Ticket, X, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import instapayQRDefault from '@/assets/instapay-qr.jpeg';
 import vodafoneQRDefault from '@/assets/vodafone-qr.jpeg';
@@ -18,13 +21,23 @@ interface PaymentSettings {
   vodafone_qr_url: string | null;
 }
 
+interface CouponData {
+  code: string;
+  discount_type: string;
+  discount_value: number;
+  discountAmount: number;
+}
+
 interface PaymentStepProps {
   paymentSettings: PaymentSettings | null;
   totalAmount: number;
+  basePrice: number;
   selectedPayment: string;
   setSelectedPayment: (method: string) => void;
   receiptFile: File | null;
   setReceiptFile: (file: File | null) => void;
+  couponData: CouponData | null;
+  setCouponData: (data: CouponData | null) => void;
   onNext: () => void;
   onBack: () => void;
   isRenewal: boolean;
@@ -33,10 +46,13 @@ interface PaymentStepProps {
 const PaymentStep = ({
   paymentSettings,
   totalAmount,
+  basePrice,
   selectedPayment,
   setSelectedPayment,
   receiptFile,
   setReceiptFile,
+  couponData,
+  setCouponData,
   onNext,
   onBack,
   isRenewal,
@@ -44,6 +60,74 @@ const PaymentStep = ({
   const { isRTL } = useLanguage();
   const { toast } = useToast();
   const [copiedField, setCopiedField] = useState('');
+  const [couponCode, setCouponCode] = useState(couponData?.code || '');
+  const [isValidating, setIsValidating] = useState(false);
+
+  const validateCoupon = async () => {
+    if (!couponCode.trim()) {
+      toast({
+        variant: 'destructive',
+        title: isRTL ? 'أدخل كود الخصم' : 'Enter coupon code',
+      });
+      return;
+    }
+
+    setIsValidating(true);
+    
+    const { data, error } = await supabase
+      .from('coupons')
+      .select('*')
+      .eq('code', couponCode.trim().toUpperCase())
+      .eq('is_active', true)
+      .maybeSingle();
+
+    if (error || !data) {
+      toast({
+        variant: 'destructive',
+        title: isRTL ? 'كود غير صالح' : 'Invalid code',
+        description: isRTL ? 'هذا الكود غير موجود أو منتهي' : 'This code does not exist or has expired',
+      });
+      setCouponData(null);
+      setIsValidating(false);
+      return;
+    }
+
+    if (data.max_uses !== null && data.usage_count >= data.max_uses) {
+      toast({
+        variant: 'destructive',
+        title: isRTL ? 'كود منتهي الصلاحية' : 'Code expired',
+        description: isRTL ? 'وصل هذا الكود للحد الأقصى من الاستخدام' : 'This code has reached its usage limit',
+      });
+      setCouponData(null);
+      setIsValidating(false);
+      return;
+    }
+
+    const discountAmount = data.discount_type === 'percentage'
+      ? Math.round(basePrice * data.discount_value / 100)
+      : Math.min(data.discount_value, basePrice);
+
+    setCouponData({
+      code: data.code,
+      discount_type: data.discount_type,
+      discount_value: data.discount_value,
+      discountAmount,
+    });
+
+    toast({
+      title: isRTL ? 'تم تطبيق الخصم!' : 'Discount applied!',
+      description: isRTL 
+        ? `وفرت ${discountAmount.toLocaleString()} جنيه`
+        : `You saved ${discountAmount.toLocaleString()} EGP`,
+    });
+
+    setIsValidating(false);
+  };
+
+  const removeCoupon = () => {
+    setCouponCode('');
+    setCouponData(null);
+  };
 
   const copyToClipboard = async (text: string, field: string) => {
     await navigator.clipboard.writeText(text);
@@ -96,6 +180,45 @@ const PaymentStep = ({
       exit={{ opacity: 0, x: -20 }}
       className="space-y-6"
     >
+      {/* Coupon Section - for renewals */}
+      {isRenewal && (
+        <div className="space-y-3">
+          <Label className={isRTL ? 'text-right block' : ''}>
+            <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <Ticket className="w-4 h-4" />
+              {isRTL ? 'كود الخصم' : 'Coupon Code'}
+            </div>
+          </Label>
+          
+          {couponData ? (
+            <div className={`p-3 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <Check className="w-5 h-5 text-primary" />
+                <span className="font-mono font-medium">{couponData.code}</span>
+                <Badge variant="outline" className="text-primary">
+                  -{couponData.discountAmount.toLocaleString()} {isRTL ? 'جنيه' : 'EGP'}
+                </Badge>
+              </div>
+              <Button variant="ghost" size="icon" onClick={removeCoupon}>
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+          ) : (
+            <div className={`flex gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <Input
+                value={couponCode}
+                onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                placeholder={isRTL ? 'أدخل كود الخصم' : 'Enter coupon code'}
+                className={`flex-1 font-mono uppercase ${isRTL ? 'text-right' : ''}`}
+              />
+              <Button onClick={validateCoupon} disabled={isValidating} variant="outline">
+                {isValidating ? <Loader2 className="w-4 h-4 animate-spin" /> : (isRTL ? 'تطبيق' : 'Apply')}
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Amount Display */}
       <div className="text-center p-4 rounded-xl bg-primary/10 border border-primary/30">
         <p className="text-sm text-muted-foreground mb-1">
@@ -104,6 +227,11 @@ const PaymentStep = ({
         <p className="text-3xl font-bold text-primary">
           {totalAmount.toLocaleString()} {isRTL ? 'جنيه' : 'EGP'}
         </p>
+        {isRenewal && couponData && (
+          <p className="text-sm text-muted-foreground mt-1 line-through">
+            {(totalAmount + couponData.discountAmount).toLocaleString()} {isRTL ? 'جنيه' : 'EGP'}
+          </p>
+        )}
       </div>
 
       {/* Payment Method Selection */}
