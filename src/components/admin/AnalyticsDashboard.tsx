@@ -42,26 +42,49 @@ const AnalyticsDashboard = () => {
       .from('leads')
       .select('*');
 
+    // Fetch confirmed renewals
+    const { data: renewals } = await supabase
+      .from('renewals')
+      .select('*')
+      .eq('status', 'confirmed');
+
     if (orders && leads) {
+      const confirmedRenewals = renewals || [];
+      
       // Calculate metrics
       const totalSubscribers = orders.length;
       const activeSubscribers = orders.filter(o => 
         o.subscription_status === 'active' || o.subscription_status === 'renewed'
       ).length;
       
-      // Revenue calculation (actual amount paid after discounts)
-      const totalRevenue = orders.reduce((sum, o) => {
+      // Revenue calculation: orders (setup + addons - coupon) + renewals (fee - coupon)
+      const orderRevenue = orders.reduce((sum, o) => {
         const setupFee = o.setup_fee || 0;
         const addonTotal = o.addon_total || 0;
         const couponDiscount = o.coupon_discount || 0;
-        // Amount paid = setup fee + addons - coupon discount
         return sum + setupFee + addonTotal - couponDiscount;
       }, 0);
 
-      // Monthly revenue (current month active subscribers)
+      const renewalRevenue = confirmedRenewals.reduce((sum, r) => {
+        return sum + (r.renewal_fee || 0) - (r.coupon_discount || 0);
+      }, 0);
+
+      const totalRevenue = orderRevenue + renewalRevenue;
+
+      // Monthly revenue: for each active/renewed subscriber, use their latest renewal amount if exists, otherwise monthly_fee
       const monthlyRevenue = orders
         .filter(o => o.subscription_status === 'active' || o.subscription_status === 'renewed')
-        .reduce((sum, o) => sum + (o.monthly_fee || 0), 0);
+        .reduce((sum, o) => {
+          // Check if there's a confirmed renewal for this order
+          const latestRenewal = confirmedRenewals
+            .filter(r => r.original_order_id === o.order_id)
+            .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0];
+          
+          if (latestRenewal) {
+            return sum + (latestRenewal.renewal_fee - latestRenewal.coupon_discount);
+          }
+          return sum + (o.monthly_fee || 0);
+        }, 0);
 
       // Lead metrics
       const totalLeads = leads.length;
