@@ -172,7 +172,7 @@ const Subscribe = () => {
             email: formData.email.trim(),
             phone: formData.phone.trim(),
             whatsapp: formData.whatsapp.trim(),
-            renewal_fee: totalAmount,
+            renewal_fee: basePrice,
             payment_method: selectedPayment,
             receipt_url: publicUrl,
             status: 'pending',
