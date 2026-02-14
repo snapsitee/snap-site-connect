@@ -392,7 +392,7 @@ const RenewalsTable = () => {
 
       {/* Receipt Modal */}
       <Dialog open={!!selectedReceipt} onOpenChange={() => setSelectedReceipt(null)}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-[90vw] sm:max-w-md md:max-w-lg max-h-[85vh] overflow-y-auto p-3 sm:p-6">
           <DialogHeader>
             <DialogTitle>{isRTL ? 'إيصال الدفع' : 'Payment Receipt'}</DialogTitle>
           </DialogHeader>
@@ -400,7 +400,7 @@ const RenewalsTable = () => {
             <img 
               src={selectedReceipt} 
               alt="Receipt" 
-              className="w-full rounded-lg"
+              className="w-full max-h-[65vh] object-contain rounded-lg"
             />
           )}
         </DialogContent>
