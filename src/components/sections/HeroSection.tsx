@@ -2,6 +2,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
+import LiquidEther from '@/components/LiquidEther';
 
 const HeroSection = () => {
   const { t, isRTL } = useLanguage();
@@ -15,53 +16,18 @@ const HeroSection = () => {
 
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
-      {/* Animated background gradient effects */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.5, ease: 'easeOut' }}
-          className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-gradient-purple/20 rounded-full blur-[100px]"
+      {/* LiquidEther animated background */}
+      <div className="absolute inset-0">
+        <LiquidEther
+          colors={['#DC18EE', '#1E8CED', '#B19EEF']}
+          mouseForce={20}
+          cursorSize={100}
+          resolution={0.5}
+          autoDemo={true}
+          autoSpeed={0.5}
+          autoIntensity={2.2}
+          style={{ width: '100%', height: '100%' }}
         />
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.5, delay: 0.3, ease: 'easeOut' }}
-          className="absolute bottom-1/4 -right-32 w-[500px] h-[500px] bg-gradient-blue/20 rounded-full blur-[100px]"
-        />
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2, delay: 0.5 }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-gradient-purple/5 to-gradient-blue/5 rounded-full blur-3xl"
-        />
-        
-        {/* Floating particles */}
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 rounded-full bg-gradient-purple/40"
-            initial={{ 
-              x: Math.random() * 100 + '%', 
-              y: Math.random() * 100 + '%',
-              opacity: 0 
-            }}
-            animate={{ 
-              y: [null, '-20px', '20px', null],
-              opacity: [0, 0.6, 0.6, 0],
-            }}
-            transition={{
-              duration: 4 + i * 0.5,
-              repeat: Infinity,
-              delay: i * 0.5,
-              ease: 'easeInOut',
-            }}
-            style={{
-              left: `${15 + i * 15}%`,
-              top: `${20 + (i % 3) * 25}%`,
-            }}
-          />
-        ))}
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
