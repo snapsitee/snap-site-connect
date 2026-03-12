@@ -21,6 +21,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <ScrollToTop />
+          <WhatsAppFloatingButton />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/subscribe" element={<Subscribe />} />
