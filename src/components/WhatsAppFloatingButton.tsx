@@ -17,7 +17,8 @@ const WhatsAppFloatingButton = () => {
       const secondSection = document.getElementById('how-it-works');
       if (secondSection) {
         const rect = secondSection.getBoundingClientRect();
-        setIsVisible(rect.top <= window.innerHeight);
+        // Show only when the top of the section has scrolled to the top half of the viewport
+        setIsVisible(rect.top <= window.innerHeight * 0.5);
       }
     };
 
