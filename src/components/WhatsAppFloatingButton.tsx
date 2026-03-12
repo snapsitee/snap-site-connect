@@ -9,8 +9,7 @@ const WhatsAppIcon = () => (
 
 const WhatsAppFloatingButton = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const phoneNumber = '+201033865141';
-  const whatsappUrl = `https://wa.me/${phoneNumber.replace('+', '')}`;
+  const whatsappUrl = 'https://wa.me/+201033865141?text=Interested%20About%20SnapSite%20Subscription';
 
   useEffect(() => {
     const handleScroll = () => {
