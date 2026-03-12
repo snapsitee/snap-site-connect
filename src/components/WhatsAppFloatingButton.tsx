@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const WhatsAppIcon = () => (
   <svg viewBox="0 0 448 512" fill="currentColor" className="w-7 h-7">
@@ -7,26 +8,44 @@ const WhatsAppIcon = () => (
 );
 
 const WhatsAppFloatingButton = () => {
+  const [isVisible, setIsVisible] = useState(false);
   const phoneNumber = '+201033865141';
   const whatsappUrl = `https://wa.me/${phoneNumber.replace('+', '')}`;
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const secondSection = document.getElementById('how-it-works');
+      if (secondSection) {
+        const rect = secondSection.getBoundingClientRect();
+        setIsVisible(rect.top <= window.innerHeight);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <motion.a
-      href={whatsappUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ delay: 1.5, duration: 0.3, type: 'spring' }}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
-      className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 cursor-pointer hover:shadow-xl hover:shadow-[#25D366]/40 transition-shadow"
-    >
-      <WhatsAppIcon />
-      
-      {/* Pulse animation ring */}
-      <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20" />
-    </motion.a>
+    <AnimatePresence>
+      {isVisible && (
+        <motion.a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0, opacity: 0 }}
+          transition={{ duration: 0.3, type: 'spring' }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 cursor-pointer hover:shadow-xl hover:shadow-[#25D366]/40 transition-shadow"
+        >
+          <WhatsAppIcon />
+          <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20" />
+        </motion.a>
+      )}
+    </AnimatePresence>
   );
 };
 
