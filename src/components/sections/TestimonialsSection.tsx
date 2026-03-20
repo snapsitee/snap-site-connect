@@ -1,94 +1,56 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import ScrollReveal from '@/components/ui/scroll-reveal';
 import StaggerContainer, { StaggerItem } from '@/components/ui/stagger-container';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { supabase } from '@/integrations/supabase/client';
 
-const testimonials = [
-  {
-    name: { en: 'Ahmed Hassan', ar: 'أحمد حسن' },
-    role: { en: 'Restaurant Owner', ar: 'صاحب مطعم' },
-    rating: 5,
-    review: {
-      en: "SnapSite transformed our online presence completely. The website they built increased our orders by 40% in just two months. Highly recommended!",
-      ar: "غيّر SnapSite تواجدنا على الإنترنت بالكامل. الموقع اللي بنوه زوّد طلباتنا ٤٠٪ في شهرين بس. أنصح بيهم جداً!"
-    },
-    initials: 'AH',
-  },
-  {
-    name: { en: 'Fatma El-Sayed', ar: 'فاطمة السيد' },
-    role: { en: 'Café Owner', ar: 'صاحبة كافيه' },
-    rating: 5,
-    review: {
-      en: "Professional team that truly understands design. They delivered our café website faster than expected and the monthly support is excellent.",
-      ar: "فريق محترف فاهم التصميم فعلاً. سلّموا موقع الكافيه أسرع من المتوقع والدعم الشهري ممتاز."
-    },
-    initials: 'FE',
-  },
-  {
-    name: { en: 'Mohamed Adel', ar: 'محمد عادل' },
-    role: { en: 'Gym Owner', ar: 'صاحب جيم' },
-    rating: 5,
-    review: {
-      en: "The subscription model is perfect for my business. No huge upfront costs and they handle everything. My members love the booking system!",
-      ar: "نظام الاشتراك مثالي لشغلي. مفيش تكاليف ضخمة مقدماً وهما بيتعاملوا مع كل حاجة. أعضائي بيحبوا نظام الحجز!"
-    },
-    initials: 'MA',
-  },
-  {
-    name: { en: 'Nour Ibrahim', ar: 'نور إبراهيم' },
-    role: { en: 'Dental Clinic Manager', ar: 'مديرة عيادة أسنان' },
-    rating: 5,
-    review: {
-      en: "From day one, SnapSite impressed us with their professionalism. The website looks premium and our patient bookings have increased significantly.",
-      ar: "من أول يوم، SnapSite أبهرونا باحترافيتهم. الموقع شكله فخم وحجوزات المرضى زادت بشكل ملحوظ."
-    },
-    initials: 'NI',
-  },
-  {
-    name: { en: 'Karim Mostafa', ar: 'كريم مصطفى' },
-    role: { en: 'Real Estate Agent', ar: 'وكيل عقارات' },
-    rating: 5,
-    review: {
-      en: "The team created an amazing property showcase website. Clean design, fast loading, and the unlimited updates feature is a game-changer!",
-      ar: "الفريق عمل موقع عرض عقارات مذهل. تصميم نظيف، تحميل سريع، وميزة التحديثات غير المحدودة حاجة رهيبة!"
-    },
-    initials: 'KM',
-  },
-  {
-    name: { en: 'Sara Mahmoud', ar: 'سارة محمود' },
-    role: { en: 'Photography Studio Owner', ar: 'صاحبة استوديو تصوير' },
-    rating: 5,
-    review: {
-      en: "My portfolio website is stunning! SnapSite understood exactly what I needed. The responsive design works perfectly on all devices.",
-      ar: "موقع معرض أعمالي مذهل! SnapSite فهموا بالظبط اللي محتاجاه. التصميم المتجاوب شغال تمام على كل الأجهزة."
-    },
-    initials: 'SM',
-  },
-];
+interface Review {
+  id: string;
+  name_en: string;
+  name_ar: string;
+  role_en: string;
+  role_ar: string;
+  review_en: string;
+  review_ar: string;
+  rating: number;
+  display_order: number;
+}
 
-const StarRating = ({ rating }: { rating: number }) => {
-  return (
-    <div className="flex gap-1">
-      {[...Array(5)].map((_, i) => (
-        <Star
-          key={i}
-          className={`w-4 h-4 ${
-            i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'
-          }`}
-        />
-      ))}
-    </div>
-  );
+const StarRating = ({ rating }: { rating: number }) => (
+  <div className="flex gap-1">
+    {[...Array(5)].map((_, i) => (
+      <Star key={i} className={`w-4 h-4 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'}`} />
+    ))}
+  </div>
+);
+
+const getInitials = (name: string) => {
+  return name.split(' ').map(w => w[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
 };
 
 const TestimonialsSection = () => {
-  const { t, isRTL, language } = useLanguage();
+  const { isRTL, language } = useLanguage();
+  const [reviews, setReviews] = useState<Review[]>([]);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const { data } = await supabase
+        .from('reviews')
+        .select('*')
+        .eq('is_active', true)
+        .order('display_order', { ascending: true });
+      if (data) setReviews(data as unknown as Review[]);
+    };
+    fetchReviews();
+  }, []);
+
+  if (reviews.length === 0) return null;
 
   return (
     <section className="py-20 md:py-32 relative overflow-hidden">
-      {/* Background effects */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
@@ -119,63 +81,55 @@ const TestimonialsSection = () => {
         </ScrollReveal>
 
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
-            <StaggerItem key={index}>
-              <motion.div
-                whileHover={{ y: -5, scale: 1.02 }}
-                transition={{ duration: 0.3 }}
-                className="h-full p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-all duration-300 relative group"
-              >
-                {/* Quote icon */}
-                <div className="absolute top-4 right-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                  <Quote className="w-12 h-12 text-primary" />
-                </div>
+          {reviews.map((review) => {
+            const name = language === 'ar' ? review.name_ar : review.name_en;
+            const role = language === 'ar' ? review.role_ar : review.role_en;
+            const text = language === 'ar' ? review.review_ar : review.review_en;
+            const initials = getInitials(review.name_en);
 
-                {/* Rating */}
-                <div className="mb-4">
-                  <StarRating rating={testimonial.rating} />
-                </div>
-
-                {/* Review */}
-                <p className="text-muted-foreground mb-6 leading-relaxed">
-                  "{testimonial.review[language]}"
-                </p>
-
-                {/* Author */}
-                <div className="flex items-center gap-3 mt-auto">
-                  <Avatar className="w-12 h-12 bg-gradient-to-br from-primary to-accent">
-                    <AvatarFallback className="bg-gradient-to-br from-primary to-accent text-primary-foreground font-semibold">
-                      {testimonial.initials}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <h4 className="font-semibold text-foreground">
-                      {testimonial.name[language]}
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
-                      {testimonial.role[language]}
-                    </p>
+            return (
+              <StaggerItem key={review.id}>
+                <motion.div
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
+                  className="h-full p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-all duration-300 relative group"
+                >
+                  <div className="absolute top-4 right-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <Quote className="w-12 h-12 text-primary" />
                   </div>
-                </div>
 
-                {/* Gradient border effect on hover */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/0 via-primary/10 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-              </motion.div>
-            </StaggerItem>
-          ))}
+                  <div className="mb-4">
+                    <StarRating rating={review.rating} />
+                  </div>
+
+                  <p className="text-muted-foreground mb-6 leading-relaxed">"{text}"</p>
+
+                  <div className="flex items-center gap-3 mt-auto">
+                    <Avatar className="w-12 h-12 bg-gradient-to-br from-primary to-accent">
+                      <AvatarFallback className="bg-gradient-to-br from-primary to-accent text-primary-foreground font-semibold">
+                        {initials}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h4 className="font-semibold text-foreground">{name}</h4>
+                      <p className="text-sm text-muted-foreground">{role}</p>
+                    </div>
+                  </div>
+
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/0 via-primary/10 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                </motion.div>
+              </StaggerItem>
+            );
+          })}
         </StaggerContainer>
 
-        {/* Trust indicators */}
         <ScrollReveal delay={0.3}>
           <div className="mt-16 text-center">
             <div className="inline-flex items-center gap-4 px-6 py-3 rounded-full bg-card/50 backdrop-blur-sm border border-border/50">
               <div className="flex -space-x-2">
-                {['AH', 'FE', 'MA', 'NI'].map((initials, i) => (
-                  <div
-                    key={i}
-                    className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-xs font-semibold text-primary-foreground border-2 border-background"
-                  >
-                    {initials}
+                {reviews.slice(0, 4).map((r, i) => (
+                  <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-xs font-semibold text-primary-foreground border-2 border-background">
+                    {getInitials(r.name_en)}
                   </div>
                 ))}
               </div>
@@ -186,7 +140,7 @@ const TestimonialsSection = () => {
                   ))}
                 </div>
                 <span className="text-sm text-muted-foreground">
-                  {isRTL ? 'تقييم ٤.٩ من ٥ من أكثر من ٥٠ عميل' : '4.9/5 rating from 50+ clients'}
+                  {isRTL ? `تقييم ٤.٩ من ٥ من أكثر من ${reviews.length} عميل` : `4.9/5 rating from ${reviews.length}+ clients`}
                 </span>
               </div>
             </div>
