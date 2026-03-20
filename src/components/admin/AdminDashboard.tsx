@@ -14,9 +14,11 @@ import AddonSettingsManager from './AddonSettingsManager';
 import AnalyticsDashboard from './AnalyticsDashboard';
 import CouponManager from './CouponManager';
 import SnapsManager from './SnapsManager';
+import ReviewsManager from './ReviewsManager';
 import logoWhite from '@/assets/logo-white.png';
+import { MessageSquare } from 'lucide-react';
 
-type Tab = 'analytics' | 'leads' | 'subscribers' | 'renewals' | 'pricing' | 'payment' | 'addons' | 'coupons' | 'snaps';
+type Tab = 'analytics' | 'leads' | 'subscribers' | 'renewals' | 'pricing' | 'payment' | 'addons' | 'coupons' | 'snaps' | 'reviews';
 
 const AdminDashboard = () => {
   const { t, isRTL } = useLanguage();
