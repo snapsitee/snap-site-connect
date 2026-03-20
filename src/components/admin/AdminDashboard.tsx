@@ -13,6 +13,7 @@ import PaymentSettingsManager from './PaymentSettingsManager';
 import AddonSettingsManager from './AddonSettingsManager';
 import AnalyticsDashboard from './AnalyticsDashboard';
 import CouponManager from './CouponManager';
+import SnapsManager from './SnapsManager';
 import logoWhite from '@/assets/logo-white.png';
 
 type Tab = 'analytics' | 'leads' | 'subscribers' | 'renewals' | 'pricing' | 'payment' | 'addons' | 'coupons';
