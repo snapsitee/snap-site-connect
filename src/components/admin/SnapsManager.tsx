@@ -7,19 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Trash2, Upload, Image, RefreshCw, Download } from 'lucide-react';
-
-import snap1 from '@/assets/snaps/Snap_1.jpg';
-import snap2 from '@/assets/snaps/Snap_2.jpg';
-import snap3 from '@/assets/snaps/Snap_3.jpg';
-import snap4 from '@/assets/snaps/Snap_4.jpg';
-import snap5 from '@/assets/snaps/Snap_5.jpg';
-import snap6 from '@/assets/snaps/Snap_6.jpg';
-import snap7 from '@/assets/snaps/Snap_7.jpg';
-import snap8 from '@/assets/snaps/Snap_8.jpg';
-import snap9 from '@/assets/snaps/Snap_9.jpg';
-
-const defaultSnapUrls = [snap1, snap2, snap3, snap4, snap5, snap6, snap7, snap8, snap9];
+import { Trash2, Upload, Image, RefreshCw } from 'lucide-react';
 
 interface Snap {
   id: string;
@@ -35,7 +23,6 @@ const SnapsManager = () => {
   const [snaps, setSnaps] = useState<Snap[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
-  const [seeding, setSeeding] = useState(false);
   const replaceInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
 
   useEffect(() => {
@@ -68,30 +55,6 @@ const SnapsManager = () => {
     return publicUrl;
   };
 
-  const handleSeedDefaults = async () => {
-    setSeeding(true);
-    try {
-      for (let i = 0; i < defaultSnapUrls.length; i++) {
-        const response = await fetch(defaultSnapUrls[i]);
-        const blob = await response.blob();
-        const fileName = `default-snap-${i + 1}-${Date.now()}.jpg`;
-        const publicUrl = await uploadFileToStorage(blob, fileName);
-
-        const { error } = await supabase.from('snaps').insert({
-          title: '',
-          image_url: publicUrl,
-          display_order: i,
-          is_active: true,
-        });
-        if (error) throw error;
-      }
-      toast.success(isRTL ? 'تم استيراد الصور بنجاح' : 'Default snaps imported successfully');
-      fetchSnaps();
-    } catch (error: any) {
-      toast.error(error.message || (isRTL ? 'فشل الاستيراد' : 'Failed to import'));
-    }
-    setSeeding(false);
-  };
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -231,14 +194,8 @@ const SnapsManager = () => {
         <Card className="p-12 text-center space-y-4">
           <Image className="w-12 h-12 text-muted-foreground mx-auto" />
           <p className="text-muted-foreground">
-            {isRTL ? 'لا توجد صور في قاعدة البيانات.' : 'No snaps in the database yet.'}
+            {isRTL ? 'لا توجد صور بعد. ارفع صور جديدة.' : 'No snaps yet. Upload new snaps.'}
           </p>
-          <Button onClick={handleSeedDefaults} disabled={seeding} className="gap-2">
-            <Download className="w-4 h-4" />
-            {seeding
-              ? (isRTL ? 'جاري الاستيراد...' : 'Importing...')
-              : (isRTL ? 'استيراد الصور الافتراضية' : 'Import Default Snaps')}
-          </Button>
         </Card>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

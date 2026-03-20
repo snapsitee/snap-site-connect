@@ -5,18 +5,6 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import ScrollReveal from '@/components/ui/scroll-reveal';
 import { supabase } from '@/integrations/supabase/client';
 
-import snap1 from '@/assets/snaps/Snap_1.jpg';
-import snap2 from '@/assets/snaps/Snap_2.jpg';
-import snap3 from '@/assets/snaps/Snap_3.jpg';
-import snap4 from '@/assets/snaps/Snap_4.jpg';
-import snap5 from '@/assets/snaps/Snap_5.jpg';
-import snap6 from '@/assets/snaps/Snap_6.jpg';
-import snap7 from '@/assets/snaps/Snap_7.jpg';
-import snap8 from '@/assets/snaps/Snap_8.jpg';
-import snap9 from '@/assets/snaps/Snap_9.jpg';
-
-const defaultSnaps = [snap1, snap2, snap3, snap4, snap5, snap6, snap7, snap8, snap9];
-
 interface Snap {
   id: string;
   title: string;
@@ -40,12 +28,6 @@ const OurSnapsSection = () => {
 
       if (data && data.length > 0) {
         setSnaps(data);
-      } else {
-        setSnaps(defaultSnaps.map((url, i) => ({
-          id: `default-${i}`,
-          title: '',
-          image_url: url,
-        })));
       }
     };
     fetchSnaps();
