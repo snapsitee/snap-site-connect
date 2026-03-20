@@ -1,12 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, X } from 'lucide-react';
+import { Camera, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import ScrollReveal from '@/components/ui/scroll-reveal';
-import StaggerContainer, { StaggerItem } from '@/components/ui/stagger-container';
 import { supabase } from '@/integrations/supabase/client';
 
-// Default snaps from assets
 import snap1 from '@/assets/snaps/Snap_1.jpg';
 import snap2 from '@/assets/snaps/Snap_2.jpg';
 import snap3 from '@/assets/snaps/Snap_3.jpg';
@@ -23,13 +21,14 @@ interface Snap {
   id: string;
   title: string;
   image_url: string;
-  display_order: number;
 }
 
 const OurSnapsSection = () => {
   const { isRTL } = useLanguage();
   const [snaps, setSnaps] = useState<Snap[]>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const autoPlayRef = useRef<ReturnType<typeof setInterval>>();
 
   useEffect(() => {
     const fetchSnaps = async () => {
@@ -42,17 +41,76 @@ const OurSnapsSection = () => {
       if (data && data.length > 0) {
         setSnaps(data);
       } else {
-        // Use default snaps if none in DB
         setSnaps(defaultSnaps.map((url, i) => ({
           id: `default-${i}`,
           title: '',
           image_url: url,
-          display_order: i,
         })));
       }
     };
     fetchSnaps();
   }, []);
+
+  // Auto-play carousel
+  useEffect(() => {
+    if (snaps.length <= 1) return;
+    autoPlayRef.current = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % snaps.length);
+    }, 4000);
+    return () => clearInterval(autoPlayRef.current);
+  }, [snaps.length]);
+
+  const goTo = (index: number) => {
+    clearInterval(autoPlayRef.current);
+    setActiveIndex(index);
+    autoPlayRef.current = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % snaps.length);
+    }, 4000);
+  };
+
+  const prev = () => goTo((activeIndex - 1 + snaps.length) % snaps.length);
+  const next = () => goTo((activeIndex + 1) % snaps.length);
+
+  if (snaps.length === 0) return null;
+
+  // Show 3 cards: previous, active, next
+  const getVisibleIndices = () => {
+    const len = snaps.length;
+    if (len === 1) return [{ index: 0, position: 'center' as const }];
+    if (len === 2) return [
+      { index: activeIndex, position: 'center' as const },
+      { index: (activeIndex + 1) % len, position: 'right' as const },
+    ];
+    return [
+      { index: (activeIndex - 1 + len) % len, position: 'left' as const },
+      { index: activeIndex, position: 'center' as const },
+      { index: (activeIndex + 1) % len, position: 'right' as const },
+    ];
+  };
+
+  const positionStyles = {
+    left: {
+      x: '-65%',
+      scale: 0.75,
+      opacity: 0.5,
+      zIndex: 1,
+      rotateY: 15,
+    },
+    center: {
+      x: '0%',
+      scale: 1,
+      opacity: 1,
+      zIndex: 10,
+      rotateY: 0,
+    },
+    right: {
+      x: '65%',
+      scale: 0.75,
+      opacity: 0.5,
+      zIndex: 1,
+      rotateY: -15,
+    },
+  };
 
   return (
     <section className="py-20 md:py-32 relative overflow-hidden">
@@ -83,31 +141,93 @@ const OurSnapsSection = () => {
           </div>
         </ScrollReveal>
 
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {snaps.map((snap) => (
-            <StaggerItem key={snap.id}>
-              <motion.div
-                whileHover={{ y: -5, scale: 1.02 }}
-                transition={{ duration: 0.3 }}
-                className="group relative rounded-2xl overflow-hidden border border-border/50 hover:border-primary/30 transition-all duration-300 cursor-pointer aspect-[4/5]"
-                onClick={() => setSelectedImage(snap.image_url)}
-              >
-                <img
-                  src={snap.image_url}
-                  alt={snap.title || 'SnapSite project'}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                {snap.title && (
-                  <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    <p className="text-white font-semibold text-sm">{snap.title}</p>
+        {/* 3D Carousel */}
+        <div className="relative" style={{ perspective: '1200px' }}>
+          <div className="relative h-[420px] sm:h-[500px] md:h-[580px] flex items-center justify-center">
+            <AnimatePresence mode="popLayout">
+              {getVisibleIndices().map(({ index, position }) => (
+                <motion.div
+                  key={`${snaps[index].id}-${position}`}
+                  className="absolute w-[260px] sm:w-[300px] md:w-[360px] cursor-pointer"
+                  initial={{ opacity: 0, scale: 0.6 }}
+                  animate={{
+                    x: positionStyles[position].x,
+                    scale: positionStyles[position].scale,
+                    opacity: positionStyles[position].opacity,
+                    zIndex: positionStyles[position].zIndex,
+                    rotateY: positionStyles[position].rotateY,
+                  }}
+                  exit={{ opacity: 0, scale: 0.6 }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                  style={{ transformStyle: 'preserve-3d' }}
+                  onClick={() => {
+                    if (position === 'center') {
+                      setSelectedImage(snaps[index].image_url);
+                    } else {
+                      goTo(index);
+                    }
+                  }}
+                >
+                  <div className={`rounded-2xl overflow-hidden border-2 transition-colors duration-300 shadow-2xl ${
+                    position === 'center' ? 'border-primary/40 shadow-primary/20' : 'border-border/30'
+                  }`}>
+                    <div className="aspect-[4/5]">
+                      <img
+                        src={snaps[index].image_url}
+                        alt={snaps[index].title || 'SnapSite project'}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                        draggable={false}
+                      />
+                    </div>
+                    {snaps[index].title && position === 'center' && (
+                      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent">
+                        <p className="text-white font-semibold text-sm text-center">
+                          {snaps[index].title}
+                        </p>
+                      </div>
+                    )}
                   </div>
-                )}
-              </motion.div>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+
+          {/* Navigation arrows */}
+          {snaps.length > 1 && (
+            <>
+              <button
+                onClick={prev}
+                className={`absolute top-1/2 -translate-y-1/2 ${isRTL ? 'right-0 md:right-4' : 'left-0 md:left-4'} z-20 w-10 h-10 rounded-full bg-card/80 backdrop-blur-sm border border-border/50 flex items-center justify-center text-foreground hover:bg-primary/20 hover:border-primary/40 transition-all`}
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={next}
+                className={`absolute top-1/2 -translate-y-1/2 ${isRTL ? 'left-0 md:left-4' : 'right-0 md:right-4'} z-20 w-10 h-10 rounded-full bg-card/80 backdrop-blur-sm border border-border/50 flex items-center justify-center text-foreground hover:bg-primary/20 hover:border-primary/40 transition-all`}
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Dots indicator */}
+        {snaps.length > 1 && (
+          <div className="flex justify-center gap-2 mt-8">
+            {snaps.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                className={`rounded-full transition-all duration-300 ${
+                  i === activeIndex
+                    ? 'w-8 h-2 bg-primary'
+                    : 'w-2 h-2 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                }`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Lightbox */}
