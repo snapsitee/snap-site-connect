@@ -28,12 +28,6 @@ const OurSnapsSection = () => {
 
       if (data && data.length > 0) {
         setSnaps(data);
-      } else {
-        setSnaps(defaultSnaps.map((url, i) => ({
-          id: `default-${i}`,
-          title: '',
-          image_url: url,
-        })));
       }
     };
     fetchSnaps();

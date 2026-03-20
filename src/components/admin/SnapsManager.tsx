@@ -23,7 +23,6 @@ const SnapsManager = () => {
   const [snaps, setSnaps] = useState<Snap[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
-  const [seeding, setSeeding] = useState(false);
   const replaceInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
 
   useEffect(() => {
