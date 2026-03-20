@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Star, Quote } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import ScrollReveal from '@/components/ui/scroll-reveal';
-import StaggerContainer, { StaggerItem } from '@/components/ui/stagger-container';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -34,6 +33,8 @@ const getInitials = (name: string) => {
 const TestimonialsSection = () => {
   const { isRTL, language } = useLanguage();
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const autoPlayRef = useRef<ReturnType<typeof setInterval>>();
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -47,7 +48,46 @@ const TestimonialsSection = () => {
     fetchReviews();
   }, []);
 
+  useEffect(() => {
+    if (reviews.length <= 1) return;
+    autoPlayRef.current = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % reviews.length);
+    }, 5000);
+    return () => clearInterval(autoPlayRef.current);
+  }, [reviews.length]);
+
+  const goTo = (index: number) => {
+    clearInterval(autoPlayRef.current);
+    setActiveIndex(index);
+    autoPlayRef.current = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % reviews.length);
+    }, 5000);
+  };
+
+  const prev = () => goTo((activeIndex - 1 + reviews.length) % reviews.length);
+  const next = () => goTo((activeIndex + 1) % reviews.length);
+
   if (reviews.length === 0) return null;
+
+  const getVisibleIndices = () => {
+    const len = reviews.length;
+    if (len === 1) return [{ index: 0, position: 'center' as const }];
+    if (len === 2) return [
+      { index: activeIndex, position: 'center' as const },
+      { index: (activeIndex + 1) % len, position: 'right' as const },
+    ];
+    return [
+      { index: (activeIndex - 1 + len) % len, position: 'left' as const },
+      { index: activeIndex, position: 'center' as const },
+      { index: (activeIndex + 1) % len, position: 'right' as const },
+    ];
+  };
+
+  const positionStyles = {
+    left: { x: '-65%', scale: 0.8, opacity: 0.5, zIndex: 1, rotateY: 15 },
+    center: { x: '0%', scale: 1, opacity: 1, zIndex: 10, rotateY: 0 },
+    right: { x: '65%', scale: 0.8, opacity: 0.5, zIndex: 1, rotateY: -15 },
+  };
 
   return (
     <section className="py-20 md:py-32 relative overflow-hidden">
@@ -80,51 +120,107 @@ const TestimonialsSection = () => {
           </div>
         </ScrollReveal>
 
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {reviews.map((review) => {
-            const name = language === 'ar' ? review.name_ar : review.name_en;
-            const role = language === 'ar' ? review.role_ar : review.role_en;
-            const text = language === 'ar' ? review.review_ar : review.review_en;
-            const initials = getInitials(review.name_en);
+        {/* 3D Carousel */}
+        <div className="relative" style={{ perspective: '1200px' }}>
+          <div className="relative h-[320px] sm:h-[340px] md:h-[360px] flex items-center justify-center">
+            <AnimatePresence mode="popLayout">
+              {getVisibleIndices().map(({ index, position }) => {
+                const review = reviews[index];
+                const name = language === 'ar' ? review.name_ar : review.name_en;
+                const role = language === 'ar' ? review.role_ar : review.role_en;
+                const text = language === 'ar' ? review.review_ar : review.review_en;
+                const initials = getInitials(review.name_en);
 
-            return (
-              <StaggerItem key={review.id}>
-                <motion.div
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                  className="h-full p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-all duration-300 relative group"
-                >
-                  <div className="absolute top-4 right-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <Quote className="w-12 h-12 text-primary" />
-                  </div>
+                return (
+                  <motion.div
+                    key={`${review.id}-${position}`}
+                    className="absolute w-[280px] sm:w-[340px] md:w-[400px]"
+                    initial={{ opacity: 0, scale: 0.6 }}
+                    animate={{
+                      x: positionStyles[position].x,
+                      scale: positionStyles[position].scale,
+                      opacity: positionStyles[position].opacity,
+                      zIndex: positionStyles[position].zIndex,
+                      rotateY: positionStyles[position].rotateY,
+                    }}
+                    exit={{ opacity: 0, scale: 0.6 }}
+                    transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                    style={{ transformStyle: 'preserve-3d' }}
+                    onClick={() => {
+                      if (position !== 'center') goTo(index);
+                    }}
+                  >
+                    <div className={`p-6 rounded-2xl bg-card/80 backdrop-blur-sm border-2 transition-colors duration-300 shadow-2xl relative group cursor-default ${
+                      position === 'center' ? 'border-primary/40 shadow-primary/20' : 'border-border/30 cursor-pointer'
+                    }`}>
+                      <div className="absolute top-4 right-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <Quote className="w-10 h-10 text-primary" />
+                      </div>
 
-                  <div className="mb-4">
-                    <StarRating rating={review.rating} />
-                  </div>
+                      <div className="mb-3">
+                        <StarRating rating={review.rating} />
+                      </div>
 
-                  <p className="text-muted-foreground mb-6 leading-relaxed">"{text}"</p>
+                      <p className="text-muted-foreground mb-5 leading-relaxed text-sm md:text-base line-clamp-4">"{text}"</p>
 
-                  <div className="flex items-center gap-3 mt-auto">
-                    <Avatar className="w-12 h-12 bg-gradient-to-br from-primary to-accent">
-                      <AvatarFallback className="bg-gradient-to-br from-primary to-accent text-primary-foreground font-semibold">
-                        {initials}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h4 className="font-semibold text-foreground">{name}</h4>
-                      <p className="text-sm text-muted-foreground">{role}</p>
+                      <div className="flex items-center gap-3">
+                        <Avatar className="w-10 h-10 bg-gradient-to-br from-primary to-accent">
+                          <AvatarFallback className="bg-gradient-to-br from-primary to-accent text-primary-foreground font-semibold text-sm">
+                            {initials}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <h4 className="font-semibold text-foreground text-sm">{name}</h4>
+                          <p className="text-xs text-muted-foreground">{role}</p>
+                        </div>
+                      </div>
+
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/0 via-primary/10 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                     </div>
-                  </div>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </div>
 
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/0 via-primary/10 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                </motion.div>
-              </StaggerItem>
-            );
-          })}
-        </StaggerContainer>
+          {/* Navigation arrows */}
+          {reviews.length > 1 && (
+            <>
+              <button
+                onClick={prev}
+                className={`absolute top-1/2 -translate-y-1/2 ${isRTL ? 'right-0 md:right-4' : 'left-0 md:left-4'} z-20 w-10 h-10 rounded-full bg-card/80 backdrop-blur-sm border border-border/50 flex items-center justify-center text-foreground hover:bg-primary/20 hover:border-primary/40 transition-all`}
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={next}
+                className={`absolute top-1/2 -translate-y-1/2 ${isRTL ? 'left-0 md:left-4' : 'right-0 md:right-4'} z-20 w-10 h-10 rounded-full bg-card/80 backdrop-blur-sm border border-border/50 flex items-center justify-center text-foreground hover:bg-primary/20 hover:border-primary/40 transition-all`}
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Dots indicator */}
+        {reviews.length > 1 && (
+          <div className="flex justify-center gap-2 mt-8">
+            {reviews.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                className={`rounded-full transition-all duration-300 ${
+                  i === activeIndex
+                    ? 'w-8 h-2 bg-primary'
+                    : 'w-2 h-2 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                }`}
+              />
+            ))}
+          </div>
+        )}
 
         <ScrollReveal delay={0.3}>
-          <div className="mt-16 text-center">
+          <div className="mt-12 text-center">
             <div className="inline-flex items-center gap-4 px-6 py-3 rounded-full bg-card/50 backdrop-blur-sm border border-border/50">
               <div className="flex -space-x-2">
                 {reviews.slice(0, 4).map((r, i) => (
