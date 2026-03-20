@@ -194,14 +194,8 @@ const SnapsManager = () => {
         <Card className="p-12 text-center space-y-4">
           <Image className="w-12 h-12 text-muted-foreground mx-auto" />
           <p className="text-muted-foreground">
-            {isRTL ? 'لا توجد صور في قاعدة البيانات.' : 'No snaps in the database yet.'}
+            {isRTL ? 'لا توجد صور بعد. ارفع صور جديدة.' : 'No snaps yet. Upload new snaps.'}
           </p>
-          <Button onClick={handleSeedDefaults} disabled={seeding} className="gap-2">
-            <Download className="w-4 h-4" />
-            {seeding
-              ? (isRTL ? 'جاري الاستيراد...' : 'Importing...')
-              : (isRTL ? 'استيراد الصور الافتراضية' : 'Import Default Snaps')}
-          </Button>
         </Card>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
