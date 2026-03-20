@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
-import { LogOut, Users, DollarSign, Menu, X, ShoppingCart, CreditCard, Settings, Home, BarChart3, Ticket, RefreshCw } from 'lucide-react';
+import { LogOut, Users, DollarSign, Menu, X, ShoppingCart, CreditCard, Settings, Home, BarChart3, Ticket, RefreshCw, Camera } from 'lucide-react';
 import LeadsTable from './LeadsTable';
 import PricingManager from './PricingManager';
 import SubscribersTable from './SubscribersTable';
@@ -13,9 +13,10 @@ import PaymentSettingsManager from './PaymentSettingsManager';
 import AddonSettingsManager from './AddonSettingsManager';
 import AnalyticsDashboard from './AnalyticsDashboard';
 import CouponManager from './CouponManager';
+import SnapsManager from './SnapsManager';
 import logoWhite from '@/assets/logo-white.png';
 
-type Tab = 'analytics' | 'leads' | 'subscribers' | 'renewals' | 'pricing' | 'payment' | 'addons' | 'coupons';
+type Tab = 'analytics' | 'leads' | 'subscribers' | 'renewals' | 'pricing' | 'payment' | 'addons' | 'coupons' | 'snaps';
 
 const AdminDashboard = () => {
   const { t, isRTL } = useLanguage();
@@ -36,6 +37,7 @@ const AdminDashboard = () => {
     { id: 'coupons' as Tab, label: isRTL ? 'الكوبونات' : 'Coupons', icon: Ticket },
     { id: 'payment' as Tab, label: isRTL ? 'إعدادات الدفع' : 'Payment Settings', icon: CreditCard },
     { id: 'addons' as Tab, label: isRTL ? 'الإضافات' : 'Add-ons', icon: Settings },
+    { id: 'snaps' as Tab, label: isRTL ? 'أعمالنا' : 'Snaps', icon: Camera },
   ];
 
   return (
@@ -135,6 +137,7 @@ const AdminDashboard = () => {
           {activeTab === 'coupons' && <CouponManager />}
           {activeTab === 'payment' && <PaymentSettingsManager />}
           {activeTab === 'addons' && <AddonSettingsManager />}
+          {activeTab === 'snaps' && <SnapsManager />}
         </div>
       </main>
     </div>
