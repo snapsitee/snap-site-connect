@@ -7,19 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Trash2, Upload, Image, RefreshCw, Download } from 'lucide-react';
-
-import snap1 from '@/assets/snaps/Snap_1.jpg';
-import snap2 from '@/assets/snaps/Snap_2.jpg';
-import snap3 from '@/assets/snaps/Snap_3.jpg';
-import snap4 from '@/assets/snaps/Snap_4.jpg';
-import snap5 from '@/assets/snaps/Snap_5.jpg';
-import snap6 from '@/assets/snaps/Snap_6.jpg';
-import snap7 from '@/assets/snaps/Snap_7.jpg';
-import snap8 from '@/assets/snaps/Snap_8.jpg';
-import snap9 from '@/assets/snaps/Snap_9.jpg';
-
-const defaultSnapUrls = [snap1, snap2, snap3, snap4, snap5, snap6, snap7, snap8, snap9];
+import { Trash2, Upload, Image, RefreshCw } from 'lucide-react';
 
 interface Snap {
   id: string;
