@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -7,7 +7,19 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Plus, Trash2, GripVertical, Upload, Image } from 'lucide-react';
+import { Trash2, Upload, Image, RefreshCw, Download } from 'lucide-react';
+
+import snap1 from '@/assets/snaps/Snap_1.jpg';
+import snap2 from '@/assets/snaps/Snap_2.jpg';
+import snap3 from '@/assets/snaps/Snap_3.jpg';
+import snap4 from '@/assets/snaps/Snap_4.jpg';
+import snap5 from '@/assets/snaps/Snap_5.jpg';
+import snap6 from '@/assets/snaps/Snap_6.jpg';
+import snap7 from '@/assets/snaps/Snap_7.jpg';
+import snap8 from '@/assets/snaps/Snap_8.jpg';
+import snap9 from '@/assets/snaps/Snap_9.jpg';
+
+const defaultSnapUrls = [snap1, snap2, snap3, snap4, snap5, snap6, snap7, snap8, snap9];
 
 interface Snap {
   id: string;
@@ -23,6 +35,8 @@ const SnapsManager = () => {
   const [snaps, setSnaps] = useState<Snap[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [seeding, setSeeding] = useState(false);
+  const replaceInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
 
   useEffect(() => {
     fetchSnaps();
@@ -42,6 +56,43 @@ const SnapsManager = () => {
     setIsLoading(false);
   };
 
+  const uploadFileToStorage = async (file: Blob, fileName: string) => {
+    const { error: uploadError } = await supabase.storage
+      .from('snaps')
+      .upload(fileName, file, { upsert: true });
+    if (uploadError) throw uploadError;
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('snaps')
+      .getPublicUrl(fileName);
+    return publicUrl;
+  };
+
+  const handleSeedDefaults = async () => {
+    setSeeding(true);
+    try {
+      for (let i = 0; i < defaultSnapUrls.length; i++) {
+        const response = await fetch(defaultSnapUrls[i]);
+        const blob = await response.blob();
+        const fileName = `default-snap-${i + 1}-${Date.now()}.jpg`;
+        const publicUrl = await uploadFileToStorage(blob, fileName);
+
+        const { error } = await supabase.from('snaps').insert({
+          title: '',
+          image_url: publicUrl,
+          display_order: i,
+          is_active: true,
+        });
+        if (error) throw error;
+      }
+      toast.success(isRTL ? 'تم استيراد الصور بنجاح' : 'Default snaps imported successfully');
+      fetchSnaps();
+    } catch (error: any) {
+      toast.error(error.message || (isRTL ? 'فشل الاستيراد' : 'Failed to import'));
+    }
+    setSeeding(false);
+  };
+
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -51,29 +102,16 @@ const SnapsManager = () => {
       for (const file of Array.from(files)) {
         const fileExt = file.name.split('.').pop();
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+        const publicUrl = await uploadFileToStorage(file, fileName);
 
-        const { error: uploadError } = await supabase.storage
-          .from('snaps')
-          .upload(fileName, file);
-
-        if (uploadError) throw uploadError;
-
-        const { data: { publicUrl } } = supabase.storage
-          .from('snaps')
-          .getPublicUrl(fileName);
-
-        const { error: insertError } = await supabase
-          .from('snaps')
-          .insert({
-            title: '',
-            image_url: publicUrl,
-            display_order: snaps.length,
-            is_active: true,
-          });
-
-        if (insertError) throw insertError;
+        const { error } = await supabase.from('snaps').insert({
+          title: '',
+          image_url: publicUrl,
+          display_order: snaps.length,
+          is_active: true,
+        });
+        if (error) throw error;
       }
-
       toast.success(isRTL ? 'تم رفع الصور بنجاح' : 'Snaps uploaded successfully');
       fetchSnaps();
     } catch (error: any) {
@@ -83,11 +121,40 @@ const SnapsManager = () => {
     e.target.value = '';
   };
 
+  const handleReplace = async (snap: Snap, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      // Delete old file from storage
+      const urlParts = snap.image_url.split('/snaps/');
+      if (urlParts.length > 1) {
+        await supabase.storage.from('snaps').remove([decodeURIComponent(urlParts[1])]);
+      }
+
+      // Upload new file
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+      const publicUrl = await uploadFileToStorage(file, fileName);
+
+      const { error } = await supabase
+        .from('snaps')
+        .update({ image_url: publicUrl })
+        .eq('id', snap.id);
+      if (error) throw error;
+
+      toast.success(isRTL ? 'تم تغيير الصورة' : 'Image replaced successfully');
+      fetchSnaps();
+    } catch (error: any) {
+      toast.error(error.message || (isRTL ? 'فشل تغيير الصورة' : 'Failed to replace image'));
+    }
+    e.target.value = '';
+  };
+
   const handleDelete = async (snap: Snap) => {
-    // Extract file path from URL for storage deletion
     const urlParts = snap.image_url.split('/snaps/');
     if (urlParts.length > 1) {
-      await supabase.storage.from('snaps').remove([urlParts[1]]);
+      await supabase.storage.from('snaps').remove([decodeURIComponent(urlParts[1])]);
     }
 
     const { error } = await supabase.from('snaps').delete().eq('id', snap.id);
@@ -117,7 +184,6 @@ const SnapsManager = () => {
       .from('snaps')
       .update({ title: newTitle })
       .eq('id', snap.id);
-
     if (error) {
       toast.error(isRTL ? 'فشل التحديث' : 'Failed to update');
     }
@@ -142,13 +208,11 @@ const SnapsManager = () => {
             {isRTL ? 'أضف وعدّل صور أعمالك' : 'Add and manage your portfolio snaps'}
           </p>
         </div>
-        <div>
+        <div className="flex gap-2">
           <Label htmlFor="snap-upload" className="cursor-pointer">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-sm">
               <Upload className="w-4 h-4" />
-              {uploading
-                ? (isRTL ? 'جاري الرفع...' : 'Uploading...')
-                : (isRTL ? 'رفع صور' : 'Upload Snaps')}
+              {uploading ? (isRTL ? 'جاري الرفع...' : 'Uploading...') : (isRTL ? 'رفع صور' : 'Upload Snaps')}
             </div>
           </Label>
           <Input
@@ -164,11 +228,17 @@ const SnapsManager = () => {
       </div>
 
       {snaps.length === 0 ? (
-        <Card className="p-12 text-center">
-          <Image className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+        <Card className="p-12 text-center space-y-4">
+          <Image className="w-12 h-12 text-muted-foreground mx-auto" />
           <p className="text-muted-foreground">
-            {isRTL ? 'لا توجد صور بعد. ارفع صور أعمالك!' : 'No snaps yet. Upload your portfolio!'}
+            {isRTL ? 'لا توجد صور في قاعدة البيانات.' : 'No snaps in the database yet.'}
           </p>
+          <Button onClick={handleSeedDefaults} disabled={seeding} className="gap-2">
+            <Download className="w-4 h-4" />
+            {seeding
+              ? (isRTL ? 'جاري الاستيراد...' : 'Importing...')
+              : (isRTL ? 'استيراد الصور الافتراضية' : 'Import Default Snaps')}
+          </Button>
         </Card>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -204,14 +274,31 @@ const SnapsManager = () => {
                       {snap.is_active ? (isRTL ? 'ظاهر' : 'Visible') : (isRTL ? 'مخفي' : 'Hidden')}
                     </span>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleDelete(snap)}
-                    className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
+                  <div className="flex gap-1">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => replaceInputRefs.current[snap.id]?.click()}
+                      title={isRTL ? 'تغيير الصورة' : 'Replace image'}
+                    >
+                      <RefreshCw className="w-4 h-4" />
+                    </Button>
+                    <input
+                      ref={(el) => { replaceInputRefs.current[snap.id] = el; }}
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => handleReplace(snap, e)}
+                    />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleDelete(snap)}
+                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             </Card>
