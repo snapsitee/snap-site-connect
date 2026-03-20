@@ -16,7 +16,7 @@ import CouponManager from './CouponManager';
 import SnapsManager from './SnapsManager';
 import logoWhite from '@/assets/logo-white.png';
 
-type Tab = 'analytics' | 'leads' | 'subscribers' | 'renewals' | 'pricing' | 'payment' | 'addons' | 'coupons';
+type Tab = 'analytics' | 'leads' | 'subscribers' | 'renewals' | 'pricing' | 'payment' | 'addons' | 'coupons' | 'snaps';
 
 const AdminDashboard = () => {
   const { t, isRTL } = useLanguage();
