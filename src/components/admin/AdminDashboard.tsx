@@ -37,6 +37,7 @@ const AdminDashboard = () => {
     { id: 'coupons' as Tab, label: isRTL ? 'الكوبونات' : 'Coupons', icon: Ticket },
     { id: 'payment' as Tab, label: isRTL ? 'إعدادات الدفع' : 'Payment Settings', icon: CreditCard },
     { id: 'addons' as Tab, label: isRTL ? 'الإضافات' : 'Add-ons', icon: Settings },
+    { id: 'snaps' as Tab, label: isRTL ? 'أعمالنا' : 'Snaps', icon: Camera },
   ];
 
   return (
