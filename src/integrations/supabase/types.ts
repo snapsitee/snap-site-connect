@@ -371,6 +371,48 @@ export type Database = {
         }
         Relationships: []
       }
+      reviews: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          is_active: boolean
+          name_ar: string
+          name_en: string
+          rating: number
+          review_ar: string
+          review_en: string
+          role_ar: string
+          role_en: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          name_ar?: string
+          name_en?: string
+          rating?: number
+          review_ar?: string
+          review_en?: string
+          role_ar?: string
+          role_en?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          name_ar?: string
+          name_en?: string
+          rating?: number
+          review_ar?: string
+          review_en?: string
+          role_ar?: string
+          role_en?: string
+        }
+        Relationships: []
+      }
       snaps: {
         Row: {
           created_at: string
