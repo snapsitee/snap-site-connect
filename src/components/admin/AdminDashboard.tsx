@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
-import { LogOut, Users, DollarSign, Menu, X, ShoppingCart, CreditCard, Settings, Home, BarChart3, Ticket, RefreshCw } from 'lucide-react';
+import { LogOut, Users, DollarSign, Menu, X, ShoppingCart, CreditCard, Settings, Home, BarChart3, Ticket, RefreshCw, Camera } from 'lucide-react';
 import LeadsTable from './LeadsTable';
 import PricingManager from './PricingManager';
 import SubscribersTable from './SubscribersTable';
