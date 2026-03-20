@@ -6,6 +6,7 @@ import WhyUsSection from '@/components/sections/WhyUsSection';
 import WhatYouGetSection from '@/components/sections/WhatYouGetSection';
 import PricingSection from '@/components/sections/PricingSection';
 import SubscriptionExplanationSection from '@/components/sections/SubscriptionExplanationSection';
+import OurSnapsSection from '@/components/sections/OurSnapsSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import ContactSection from '@/components/sections/ContactSection';
 import FAQSection from '@/components/sections/FAQSection';
