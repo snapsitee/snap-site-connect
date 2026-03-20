@@ -24,6 +24,7 @@ const Index = forwardRef<HTMLDivElement>((_, ref) => {
         <WhatYouGetSection />
         <PricingSection />
         <SubscriptionExplanationSection />
+        <OurSnapsSection />
         <TestimonialsSection />
         <ContactSection />
         <FAQSection />

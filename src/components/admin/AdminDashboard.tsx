@@ -137,6 +137,7 @@ const AdminDashboard = () => {
           {activeTab === 'coupons' && <CouponManager />}
           {activeTab === 'payment' && <PaymentSettingsManager />}
           {activeTab === 'addons' && <AddonSettingsManager />}
+          {activeTab === 'snaps' && <SnapsManager />}
         </div>
       </main>
     </div>
