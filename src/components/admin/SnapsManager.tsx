@@ -55,30 +55,6 @@ const SnapsManager = () => {
     return publicUrl;
   };
 
-  const handleSeedDefaults = async () => {
-    setSeeding(true);
-    try {
-      for (let i = 0; i < defaultSnapUrls.length; i++) {
-        const response = await fetch(defaultSnapUrls[i]);
-        const blob = await response.blob();
-        const fileName = `default-snap-${i + 1}-${Date.now()}.jpg`;
-        const publicUrl = await uploadFileToStorage(blob, fileName);
-
-        const { error } = await supabase.from('snaps').insert({
-          title: '',
-          image_url: publicUrl,
-          display_order: i,
-          is_active: true,
-        });
-        if (error) throw error;
-      }
-      toast.success(isRTL ? 'تم استيراد الصور بنجاح' : 'Default snaps imported successfully');
-      fetchSnaps();
-    } catch (error: any) {
-      toast.error(error.message || (isRTL ? 'فشل الاستيراد' : 'Failed to import'));
-    }
-    setSeeding(false);
-  };
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
