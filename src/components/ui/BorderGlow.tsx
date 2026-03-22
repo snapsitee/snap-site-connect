@@ -81,6 +81,8 @@ const BorderGlow = ({
   fillOpacity = 0.5,
 }: BorderGlowProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const idleRafRef = useRef<number | null>(null);
+  const isHoveringRef = useRef(false);
 
   const getCenterOfElement = useCallback((el: HTMLElement) => {
     const { width, height } = el.getBoundingClientRect();
@@ -109,9 +111,37 @@ const BorderGlow = ({
     return degrees;
   }, [getCenterOfElement]);
 
+  const startIdleAnimation = useCallback(() => {
+    const card = cardRef.current;
+    if (!card) return;
+    card.classList.add('sweep-active');
+    card.style.setProperty('--edge-proximity', '70');
+    let angle = 0;
+    const speed = 0.4; // degrees per frame
+    function tick() {
+      if (isHoveringRef.current) return;
+      angle = (angle + speed) % 360;
+      card!.style.setProperty('--cursor-angle', `${angle}deg`);
+      idleRafRef.current = requestAnimationFrame(tick);
+    }
+    idleRafRef.current = requestAnimationFrame(tick);
+  }, []);
+
+  const stopIdleAnimation = useCallback(() => {
+    if (idleRafRef.current !== null) {
+      cancelAnimationFrame(idleRafRef.current);
+      idleRafRef.current = null;
+    }
+  }, []);
+
   const handlePointerMove = useCallback((e: React.PointerEvent) => {
     const card = cardRef.current;
     if (!card) return;
+    if (!isHoveringRef.current) {
+      isHoveringRef.current = true;
+      stopIdleAnimation();
+      card.classList.remove('sweep-active');
+    }
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -119,13 +149,26 @@ const BorderGlow = ({
     const angle = getCursorAngle(card, x, y);
     card.style.setProperty('--edge-proximity', `${(edge * 100).toFixed(3)}`);
     card.style.setProperty('--cursor-angle', `${angle.toFixed(3)}deg`);
-  }, [getEdgeProximity, getCursorAngle]);
+  }, [getEdgeProximity, getCursorAngle, stopIdleAnimation]);
+
+  const handlePointerLeave = useCallback(() => {
+    isHoveringRef.current = false;
+    startIdleAnimation();
+  }, [startIdleAnimation]);
+
+  // Start idle animation on mount
+  useEffect(() => {
+    startIdleAnimation();
+    return () => stopIdleAnimation();
+  }, [startIdleAnimation, stopIdleAnimation]);
 
   useEffect(() => {
     if (!animated || !cardRef.current) return;
     const card = cardRef.current;
     const angleStart = 110;
     const angleEnd = 465;
+    stopIdleAnimation();
+    isHoveringRef.current = true;
     card.classList.add('sweep-active');
     card.style.setProperty('--cursor-angle', `${angleStart}deg`);
     animateValue({ duration: 500, onUpdate: v => card.style.setProperty('--edge-proximity', `${v}`) });
@@ -137,9 +180,13 @@ const BorderGlow = ({
     }});
     animateValue({ ease: easeInCubic, delay: 2500, duration: 1500, start: 100, end: 0,
       onUpdate: v => card.style.setProperty('--edge-proximity', `${v}`),
-      onEnd: () => card.classList.remove('sweep-active'),
+      onEnd: () => {
+        card.classList.remove('sweep-active');
+        isHoveringRef.current = false;
+        startIdleAnimation();
+      },
     });
-  }, [animated]);
+  }, [animated, stopIdleAnimation, startIdleAnimation]);
 
   const glowVars = buildGlowVars(glowColor, glowIntensity);
 
@@ -147,6 +194,7 @@ const BorderGlow = ({
     <div
       ref={cardRef}
       onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
       className={`border-glow-card ${className}`}
       style={{
         '--card-bg': backgroundColor,
