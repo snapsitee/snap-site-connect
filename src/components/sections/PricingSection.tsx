@@ -7,6 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Badge } from '@/components/ui/badge';
 import ScrollReveal from '@/components/ui/scroll-reveal';
 import { motion, useInView } from 'framer-motion';
+import BorderGlow from '@/components/ui/BorderGlow';
 
 interface Pricing {
   setup_fee: number;
@@ -82,14 +83,25 @@ const PricingSection = () => {
           </ScrollReveal>
 
           <div className="max-w-lg mx-auto" ref={cardRef}>
+            <BorderGlow
+              edgeSensitivity={30}
+              glowColor="290 88 51"
+              backgroundColor="hsl(222 47% 6%)"
+              borderRadius={24}
+              glowRadius={40}
+              glowIntensity={1}
+              coneSpread={25}
+              animated={false}
+              colors={['#DC18EE', '#1E8CED', '#a855f7']}
+              fillOpacity={0.4}
+            >
             <motion.div 
               initial={{ opacity: 0, y: 40, scale: 0.95 }}
               animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
               transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-              className="glass rounded-3xl p-8 relative overflow-hidden gradient-border hover:shadow-2xl hover:shadow-gradient-purple/10 transition-shadow duration-500"
+              className="rounded-3xl p-8 relative overflow-hidden"
             >
               {/* Decorative elements */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gradient-purple via-gradient-blue to-gradient-purple" />
               <div className="absolute -top-20 -right-20 w-40 h-40 bg-gradient-purple/20 rounded-full blur-3xl" />
               
               {/* Discount badge */}
@@ -190,6 +202,7 @@ const PricingSection = () => {
                 </Button>
               </motion.div>
             </motion.div>
+            </BorderGlow>
           </div>
         </div>
       </section>
