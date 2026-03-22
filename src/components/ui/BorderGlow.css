@@ -34,6 +34,7 @@
   z-index: -1;
 }
 
+/* Hide glow only when not hovered AND not in sweep/idle animation */
 .border-glow-card:not(:hover):not(.sweep-active)::before,
 .border-glow-card:not(:hover):not(.sweep-active)::after,
 .border-glow-card:not(:hover):not(.sweep-active) > .edge-light {
