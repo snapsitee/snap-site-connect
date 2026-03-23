@@ -180,7 +180,7 @@ export const translations = {
     'nav.whyUs': 'لماذا نحن',
     'nav.pricing': 'الأسعار',
     'nav.contact': 'تواصل معنا',
-    'nav.getStarted': 'ابدأ الآن',
+    'nav.getStarted': 'احجز مكالمة',
     
     // Hero Section
     'hero.title': 'نقوم بسد الفجوة بين التصميم الإبداعي والتنفيذ التقني',
