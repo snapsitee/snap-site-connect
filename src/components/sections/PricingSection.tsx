@@ -167,22 +167,25 @@ const PricingSection = () => {
                     <span className="text-muted-foreground">{t('pricing.perMonth')}</span>
                   </div>
                 </div>
-              </motion.div>
+              {/* Comparison text */}
+              <p className={`text-center text-muted-foreground italic mb-8 ${isRTL ? 'font-cairo' : ''}`}>
+                {isRTL ? 'مقارنة بالشركات اللي بتاخد +٤٠,٠٠٠ ج.م مقدم' : 'vs. agencies charging 40,000+ EGP upfront'}
+              </p>
 
               {/* Features */}
-              <div className="space-y-4 mb-8">
+              <div className="space-y-4 mb-8" dir={isRTL ? 'rtl' : 'ltr'}>
                 {features.map((feature, index) => (
                   <motion.div 
                     key={index} 
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.4, delay: 0.4 + index * 0.05 }}
-                    className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}
+                    className="flex items-center gap-3"
                   >
                     <div className="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0 shadow-md shadow-gradient-purple/20">
                       <Check className="w-3.5 h-3.5 text-white" />
                     </div>
-                    <span className={isRTL ? 'font-cairo' : 'font-sans'}>{feature}</span>
+                    <span className={`${isRTL ? 'font-cairo' : 'font-sans'}`}>{isRTL ? feature.ar : feature.en}</span>
                   </motion.div>
                 ))}
               </div>
