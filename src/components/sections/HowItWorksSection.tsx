@@ -57,7 +57,7 @@ const HowItWorksSection = () => {
           </p>
         </ScrollReveal>
 
-        <StaggerContainer className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto" dir={isRTL ? 'rtl' : 'ltr'}>
+        <StaggerContainer className={`grid md:grid-cols-3 gap-8 max-w-5xl mx-auto ${isRTL ? 'direction-rtl' : ''}`}>
           {steps.map((step, index) => (
             <StaggerItem key={index}>
               <div className="relative h-full">
