@@ -169,10 +169,6 @@ const PricingSection = () => {
                 </div>
               </motion.div>
 
-              {/* Comparison text */}
-              <p className={`text-center text-muted-foreground italic mb-8 ${isRTL ? 'font-cairo' : ''}`}>
-                {isRTL ? 'مقارنة بالشركات اللي بتاخد +٤٠,٠٠٠ ج.م مقدم' : 'vs. agencies charging 40,000+ EGP upfront'}
-              </p>
 
               {/* Features */}
               <div className="space-y-4 mb-8" dir={isRTL ? 'rtl' : 'ltr'}>
