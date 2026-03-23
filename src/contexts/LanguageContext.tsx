@@ -131,9 +131,9 @@ export const translations = {
     'faq.a5': 'Yes — no contracts, no penalties. If you ever want to stop, just let us know. But once you see the results, you won\'t want to.',
     
     // Final CTA
-    'cta.title': 'Ready to Transform Your Online Presence?',
-    'cta.subtitle': 'Join hundreds of businesses already growing with SnapSite',
-    'cta.button': 'Get Started Today',
+    'cta.title': 'Stop Losing Customers Today',
+    'cta.subtitle': 'Book a call and see how SnapSite can grow your business in just 7 days',
+    'cta.button': 'Book a Call',
     
     // Footer
     'footer.slogan': 'Engineering Your Digital Success',
