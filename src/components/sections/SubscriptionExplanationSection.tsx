@@ -5,6 +5,7 @@ import { RefreshCw } from 'lucide-react';
 import ScrollReveal from '@/components/ui/scroll-reveal';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import BorderGlow from '@/components/ui/BorderGlow';
 
 const SubscriptionExplanationSection = () => {
   const { t, isRTL } = useLanguage();
@@ -16,31 +17,37 @@ const SubscriptionExplanationSection = () => {
       icon: CreditCard,
       title: t('subscription.step1.title'),
       desc: t('subscription.step1.desc'),
-      color: 'from-gradient-purple to-pink-500',
+      colors: ['#c084fc', '#f472b6', '#c084fc'],
     },
     {
       icon: Package,
       title: t('subscription.step2.title'),
       desc: t('subscription.step2.desc'),
-      color: 'from-gradient-blue to-cyan-500',
+      colors: ['#38bdf8', '#06b6d4', '#38bdf8'],
     },
     {
       icon: Calendar,
       title: t('subscription.step3.title'),
       desc: t('subscription.step3.desc'),
-      color: 'from-gradient-purple to-gradient-blue',
+      colors: ['#a78bfa', '#818cf8', '#38bdf8'],
     },
     {
       icon: XCircle,
       title: t('subscription.step4.title'),
       desc: t('subscription.step4.desc'),
-      color: 'from-orange-500 to-red-500',
+      colors: ['#f97316', '#ef4444', '#f97316'],
     },
+  ];
+
+  const iconBgColors = [
+    'bg-gradient-to-br from-pink-500 to-purple-500',
+    'bg-gradient-to-br from-cyan-400 to-blue-500',
+    'bg-gradient-to-br from-purple-400 to-blue-500',
+    'bg-gradient-to-br from-orange-500 to-red-500',
   ];
 
   return (
     <section className="py-28 relative overflow-hidden">
-      {/* Background effect */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-gradient-purple/5 to-gradient-blue/5 rounded-full blur-3xl" />
       </div>
@@ -59,56 +66,66 @@ const SubscriptionExplanationSection = () => {
           </p>
         </ScrollReveal>
 
-        <div ref={timelineRef} className={`max-w-4xl mx-auto ${isRTL ? 'direction-rtl' : ''}`}>
-          <div className="relative">
-            {/* Animated vertical line */}
-            <motion.div 
-              initial={{ scaleY: 0 }}
-              animate={isInView ? { scaleY: 1 } : {}}
-              transition={{ duration: 1, ease: 'easeOut' }}
-              style={{ transformOrigin: 'top' }}
-              className={`absolute ${isRTL ? 'right-6' : 'left-6'} top-0 bottom-0 w-0.5 bg-gradient-to-b from-gradient-purple to-gradient-blue md:left-1/2 md:-translate-x-1/2 md:right-auto`} 
-            />
-
+        <div ref={timelineRef} className="max-w-4xl mx-auto">
+          <div className="relative flex flex-col items-center">
             {steps.map((step, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.2 + index * 0.15 }}
-                className={`relative flex items-start gap-6 mb-12 last:mb-0 ${
-                  isRTL ? 'flex-row-reverse' : ''
-                } ${
-                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
-              >
-                <motion.div 
-                  initial={{ scale: 0 }}
-                  animate={isInView ? { scale: 1 } : {}}
-                  transition={{ 
-                    duration: 0.4, 
-                    delay: 0.3 + index * 0.15,
-                    type: 'spring',
-                    stiffness: 200
-                  }}
-                  className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center z-10 flex-shrink-0 shadow-lg ${
-                    isRTL ? '' : ''
-                  } md:absolute md:left-1/2 md:-translate-x-1/2`}
+              <div key={index} className="w-full flex flex-col items-center">
+                {/* Card */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.2 + index * 0.15 }}
+                  className="w-full relative"
                 >
-                  <step.icon className="w-7 h-7 text-white" />
+                  <BorderGlow
+                    className="w-full"
+                    borderRadius={20}
+                    glowRadius={30}
+                    glowIntensity={0.8}
+                    colors={step.colors}
+                    fillOpacity={0.3}
+                    backgroundColor="hsl(var(--card))"
+                  >
+                    <div className={`p-6 md:p-8 flex items-center gap-5 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                      {/* Text content */}
+                      <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+                        <h3 className={`text-xl font-bold mb-2 ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+                          {step.title}
+                        </h3>
+                        <p className={`text-muted-foreground leading-relaxed ${isRTL ? 'font-cairo' : ''}`}>
+                          {step.desc}
+                        </p>
+                      </div>
+
+                      {/* Icon */}
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={isInView ? { scale: 1 } : {}}
+                        transition={{
+                          duration: 0.4,
+                          delay: 0.3 + index * 0.15,
+                          type: 'spring',
+                          stiffness: 200,
+                        }}
+                        className={`w-14 h-14 rounded-2xl ${iconBgColors[index]} flex items-center justify-center flex-shrink-0 shadow-lg`}
+                      >
+                        <step.icon className="w-7 h-7 text-white" />
+                      </motion.div>
+                    </div>
+                  </BorderGlow>
                 </motion.div>
 
-                <div className={`flex-1 glass rounded-2xl p-6 gradient-border hover:scale-[1.02] hover:-translate-y-1 transition-all duration-500 hover:shadow-xl hover:shadow-gradient-purple/5 ${
-                  index % 2 === 0 ? 'md:mr-auto md:ml-0 md:pr-20' : 'md:ml-auto md:mr-0 md:pl-20'
-                } md:w-[calc(50%-3rem)]`}>
-                  <h3 className={`text-xl font-semibold mb-3 ${isRTL ? 'font-cairo text-right' : 'font-sans'}`}>
-                    {step.title}
-                  </h3>
-                  <p className={`text-muted-foreground leading-relaxed ${isRTL ? 'text-right' : ''}`}>
-                    {step.desc}
-                  </p>
-                </div>
-              </motion.div>
+                {/* Vertical connector line */}
+                {index < steps.length - 1 && (
+                  <motion.div
+                    initial={{ scaleY: 0 }}
+                    animate={isInView ? { scaleY: 1 } : {}}
+                    transition={{ duration: 0.4, delay: 0.4 + index * 0.15 }}
+                    style={{ transformOrigin: 'top' }}
+                    className="w-0.5 h-12 bg-gradient-to-b from-gradient-purple/60 to-gradient-blue/60"
+                  />
+                )}
+              </div>
             ))}
           </div>
         </div>
