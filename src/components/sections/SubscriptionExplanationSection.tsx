@@ -5,7 +5,7 @@ import { RefreshCw } from 'lucide-react';
 import ScrollReveal from '@/components/ui/scroll-reveal';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import BorderGlow from '@/components/ui/BorderGlow';
+
 
 const SubscriptionExplanationSection = () => {
   const { t, isRTL } = useLanguage();
