@@ -37,7 +37,7 @@ const WhyUsSection = () => {
       titleEn: 'Ongoing Support Included',
       titleAr: 'دعم مستمر معاك',
       descEn: 'Updates, fixes, and improvements — we handle everything so you focus on your business',
-      descAr: 'تحديثات وإصلاحات وتحسينات — نتولى كل حاجة عشان تركز على شغلك',
+      descAr: 'تحديثات وإصلاحات وتحسينات — بنتولى كل حاجة عشان تركز على شغلك',
       iconBg: 'from-purple-500 to-fuchsia-500',
     },
     {
