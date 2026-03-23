@@ -71,12 +71,11 @@ const SubscriptionExplanationSection = () => {
                 >
                   <BorderGlow
                     className="w-full"
+                    glowColor="270 70 60"
+                    backgroundColor="hsl(222 47% 6%)"
                     borderRadius={20}
                     glowRadius={30}
                     glowIntensity={0.8}
-                    colors={['#c084fc', '#f472b6', '#38bdf8']}
-                    fillOpacity={0.3}
-                    backgroundColor="hsl(var(--card))"
                   >
                     <div className={`p-6 md:p-8 flex items-center gap-5 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                       <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
