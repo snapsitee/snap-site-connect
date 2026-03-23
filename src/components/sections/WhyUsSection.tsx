@@ -1,87 +1,109 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Zap, CreditCard, Wallet, Layout, Headphones, Shield } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { Zap, Wallet, Target, Headphones, TrendingUp, ShieldCheck } from 'lucide-react';
 import ScrollReveal from '@/components/ui/scroll-reveal';
 import StaggerContainer, { StaggerItem } from '@/components/ui/stagger-container';
+import BorderGlow from '@/components/ui/BorderGlow';
 
 const WhyUsSection = () => {
-  const { t, isRTL } = useLanguage();
+  const { isRTL } = useLanguage();
 
   const features = [
     {
       icon: Zap,
-      title: t('whyUs.fastDelivery.title'),
-      desc: t('whyUs.fastDelivery.desc'),
-      gradient: 'from-yellow-500 to-orange-500',
-    },
-    {
-      icon: CreditCard,
-      title: t('whyUs.subscription.title'),
-      desc: t('whyUs.subscription.desc'),
-      gradient: 'from-gradient-purple to-pink-500',
+      titleEn: 'Ready in 7 Days, Not Months',
+      titleAr: 'جاهز في ٧ أيام مش شهور',
+      descEn: 'While agencies take weeks, your system is live and getting you customers in just 7 days',
+      descAr: 'بينما الشركات بتاخد أسابيع، نظامك بيكون شغّال وبيجيبلك عملاء في ٧ أيام بس',
+      iconBg: 'from-amber-500 to-orange-500',
     },
     {
       icon: Wallet,
-      title: t('whyUs.noUpfront.title'),
-      desc: t('whyUs.noUpfront.desc'),
-      gradient: 'from-green-500 to-emerald-500',
+      titleEn: 'No Huge Upfront Cost',
+      titleAr: 'من غير تكاليف ضخمة مقدماً',
+      descEn: 'Start with a small setup fee instead of paying 40,000+ EGP upfront to an agency',
+      descAr: 'ابدأ برسوم إعداد بسيطة بدل ما تدفع +٤٠,٠٠٠ ج.م مقدم لشركة',
+      iconBg: 'from-emerald-500 to-green-600',
     },
     {
-      icon: Layout,
-      title: t('whyUs.professionalUI.title'),
-      desc: t('whyUs.professionalUI.desc'),
-      gradient: 'from-gradient-blue to-cyan-500',
+      icon: Target,
+      titleEn: 'Built to Get You Customers',
+      titleAr: 'مصمم يجيبلك عملاء',
+      descEn: 'Every page, every button is designed to convert visitors into paying customers',
+      descAr: 'كل صفحة وكل زر مصمم يحوّل الزوار لعملاء يدفعوا',
+      iconBg: 'from-pink-500 to-rose-500',
     },
     {
       icon: Headphones,
-      title: t('whyUs.support.title'),
-      desc: t('whyUs.support.desc'),
-      gradient: 'from-purple-500 to-gradient-purple',
+      titleEn: 'Ongoing Support Included',
+      titleAr: 'دعم مستمر معاك',
+      descEn: 'Updates, fixes, and improvements — we handle everything so you focus on your business',
+      descAr: 'تحديثات وإصلاحات وتحسينات — نتولى كل حاجة عشان تركز على شغلك',
+      iconBg: 'from-purple-500 to-fuchsia-500',
     },
     {
-      icon: Shield,
-      title: isRTL ? 'آمان مضمون' : 'Secure & Reliable',
-      desc: isRTL ? 'نضمن أمان موقعك وبياناتك بأحدث التقنيات' : 'We ensure your website and data are protected with the latest security standards',
-      gradient: 'from-gradient-blue to-indigo-500',
+      icon: TrendingUp,
+      titleEn: 'Designed to Convert',
+      titleAr: 'مصمم للنتائج',
+      descEn: 'Not just a pretty website — a system engineered for real business results',
+      descAr: 'مش مجرد موقع حلو — نظام مهندس لنتائج بيزنس حقيقية',
+      iconBg: 'from-cyan-500 to-teal-500',
+    },
+    {
+      icon: ShieldCheck,
+      titleEn: 'Secure & Reliable',
+      titleAr: 'آمن وموثوق',
+      descEn: 'We ensure your website and data are protected with the latest security standards',
+      descAr: 'بنتأكد إن موقعك وبياناتك محمية بأحدث معايير الأمان',
+      iconBg: 'from-blue-500 to-indigo-500',
     },
   ];
 
   return (
     <section id="why-us" className="py-28 relative">
-      {/* Background effect */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-gradient-to-r from-gradient-purple/5 to-gradient-blue/5 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
         <ScrollReveal className="text-center mb-20">
-          <Badge variant="outline" className="mb-4 border-gradient-blue/30 text-gradient-blue bg-gradient-blue/5">
-            {isRTL ? 'لماذا نحن' : 'Why Choose Us'}
-          </Badge>
-          <h2 className={`text-3xl md:text-5xl font-bold mb-4 ${isRTL ? 'font-cairo' : 'font-sans'}`}>
-            <span className="gradient-text">{t('whyUs.title')}</span>
+          <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-gradient-purple/10 border border-gradient-purple/30 text-gradient-purple mb-6">
+            {isRTL ? 'ليه SnapSite' : 'Why SnapSite'}
+          </span>
+          <h2 className={`text-3xl md:text-5xl font-bold mb-4 gradient-text ${isRTL ? 'font-cairo' : ''}`}>
+            {isRTL ? 'إيه اللي يخلّي SnapSite مختلف' : 'Why SnapSite Is Different'}
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            {t('whyUs.subtitle')}
+          <p className={`text-muted-foreground text-lg max-w-2xl mx-auto ${isRTL ? 'font-cairo' : ''}`}>
+            {isRTL ? 'مصمم للنتائج، مش بس الشكل' : 'Built for results, not just aesthetics'}
           </p>
         </ScrollReveal>
 
         <StaggerContainer staggerDelay={0.08} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {features.map((feature, index) => (
             <StaggerItem key={index}>
-              <div className="glass rounded-2xl p-6 transition-all duration-500 hover:scale-[1.03] hover:-translate-y-1 group gradient-border h-full hover:shadow-xl hover:shadow-gradient-purple/5">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg`}>
-                    <feature.icon className="w-7 h-7 text-white" />
+              <BorderGlow
+                glowColor="270 70 60"
+                backgroundColor="hsl(222 47% 6%)"
+                colors={['#DC18EE', '#1E8CED', '#a855f7']}
+                borderRadius={16}
+                glowRadius={30}
+                glowIntensity={0.8}
+                fillOpacity={0.3}
+                coneSpread={20}
+              >
+                <div className={`p-6 h-full ${isRTL ? 'font-cairo' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
+                  <div className={`flex items-center gap-4 mb-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.iconBg} flex items-center justify-center shrink-0 shadow-lg`}>
+                      <feature.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold text-foreground">
+                      {isRTL ? feature.titleAr : feature.titleEn}
+                    </h3>
                   </div>
-                  <h3 className={`text-lg font-semibold ${isRTL ? 'font-cairo' : 'font-sans'}`}>
-                    {feature.title}
-                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {isRTL ? feature.descAr : feature.descEn}
+                  </p>
                 </div>
-                <p className="text-muted-foreground leading-relaxed">
-                  {feature.desc}
-                </p>
-              </div>
+              </BorderGlow>
             </StaggerItem>
           ))}
         </StaggerContainer>
