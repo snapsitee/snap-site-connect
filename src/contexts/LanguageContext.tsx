@@ -225,7 +225,7 @@ export const translations = {
     
     // Pricing
     'pricing.title': 'استثمر في النتائج، مش في التكاليف المقدمة',
-    'pricing.subtitle': 'كل ما تحتاجه لتبدأ في الحصول على عملاء عبر الإنترنت',
+    'pricing.subtitle': 'كل اللي محتاجه عشان تبدأ تجيب عملاء أونلاين',
     'pricing.cardTitle': 'اشتراك SnapSite',
     'pricing.setupFee': 'رسوم الإعداد',
     'pricing.oneTime': 'مرة واحدة',
