@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/sections/HeroSection';
+import PainPointsSection from '@/components/sections/PainPointsSection';
 import HowItWorksSection from '@/components/sections/HowItWorksSection';
 import WhyUsSection from '@/components/sections/WhyUsSection';
 import WhatYouGetSection from '@/components/sections/WhatYouGetSection';
