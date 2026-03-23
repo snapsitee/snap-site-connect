@@ -5,7 +5,7 @@ import { Sparkles } from 'lucide-react';
 import LiquidEther from '@/components/LiquidEther';
 
 const HeroSection = () => {
-  const { t, isRTL } = useLanguage();
+  const { isRTL } = useLanguage();
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -16,7 +16,6 @@ const HeroSection = () => {
 
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
-      {/* LiquidEther animated background */}
       <div className="absolute inset-0">
         <LiquidEther
           colors={['#DC18EE', '#1E8CED', '#B19EEF']}
@@ -41,7 +40,7 @@ const HeroSection = () => {
           >
             <Sparkles className="w-4 h-4 text-gradient-purple" />
             <span className="text-sm font-medium text-gradient-purple">
-              {isRTL ? 'مواقع احترافية بسرعة' : 'Professional Websites Fast'}
+              {isRTL ? 'مواقع إلكترونية ذات معدل تحويل عالٍ' : 'High Conversion Websites'}
             </span>
           </motion.div>
 
@@ -51,7 +50,11 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className={`text-4xl md:text-5xl lg:text-7xl font-bold mb-6 leading-tight ${isRTL ? 'font-cairo' : 'font-sans'}`}
           >
-            <span className="gradient-text">{t('hero.title')}</span>
+            <span className="gradient-text">
+              {isRTL
+                ? 'حوّل زوّارك لعملاء يدفعوا — في ٧ أيام بس'
+                : 'Turn Your Visitors Into Paying Customers — In Just 7 Days'}
+            </span>
           </motion.h1>
           
           <motion.p
@@ -60,7 +63,9 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.5 }}
             className={`text-lg md:text-xl lg:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto ${isRTL ? 'font-cairo' : 'font-sans'}`}
           >
-            {t('hero.subtitle')}
+            {isRTL
+              ? 'SnapSite بيعملك نظام أونلاين كامل — موقع، حجوزات، واستقبال عملاء — عشان تبطّل تخسر عملاء وتبدأ تكبر.'
+              : 'SnapSite builds you a complete online system — website, booking, and lead capture — so you stop losing customers and start growing.'}
           </motion.p>
 
           <motion.div
@@ -74,7 +79,7 @@ const HeroSection = () => {
               onClick={() => scrollToSection('contact')}
               className="gradient-bg hover:opacity-90 transition-all hover:scale-105 text-lg px-8 py-6 shadow-lg shadow-gradient-purple/25"
             >
-              {t('hero.cta.start')}
+              {isRTL ? 'احجز مكالمة' : 'Book a Call'}
             </Button>
             <Button
               size="lg"
@@ -82,7 +87,7 @@ const HeroSection = () => {
               onClick={() => scrollToSection('pricing')}
               className="border-gradient-purple/50 hover:bg-gradient-purple/10 hover:border-gradient-purple text-lg px-8 py-6 transition-all hover:scale-105"
             >
-              {t('hero.cta.pricing')}
+              {isRTL ? 'خطة الأسعار' : 'Pricing Plan'}
             </Button>
           </motion.div>
 
@@ -94,9 +99,9 @@ const HeroSection = () => {
             className="mt-16 grid grid-cols-3 gap-8 max-w-xl mx-auto"
           >
             {[
-              { value: isRTL ? '+٥٠' : '50+', label: isRTL ? 'مشروع مكتمل' : 'Projects Done' },
-              { value: isRTL ? '٧-١٠ أيام' : '7-10 Days', label: isRTL ? 'وقت التسليم' : 'Delivery Time' },
-              { value: isRTL ? '+٩٨%' : '98%', label: isRTL ? 'رضا العملاء' : 'Satisfaction' },
+              { value: isRTL ? '+٥٠' : '50+', label: isRTL ? 'بيزنس خدمناهم' : 'Businesses Served' },
+              { value: isRTL ? '٧ أيام' : '7 Days', label: isRTL ? 'للإطلاق' : 'To Launch' },
+              { value: isRTL ? '+٩٨%' : '98%', label: isRTL ? 'رضا العملاء' : 'Client Satisfaction' },
             ].map((stat, i) => (
               <motion.div
                 key={i}
@@ -113,14 +118,12 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Bottom gradient line with animation */}
       <motion.div
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         transition={{ duration: 1.5, delay: 1 }}
         className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gradient-purple/50 to-transparent"
       />
-      
     </section>
   );
 };
