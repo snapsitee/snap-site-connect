@@ -3,7 +3,6 @@ import { Search, MousePointerClick, ClipboardCheck } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import ScrollReveal from '@/components/ui/scroll-reveal';
 import StaggerContainer, { StaggerItem } from '@/components/ui/stagger-container';
-import BorderGlow from '@/components/ui/BorderGlow';
 
 const HowItWorksSection = () => {
   const { t, isRTL } = useLanguage();
