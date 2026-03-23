@@ -1,5 +1,5 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Globe, MousePointerClick, LayoutDashboard, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Globe, MousePointerClick, LayoutDashboard } from 'lucide-react';
 import ScrollReveal from '@/components/ui/scroll-reveal';
 import StaggerContainer, { StaggerItem } from '@/components/ui/stagger-container';
 import BorderGlow from '@/components/ui/BorderGlow';
@@ -82,17 +82,6 @@ const SnapSiteSystemSection = () => {
           ))}
         </StaggerContainer>
 
-        <ScrollReveal delay={0.3}>
-          <div className="flex justify-center mt-12">
-            <a
-              href="#how-it-works"
-              className="inline-flex items-center gap-2 px-8 py-3 rounded-full font-semibold text-white gradient-bg hover:opacity-90 transition-opacity shadow-lg shadow-gradient-purple/25"
-            >
-              {isRTL ? 'شوف إزاي بيشتغل' : 'See How It Works'}
-              {isRTL ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
-            </a>
-          </div>
-        </ScrollReveal>
       </div>
     </section>
   );
