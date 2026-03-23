@@ -182,13 +182,13 @@ const OurSnapsSection = () => {
                 onClick={prev}
                 className={`absolute top-1/2 -translate-y-1/2 ${isRTL ? 'right-0 md:right-4' : 'left-0 md:left-4'} z-20 w-10 h-10 rounded-full bg-card/80 backdrop-blur-sm border border-border/50 flex items-center justify-center text-foreground hover:bg-primary/20 hover:border-primary/40 transition-all`}
               >
-                <ChevronLeft className="w-5 h-5" />
+                {isRTL ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
               </button>
               <button
                 onClick={next}
                 className={`absolute top-1/2 -translate-y-1/2 ${isRTL ? 'left-0 md:left-4' : 'right-0 md:right-4'} z-20 w-10 h-10 rounded-full bg-card/80 backdrop-blur-sm border border-border/50 flex items-center justify-center text-foreground hover:bg-primary/20 hover:border-primary/40 transition-all`}
               >
-                <ChevronRight className="w-5 h-5" />
+                {isRTL ? <ChevronLeft className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
               </button>
             </>
           )}
