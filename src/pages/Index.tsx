@@ -20,6 +20,7 @@ const Index = forwardRef<HTMLDivElement>((_, ref) => {
       <Navbar />
       <main>
         <HeroSection />
+        <PainPointsSection />
         <HowItWorksSection />
         <WhyUsSection />
         <WhatYouGetSection />
