@@ -3,7 +3,6 @@ import { Search, MousePointerClick, ClipboardCheck } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import ScrollReveal from '@/components/ui/scroll-reveal';
 import StaggerContainer, { StaggerItem } from '@/components/ui/stagger-container';
-import BorderGlow from '@/components/ui/BorderGlow';
 
 const HowItWorksSection = () => {
   const { t, isRTL } = useLanguage();
@@ -61,16 +60,7 @@ const HowItWorksSection = () => {
           {steps.map((step, index) => (
             <StaggerItem key={index}>
               <div className="relative h-full">
-                <BorderGlow
-                  glowColor="270 70 60"
-                  backgroundColor="hsl(222 47% 6%)"
-                  colors={['#DC18EE', '#1E8CED', '#a855f7']}
-                  borderRadius={16}
-                  glowRadius={30}
-                  glowIntensity={0.8}
-                  fillOpacity={0.3}
-                  coneSpread={20}
-                >
+                <div className={`gradient-border rounded-2xl`}>
                   <div className={`p-8 flex flex-col items-center text-center gap-4 min-h-[280px] relative ${isRTL ? 'font-cairo' : ''}`}>
                     {/* Step number */}
                     <div className={`absolute top-4 ${isRTL ? 'left-4' : 'right-4'} w-9 h-9 rounded-full bg-muted/80 backdrop-blur-sm flex items-center justify-center text-sm font-bold border border-border`}>
@@ -88,7 +78,7 @@ const HowItWorksSection = () => {
                       {isRTL ? step.descAr : step.descEn}
                     </p>
                   </div>
-                </BorderGlow>
+                </div>
 
                 {/* Connector line */}
                 {index < steps.length - 1 && (
