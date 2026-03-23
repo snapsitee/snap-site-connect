@@ -83,18 +83,7 @@ const PricingSection = () => {
           </ScrollReveal>
 
           <div className="max-w-lg mx-auto" ref={cardRef}>
-            <BorderGlow
-              edgeSensitivity={30}
-              glowColor="290 88 51"
-              backgroundColor="hsl(222 47% 6%)"
-              borderRadius={24}
-              glowRadius={40}
-              glowIntensity={1}
-              coneSpread={25}
-              animated={false}
-              colors={['#DC18EE', '#1E8CED', '#a855f7']}
-              fillOpacity={0.4}
-            >
+            <div className="gradient-border rounded-3xl">
             <motion.div 
               initial={{ opacity: 0, y: 40, scale: 0.95 }}
               animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
