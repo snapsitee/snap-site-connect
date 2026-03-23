@@ -82,7 +82,7 @@ const SubscriptionExplanationSection = () => {
                     borderRadius={20}
                     glowRadius={30}
                     glowIntensity={0.8}
-                    colors={step.colors}
+                    colors={['#c084fc', '#f472b6', '#38bdf8']}
                     fillOpacity={0.3}
                     backgroundColor="hsl(var(--card))"
                   >
