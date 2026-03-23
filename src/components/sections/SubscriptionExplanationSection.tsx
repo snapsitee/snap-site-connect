@@ -17,25 +17,25 @@ const SubscriptionExplanationSection = () => {
       icon: CreditCard,
       title: t('subscription.step1.title'),
       desc: t('subscription.step1.desc'),
-      colors: ['#c084fc', '#f472b6', '#c084fc'],
+      iconBg: 'bg-gradient-to-br from-pink-500 to-purple-500',
     },
     {
       icon: Package,
       title: t('subscription.step2.title'),
       desc: t('subscription.step2.desc'),
-      colors: ['#38bdf8', '#06b6d4', '#38bdf8'],
+      iconBg: 'bg-gradient-to-br from-cyan-400 to-blue-500',
     },
     {
       icon: Calendar,
       title: t('subscription.step3.title'),
       desc: t('subscription.step3.desc'),
-      colors: ['#a78bfa', '#818cf8', '#38bdf8'],
+      iconBg: 'bg-gradient-to-br from-purple-400 to-blue-500',
     },
     {
       icon: XCircle,
       title: t('subscription.step4.title'),
       desc: t('subscription.step4.desc'),
-      colors: ['#f97316', '#ef4444', '#f97316'],
+      iconBg: 'bg-gradient-to-br from-orange-500 to-red-500',
     },
   ];
 
