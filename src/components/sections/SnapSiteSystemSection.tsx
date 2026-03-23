@@ -2,7 +2,6 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Globe, MousePointerClick, LayoutDashboard } from 'lucide-react';
 import ScrollReveal from '@/components/ui/scroll-reveal';
 import StaggerContainer, { StaggerItem } from '@/components/ui/stagger-container';
-import BorderGlow from '@/components/ui/BorderGlow';
 
 const SnapSiteSystemSection = () => {
   const { isRTL } = useLanguage();
