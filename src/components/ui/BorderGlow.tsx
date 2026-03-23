@@ -83,6 +83,7 @@ const BorderGlow = ({
   const cardRef = useRef<HTMLDivElement>(null);
   const idleRafRef = useRef<number | null>(null);
   const isHoveringRef = useRef(false);
+  const isVisibleRef = useRef(false);
 
   const getCenterOfElement = useCallback((el: HTMLElement) => {
     const { width, height } = el.getBoundingClientRect();
@@ -113,13 +114,13 @@ const BorderGlow = ({
 
   const startIdleAnimation = useCallback(() => {
     const card = cardRef.current;
-    if (!card) return;
+    if (!card || !isVisibleRef.current) return;
     card.classList.add('sweep-active');
     card.style.setProperty('--edge-proximity', '70');
     let angle = 0;
-    const speed = 0.4; // degrees per frame
+    const speed = 0.4;
     function tick() {
-      if (isHoveringRef.current) return;
+      if (isHoveringRef.current || !isVisibleRef.current) return;
       angle = (angle + speed) % 360;
       card!.style.setProperty('--cursor-angle', `${angle}deg`);
       idleRafRef.current = requestAnimationFrame(tick);
@@ -153,13 +154,30 @@ const BorderGlow = ({
 
   const handlePointerLeave = useCallback(() => {
     isHoveringRef.current = false;
-    startIdleAnimation();
+    if (isVisibleRef.current) startIdleAnimation();
   }, [startIdleAnimation]);
 
-  // Start idle animation on mount
+  // IntersectionObserver to pause/resume idle animation
   useEffect(() => {
-    startIdleAnimation();
-    return () => stopIdleAnimation();
+    const card = cardRef.current;
+    if (!card) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries[0]?.isIntersecting ?? false;
+        isVisibleRef.current = visible;
+        if (visible && !isHoveringRef.current) {
+          startIdleAnimation();
+        } else if (!visible) {
+          stopIdleAnimation();
+        }
+      },
+      { threshold: 0.05 }
+    );
+    io.observe(card);
+    return () => {
+      io.disconnect();
+      stopIdleAnimation();
+    };
   }, [startIdleAnimation, stopIdleAnimation]);
 
   useEffect(() => {
