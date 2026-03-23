@@ -64,7 +64,7 @@ export const translations = {
     'whatYouGet.support': 'Technical support',
     
     // Pricing
-    'pricing.title': 'Simple, Transparent Pricing',
+    'pricing.title': 'Invest in Results, Not Upfront Costs',
     'pricing.subtitle': 'One plan that covers everything you need',
     'pricing.cardTitle': 'SnapSite Subscription',
     'pricing.setupFee': 'Setup Fee',
