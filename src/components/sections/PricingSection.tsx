@@ -7,7 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Badge } from '@/components/ui/badge';
 import ScrollReveal from '@/components/ui/scroll-reveal';
 import { motion, useInView } from 'framer-motion';
-import BorderGlow from '@/components/ui/BorderGlow';
+
 
 interface Pricing {
   setup_fee: number;
