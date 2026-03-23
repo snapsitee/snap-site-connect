@@ -65,7 +65,7 @@ export const translations = {
     
     // Pricing
     'pricing.title': 'Invest in Results, Not Upfront Costs',
-    'pricing.subtitle': 'One plan that covers everything you need',
+    'pricing.subtitle': 'Everything you need to start getting customers online',
     'pricing.cardTitle': 'SnapSite Subscription',
     'pricing.setupFee': 'Setup Fee',
     'pricing.oneTime': 'one-time',
