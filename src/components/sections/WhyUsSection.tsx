@@ -79,7 +79,7 @@ const WhyUsSection = () => {
 
         <StaggerContainer staggerDelay={0.08} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {features.map((feature, index) => (
-            <StaggerItem key={index}>
+            <StaggerItem key={index} className="h-full">
               <BorderGlow
                 glowColor="270 70 60"
                 backgroundColor="hsl(222 47% 6%)"
