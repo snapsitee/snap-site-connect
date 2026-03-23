@@ -53,7 +53,7 @@ const HeroSection = () => {
             <span className="gradient-text">
               {isRTL
                 ? 'حوّل زوّارك لعملاء يدفعوا  في ٧ أيام بس'
-                : 'Turn Your Visitors Into Paying Customers — In Just 7 Days'}
+                : 'Turn Your Visitors Into Paying Customers In Just 7 Days'}
             </span>
           </motion.h1>
           
