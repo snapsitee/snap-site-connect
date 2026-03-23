@@ -224,7 +224,7 @@ export const translations = {
     'whatYouGet.support': 'دعم تقني',
     
     // Pricing
-    'pricing.title': 'أسعار بسيطة وشفافة',
+    'pricing.title': 'استثمر في النتائج، وليس التكاليف المقدمة',
     'pricing.subtitle': 'باقة واحدة تغطي كل ما تحتاجه',
     'pricing.cardTitle': 'اشتراك SnapSite',
     'pricing.setupFee': 'رسوم الإعداد',
