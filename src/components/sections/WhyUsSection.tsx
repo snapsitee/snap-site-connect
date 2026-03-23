@@ -79,16 +79,7 @@ const WhyUsSection = () => {
         <StaggerContainer staggerDelay={0.08} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {features.map((feature, index) => (
             <StaggerItem key={index} className="h-full">
-              <BorderGlow
-                glowColor="270 70 60"
-                backgroundColor="hsl(222 47% 6%)"
-                colors={['#DC18EE', '#1E8CED', '#a855f7']}
-                borderRadius={16}
-                glowRadius={30}
-                glowIntensity={0.8}
-                fillOpacity={0.3}
-                coneSpread={20}
-              >
+              <div className="gradient-border rounded-2xl h-full">
                 <div className={`p-6 h-full ${isRTL ? 'font-cairo text-right' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
                   <div className="flex items-center gap-4 mb-4">
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.iconBg} flex items-center justify-center shrink-0 shadow-lg`}>
@@ -102,7 +93,7 @@ const WhyUsSection = () => {
                     {isRTL ? feature.descAr : feature.descEn}
                   </p>
                 </div>
-              </BorderGlow>
+              </div>
             </StaggerItem>
           ))}
         </StaggerContainer>

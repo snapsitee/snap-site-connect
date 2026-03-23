@@ -63,16 +63,7 @@ const PainPointsSection = () => {
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {painPoints.map((point, i) => (
             <StaggerItem key={i}>
-              <BorderGlow
-                glowColor="270 70 60"
-                backgroundColor="hsl(222 47% 6%)"
-                colors={['#DC18EE', '#1E8CED', '#a855f7']}
-                borderRadius={16}
-                glowRadius={30}
-                glowIntensity={0.8}
-                fillOpacity={0.3}
-                coneSpread={20}
-              >
+              <div className="gradient-border rounded-2xl">
                 <div className={`p-6 flex flex-col gap-4 ${isRTL ? 'font-cairo' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${point.gradient} flex items-center justify-center shrink-0`}>
@@ -86,7 +77,7 @@ const PainPointsSection = () => {
                     {isRTL ? point.descAr : point.descEn}
                   </p>
                 </div>
-              </BorderGlow>
+              </div>
             </StaggerItem>
           ))}
         </StaggerContainer>

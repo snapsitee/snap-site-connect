@@ -55,16 +55,7 @@ const SnapSiteSystemSection = () => {
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {cards.map((card, i) => (
             <StaggerItem key={i}>
-              <BorderGlow
-                glowColor="270 70 60"
-                backgroundColor="hsl(222 47% 6%)"
-                colors={['#DC18EE', '#1E8CED', '#a855f7']}
-                borderRadius={16}
-                glowRadius={30}
-                glowIntensity={0.8}
-                fillOpacity={0.3}
-                coneSpread={20}
-              >
+              <div className="gradient-border rounded-2xl">
                 <div className={`p-8 flex flex-col items-center text-center gap-4 min-h-[280px] ${isRTL ? 'font-cairo' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
                   <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${card.iconBg} flex items-center justify-center shadow-lg`}>
                     <card.icon className="w-8 h-8 text-white" />
@@ -76,7 +67,7 @@ const SnapSiteSystemSection = () => {
                     {isRTL ? card.descAr : card.descEn}
                   </p>
                 </div>
-              </BorderGlow>
+              </div>
             </StaggerItem>
           ))}
         </StaggerContainer>

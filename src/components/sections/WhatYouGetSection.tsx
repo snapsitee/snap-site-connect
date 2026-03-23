@@ -63,16 +63,7 @@ const WhatYouGetSection = () => {
           </ScrollReveal>
 
           <ScrollReveal delay={0.2}>
-            <BorderGlow
-              glowColor="270 70 60"
-              backgroundColor="hsl(222 47% 6%)"
-              colors={['#DC18EE', '#1E8CED', '#a855f7']}
-              borderRadius={24}
-              glowRadius={30}
-              glowIntensity={0.8}
-              fillOpacity={0.3}
-              coneSpread={20}
-            >
+            <div className="gradient-border rounded-3xl">
               <div 
                 ref={containerRef}
                 className="p-8 md:p-12 relative overflow-hidden"
@@ -115,7 +106,7 @@ const WhatYouGetSection = () => {
                   ))}
                 </div>
               </div>
-            </BorderGlow>
+            </div>
           </ScrollReveal>
         </div>
       </div>

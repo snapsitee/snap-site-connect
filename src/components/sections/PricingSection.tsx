@@ -192,7 +192,7 @@ const PricingSection = () => {
                 </Button>
               </motion.div>
             </motion.div>
-            </BorderGlow>
+            </div>
           </div>
         </div>
       </section>

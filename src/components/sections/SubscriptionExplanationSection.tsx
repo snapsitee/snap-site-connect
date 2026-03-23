@@ -69,14 +69,7 @@ const SubscriptionExplanationSection = () => {
                   transition={{ duration: 0.5, delay: 0.2 + index * 0.15 }}
                   className="w-full relative"
                 >
-                  <BorderGlow
-                    className="w-full"
-                    glowColor="270 70 60"
-                    backgroundColor="hsl(222 47% 6%)"
-                    borderRadius={20}
-                    glowRadius={30}
-                    glowIntensity={0.8}
-                  >
+                  <div className="gradient-border rounded-2xl w-full">
                     <div className={`p-6 md:p-8 flex items-center gap-5 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                       <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
                         <h3 className={`text-xl font-bold mb-2 ${isRTL ? 'font-cairo' : 'font-sans'}`}>
@@ -101,7 +94,7 @@ const SubscriptionExplanationSection = () => {
                         <step.icon className="w-7 h-7 text-white" />
                       </motion.div>
                     </div>
-                  </BorderGlow>
+                  </div>
                 </motion.div>
 
                 {index < steps.length - 1 && (
