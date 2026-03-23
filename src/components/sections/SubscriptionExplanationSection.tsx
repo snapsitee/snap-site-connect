@@ -39,9 +39,6 @@ const SubscriptionExplanationSection = () => {
     },
   ];
 
-  const iconBgColors = [
-
-
   return (
     <section className="py-28 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
@@ -51,7 +48,7 @@ const SubscriptionExplanationSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <ScrollReveal className="text-center mb-16">
           <Badge variant="outline" className="mb-4 border-gradient-purple/30 text-gradient-purple bg-gradient-purple/5">
-            <RefreshCw className="w-3 h-3 mr-1" />
+            <RefreshCw className={`w-3 h-3 ${isRTL ? 'ml-1' : 'mr-1'}`} />
             {isRTL ? 'كيف يعمل الاشتراك' : 'How Subscription Works'}
           </Badge>
           <h2 className={`text-3xl md:text-5xl font-bold mb-4 ${isRTL ? 'font-cairo' : 'font-sans'}`}>
@@ -62,11 +59,10 @@ const SubscriptionExplanationSection = () => {
           </p>
         </ScrollReveal>
 
-        <div ref={timelineRef} className="max-w-4xl mx-auto">
+        <div ref={timelineRef} className="max-w-4xl mx-auto" dir={isRTL ? 'rtl' : 'ltr'}>
           <div className="relative flex flex-col items-center">
             {steps.map((step, index) => (
               <div key={index} className="w-full flex flex-col items-center">
-                {/* Card */}
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -83,7 +79,6 @@ const SubscriptionExplanationSection = () => {
                     backgroundColor="hsl(var(--card))"
                   >
                     <div className={`p-6 md:p-8 flex items-center gap-5 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                      {/* Text content */}
                       <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
                         <h3 className={`text-xl font-bold mb-2 ${isRTL ? 'font-cairo' : 'font-sans'}`}>
                           {step.title}
@@ -93,7 +88,6 @@ const SubscriptionExplanationSection = () => {
                         </p>
                       </div>
 
-                      {/* Icon */}
                       <motion.div
                         initial={{ scale: 0 }}
                         animate={isInView ? { scale: 1 } : {}}
@@ -111,7 +105,6 @@ const SubscriptionExplanationSection = () => {
                   </BorderGlow>
                 </motion.div>
 
-                {/* Vertical connector line */}
                 {index < steps.length - 1 && (
                   <motion.div
                     initial={{ scaleY: 0 }}
