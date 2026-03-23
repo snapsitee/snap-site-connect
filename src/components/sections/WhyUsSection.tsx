@@ -90,8 +90,8 @@ const WhyUsSection = () => {
                 fillOpacity={0.3}
                 coneSpread={20}
               >
-                <div className={`p-6 h-full ${isRTL ? 'font-cairo' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
-                  <div className={`flex items-center gap-4 mb-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className={`p-6 h-full ${isRTL ? 'font-cairo text-right' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
+                  <div className="flex items-center gap-4 mb-4">
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.iconBg} flex items-center justify-center shrink-0 shadow-lg`}>
                       <feature.icon className="w-6 h-6 text-white" />
                     </div>
