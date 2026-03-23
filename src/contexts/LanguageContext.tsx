@@ -65,7 +65,7 @@ export const translations = {
     
     // Pricing
     'pricing.title': 'Invest in Results, Not Upfront Costs',
-    'pricing.subtitle': 'One plan that covers everything you need',
+    'pricing.subtitle': 'Everything you need to start getting customers online',
     'pricing.cardTitle': 'SnapSite Subscription',
     'pricing.setupFee': 'Setup Fee',
     'pricing.oneTime': 'one-time',
@@ -225,7 +225,7 @@ export const translations = {
     
     // Pricing
     'pricing.title': 'استثمر في النتائج، مش في التكاليف المقدمة',
-    'pricing.subtitle': 'باقة واحدة تغطي كل ما تحتاجه',
+    'pricing.subtitle': 'كل ما تحتاجه لتبدأ في الحصول على عملاء عبر الإنترنت',
     'pricing.cardTitle': 'اشتراك SnapSite',
     'pricing.setupFee': 'رسوم الإعداد',
     'pricing.oneTime': 'مرة واحدة',
