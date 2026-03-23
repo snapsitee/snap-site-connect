@@ -40,11 +40,7 @@ const SubscriptionExplanationSection = () => {
   ];
 
   const iconBgColors = [
-    'bg-gradient-to-br from-pink-500 to-purple-500',
-    'bg-gradient-to-br from-cyan-400 to-blue-500',
-    'bg-gradient-to-br from-purple-400 to-blue-500',
-    'bg-gradient-to-br from-orange-500 to-red-500',
-  ];
+
 
   return (
     <section className="py-28 relative overflow-hidden">
