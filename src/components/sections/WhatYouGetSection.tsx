@@ -63,48 +63,59 @@ const WhatYouGetSection = () => {
           </ScrollReveal>
 
           <ScrollReveal delay={0.2}>
-            <div 
-              ref={containerRef}
-              className="glass rounded-3xl p-8 md:p-12 gradient-border relative overflow-hidden"
+            <BorderGlow
+              glowColor="270 70 60"
+              backgroundColor="hsl(222 47% 6%)"
+              colors={['#DC18EE', '#1E8CED', '#a855f7']}
+              borderRadius={24}
+              glowRadius={30}
+              glowIntensity={0.8}
+              fillOpacity={0.3}
+              coneSpread={20}
             >
-              <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-gradient-purple/20 to-transparent rounded-full blur-2xl" />
-              
               <div 
-                className={`grid sm:grid-cols-2 gap-x-12 gap-y-8 relative z-10 ${isRTL ? 'text-right' : 'text-left'}`} 
-                dir={isRTL ? 'rtl' : 'ltr'}
+                ref={containerRef}
+                className="p-8 md:p-12 relative overflow-hidden"
               >
-                {benefits.map((benefit, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ 
-                      duration: 0.5, 
-                      delay: 0.1 * index,
-                      ease: [0.25, 0.1, 0.25, 1]
-                    }}
-                    className="flex items-center gap-4 p-3 rounded-xl hover:bg-muted/50 transition-colors"
-                  >
-                    <motion.div 
-                      initial={{ scale: 0 }}
-                      animate={isInView ? { scale: 1 } : {}}
+                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-gradient-purple/20 to-transparent rounded-full blur-2xl" />
+                
+                <div 
+                  className={`grid sm:grid-cols-2 gap-x-12 gap-y-8 relative z-10 ${isRTL ? 'text-right' : 'text-left'}`} 
+                  dir={isRTL ? 'rtl' : 'ltr'}
+                >
+                  {benefits.map((benefit, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : {}}
                       transition={{ 
-                        duration: 0.4, 
-                        delay: 0.15 * index,
-                        type: 'spring',
-                        stiffness: 200
+                        duration: 0.5, 
+                        delay: 0.1 * index,
+                        ease: [0.25, 0.1, 0.25, 1]
                       }}
-                      className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center flex-shrink-0 shadow-lg shadow-gradient-purple/25"
+                      className="flex items-center gap-4 p-3 rounded-xl hover:bg-muted/50 transition-colors"
                     >
-                      <Check className="w-5 h-5 text-white" />
+                      <motion.div 
+                        initial={{ scale: 0 }}
+                        animate={isInView ? { scale: 1 } : {}}
+                        transition={{ 
+                          duration: 0.4, 
+                          delay: 0.15 * index,
+                          type: 'spring',
+                          stiffness: 200
+                        }}
+                        className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center flex-shrink-0 shadow-lg shadow-gradient-purple/25"
+                      >
+                        <Check className="w-5 h-5 text-white" />
+                      </motion.div>
+                      <span className={`text-lg ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+                        {isRTL ? benefit.ar : benefit.en}
+                      </span>
                     </motion.div>
-                    <span className={`text-lg ${isRTL ? 'font-cairo' : 'font-sans'}`}>
-                      {isRTL ? benefit.ar : benefit.en}
-                    </span>
-                  </motion.div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            </BorderGlow>
           </ScrollReveal>
         </div>
       </div>
