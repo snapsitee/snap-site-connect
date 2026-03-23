@@ -20,7 +20,7 @@ export const translations = {
     'nav.whyUs': 'Why Us',
     'nav.pricing': 'Pricing',
     'nav.contact': 'Contact',
-    'nav.getStarted': 'Get Started',
+    'nav.getStarted': 'Book a Call',
     
     // Hero Section
     'hero.title': 'Bridging the gap between creative design and technical implementation',
