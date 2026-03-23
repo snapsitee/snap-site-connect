@@ -167,6 +167,8 @@ const PricingSection = () => {
                     <span className="text-muted-foreground">{t('pricing.perMonth')}</span>
                   </div>
                 </div>
+              </motion.div>
+
               {/* Comparison text */}
               <p className={`text-center text-muted-foreground italic mb-8 ${isRTL ? 'font-cairo' : ''}`}>
                 {isRTL ? 'مقارنة بالشركات اللي بتاخد +٤٠,٠٠٠ ج.م مقدم' : 'vs. agencies charging 40,000+ EGP upfront'}
