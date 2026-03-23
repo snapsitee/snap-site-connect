@@ -2,6 +2,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Check, Gift } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import ScrollReveal from '@/components/ui/scroll-reveal';
+import BorderGlow from '@/components/ui/BorderGlow';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 
