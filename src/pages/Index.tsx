@@ -30,9 +30,9 @@ const Index = forwardRef<HTMLDivElement>((_, ref) => {
         <SubscriptionExplanationSection />
         <OurSnapsSection />
         <TestimonialsSection />
-        <ContactSection />
         <FAQSection />
         <FinalCTASection />
+        <ContactSection />
       </main>
       <Footer />
     </div>
