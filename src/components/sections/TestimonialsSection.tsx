@@ -110,7 +110,7 @@ const TestimonialsSection = () => {
               </span>
             </motion.div>
             <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
-              {isRTL ? 'ماذا يقول عملاؤنا' : 'What Our Clients Say'}
+              {isRTL ? 'كلام الناس عننا' : 'What Our Clients Say'}
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               {isRTL
