@@ -40,7 +40,7 @@ const HeroSection = () => {
           >
             <Sparkles className="w-4 h-4 text-gradient-purple" />
             <span className="text-sm font-medium text-gradient-purple">
-              {isRTL ? 'مواقع إلكترونية ذات معدل تحويل عالٍ' : 'High Conversion Websites'}
+              {isRTL ? 'مواقع إلكترونية بمعدل تحويل عالٍ' : 'High Conversion Websites'}
             </span>
           </motion.div>
 
