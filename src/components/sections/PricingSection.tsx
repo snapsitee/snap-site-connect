@@ -39,13 +39,13 @@ const PricingSection = () => {
   }, []);
 
   const features = [
-    t('pricing.features.customWebsite'),
-    t('pricing.features.professionalUI'),
-    t('pricing.features.responsive'),
-    t('pricing.features.hosting'),
-    t('pricing.features.unlimitedEdits'),
-    t('pricing.features.support'),
-    t('pricing.features.delivery'),
+    { en: 'Complete business website', ar: 'موقع بيزنس كامل' },
+    { en: 'Conversion-optimized design', ar: 'تصميم مُحسّن للتحويل' },
+    { en: 'Works on all devices', ar: 'يعمل على كل الأجهزة' },
+    { en: 'Hosting & maintenance included', ar: 'استضافة وصيانة مشمولة' },
+    { en: 'Business dashboard', ar: 'لوحة تحكم للبيزنس' },
+    { en: 'Ongoing support & updates', ar: 'دعم مستمر وتحديثات' },
+    { en: 'Ready in 7 days', ar: 'جاهز في ٧ أيام' },
   ];
 
   const formatPrice = (price: number) => {
