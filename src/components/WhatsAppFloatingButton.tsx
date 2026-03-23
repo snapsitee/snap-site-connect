@@ -13,11 +13,14 @@ const WhatsAppFloatingButton = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const secondSection = document.getElementById('how-it-works');
-      if (secondSection) {
-        const rect = secondSection.getBoundingClientRect();
-        // Show only when the top of the section has scrolled to the top half of the viewport
-        setIsVisible(rect.top <= window.innerHeight * 0.5);
+      const hero = document.getElementById('hero');
+      if (hero) {
+        const rect = hero.getBoundingClientRect();
+        // Show when user has scrolled past the hero section
+        setIsVisible(rect.bottom <= 0);
+      } else {
+        // Fallback: show after scrolling 100vh
+        setIsVisible(window.scrollY > window.innerHeight);
       }
     };
 
