@@ -74,8 +74,8 @@ const PainPointsSection = () => {
                 fillOpacity={0.3}
                 coneSpread={20}
               >
-                <div className={`p-6 flex flex-col gap-4 ${isRTL ? 'font-cairo' : ''}`}>
-                  <div className={`flex items-center gap-4 ${isRTL ? 'flex-row-reverse text-right' : ''}`}>
+                <div className={`p-6 flex flex-col gap-4 ${isRTL ? 'font-cairo' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
+                  <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${point.gradient} flex items-center justify-center shrink-0`}>
                       <point.icon className="w-6 h-6 text-white" />
                     </div>
@@ -83,7 +83,7 @@ const PainPointsSection = () => {
                       {isRTL ? point.titleAr : point.titleEn}
                     </h3>
                   </div>
-                  <p className={`text-muted-foreground text-sm leading-relaxed ${isRTL ? 'text-right' : ''}`}>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
                     {isRTL ? point.descAr : point.descEn}
                   </p>
                 </div>
