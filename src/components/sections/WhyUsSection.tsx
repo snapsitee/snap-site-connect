@@ -2,7 +2,6 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Zap, Wallet, Target, Headphones, TrendingUp, ShieldCheck } from 'lucide-react';
 import ScrollReveal from '@/components/ui/scroll-reveal';
 import StaggerContainer, { StaggerItem } from '@/components/ui/stagger-container';
-import BorderGlow from '@/components/ui/BorderGlow';
 
 const WhyUsSection = () => {
   const { isRTL } = useLanguage();
