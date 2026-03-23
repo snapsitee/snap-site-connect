@@ -107,7 +107,7 @@ const SubscriptionExplanationSection = () => {
                           type: 'spring',
                           stiffness: 200,
                         }}
-                        className={`w-14 h-14 rounded-2xl ${iconBgColors[index]} flex items-center justify-center flex-shrink-0 shadow-lg`}
+                        className={`w-14 h-14 rounded-2xl ${step.iconBg} flex items-center justify-center flex-shrink-0 shadow-lg`}
                       >
                         <step.icon className="w-7 h-7 text-white" />
                       </motion.div>
