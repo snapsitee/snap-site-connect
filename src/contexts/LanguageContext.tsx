@@ -131,9 +131,9 @@ export const translations = {
     'faq.a5': 'Yes — no contracts, no penalties. If you ever want to stop, just let us know. But once you see the results, you won\'t want to.',
     
     // Final CTA
-    'cta.title': 'Ready to Transform Your Online Presence?',
-    'cta.subtitle': 'Join hundreds of businesses already growing with SnapSite',
-    'cta.button': 'Get Started Today',
+    'cta.title': 'Stop Losing Customers Today',
+    'cta.subtitle': 'Book a call and see how SnapSite can grow your business in just 7 days',
+    'cta.button': 'Book a Call',
     
     // Footer
     'footer.slogan': 'Engineering Your Digital Success',
@@ -291,9 +291,9 @@ export const translations = {
     'faq.a5': 'أيوه — من غير عقود ومن غير غرامات. لو عايز توقف في أي وقت قولنا. بس أول ما تشوف النتائج، مش هتحب توقف.',
     
     // Final CTA
-    'cta.title': 'جاهز لتحويل تواجدك على الإنترنت؟',
-    'cta.subtitle': 'انضم لمئات الشركات التي تنمو مع SnapSite',
-    'cta.button': 'ابدأ اليوم',
+    'cta.title': 'بطّل تخسر عملاء من النهاردة',
+    'cta.subtitle': 'احجز مكالمة وشوف إزاي SnapSite هيكبّر بيزنسك في ٧ أيام بس',
+    'cta.button': 'احجز مكالمة',
     
     // Footer
     'footer.slogan': 'نهندس نجاحك الرقمي',
