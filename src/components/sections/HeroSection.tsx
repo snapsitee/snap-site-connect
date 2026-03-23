@@ -21,7 +21,9 @@ const HeroSection = () => {
           colors={['#DC18EE', '#1E8CED', '#B19EEF']}
           mouseForce={20}
           cursorSize={100}
-          resolution={0.5}
+          resolution={0.35}
+          iterationsPoisson={16}
+          iterationsViscous={16}
           autoDemo={true}
           autoSpeed={0.5}
           autoIntensity={2.2}

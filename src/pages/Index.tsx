@@ -1,19 +1,20 @@
-import { forwardRef } from 'react';
+import { forwardRef, lazy, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/sections/HeroSection';
-import SnapSiteSystemSection from '@/components/sections/SnapSiteSystemSection';
 import PainPointsSection from '@/components/sections/PainPointsSection';
-import HowItWorksSection from '@/components/sections/HowItWorksSection';
-import WhyUsSection from '@/components/sections/WhyUsSection';
-import WhatYouGetSection from '@/components/sections/WhatYouGetSection';
-import PricingSection from '@/components/sections/PricingSection';
-import SubscriptionExplanationSection from '@/components/sections/SubscriptionExplanationSection';
-import OurSnapsSection from '@/components/sections/OurSnapsSection';
-import TestimonialsSection from '@/components/sections/TestimonialsSection';
-import ContactSection from '@/components/sections/ContactSection';
-import FAQSection from '@/components/sections/FAQSection';
-import FinalCTASection from '@/components/sections/FinalCTASection';
-import Footer from '@/components/Footer';
+
+const SnapSiteSystemSection = lazy(() => import('@/components/sections/SnapSiteSystemSection'));
+const HowItWorksSection = lazy(() => import('@/components/sections/HowItWorksSection'));
+const WhyUsSection = lazy(() => import('@/components/sections/WhyUsSection'));
+const WhatYouGetSection = lazy(() => import('@/components/sections/WhatYouGetSection'));
+const PricingSection = lazy(() => import('@/components/sections/PricingSection'));
+const SubscriptionExplanationSection = lazy(() => import('@/components/sections/SubscriptionExplanationSection'));
+const OurSnapsSection = lazy(() => import('@/components/sections/OurSnapsSection'));
+const TestimonialsSection = lazy(() => import('@/components/sections/TestimonialsSection'));
+const ContactSection = lazy(() => import('@/components/sections/ContactSection'));
+const FAQSection = lazy(() => import('@/components/sections/FAQSection'));
+const FinalCTASection = lazy(() => import('@/components/sections/FinalCTASection'));
+const Footer = lazy(() => import('@/components/Footer'));
 
 const Index = forwardRef<HTMLDivElement>((_, ref) => {
   return (
@@ -22,19 +23,23 @@ const Index = forwardRef<HTMLDivElement>((_, ref) => {
       <main>
         <HeroSection />
         <PainPointsSection />
-        <SnapSiteSystemSection />
-        <HowItWorksSection />
-        <WhyUsSection />
-        <WhatYouGetSection />
-        <PricingSection />
-        <SubscriptionExplanationSection />
-        <OurSnapsSection />
-        <TestimonialsSection />
-        <FAQSection />
-        <FinalCTASection />
-        <ContactSection />
+        <Suspense fallback={null}>
+          <SnapSiteSystemSection />
+          <HowItWorksSection />
+          <WhyUsSection />
+          <WhatYouGetSection />
+          <PricingSection />
+          <SubscriptionExplanationSection />
+          <OurSnapsSection />
+          <TestimonialsSection />
+          <FAQSection />
+          <FinalCTASection />
+          <ContactSection />
+        </Suspense>
       </main>
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
     </div>
   );
 });
