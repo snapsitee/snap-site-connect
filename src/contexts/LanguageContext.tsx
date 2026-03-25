@@ -247,7 +247,7 @@ export const translations = {
     'subscription.step1.title': 'ادفع رسوم الإعداد',
     'subscription.step1.desc': 'دفعة واحدة لبدء مشروعك',
     'subscription.step2.title': 'النظام يتسلم',
-    'subscription.step2.desc': 'نظامك الكامل يبدأ يشتغل خلال ٧ أيام',
+    'subscription.step2.desc': 'نظامك الكامل بيبدأ يشتغل في خلال ٧ أيام',
     'subscription.step3.title': 'الفوترة الشهرية',
     'subscription.step3.desc': 'تبدأ الفوترة بعد ٣٠ يوماً من التسليم',
     'subscription.step4.title': 'ألغِ في أي وقت',
