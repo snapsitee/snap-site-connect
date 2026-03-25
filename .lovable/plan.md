@@ -1,32 +1,49 @@
 
 
-## Replace Animated BorderGlow with Static Gradient Border
+## Welcome Popup Feature
 
-The reference image shows a clean, static purple-to-blue gradient border (no animation). Currently, 7 sections use the heavy `BorderGlow` component with animated glow effects. This change will also improve performance by removing all the `requestAnimationFrame` loops.
+### What We're Building
+A customizable welcome popup that appears when visitors land on the website. Fully controlled from the admin dashboard with options to toggle visibility, include a coupon code with a copy button, and customize title and description text (both English and Arabic).
 
-### Changes
+### Database Changes
+Create a new `popup_settings` table:
+- `id` (uuid, primary key)
+- `is_active` (boolean) — controls whether popup shows
+- `title_en` (text) — English title
+- `title_ar` (text) — Arabic title
+- `description_en` (text) — English description
+- `description_ar` (text) — Arabic description
+- `include_coupon` (boolean) — whether to show a coupon code
+- `coupon_code` (text, nullable) — the coupon code to display
+- `updated_at` (timestamp)
 
-**Replace `BorderGlow` wrapper with a simple div using `gradient-border` class in these 7 files:**
+RLS: Anyone can SELECT (public-facing), only admins can UPDATE.
 
-1. **HowItWorksSection.tsx** — Replace `<BorderGlow>` around each step card with a `<div className="gradient-border rounded-3xl p-6 ...">` wrapper
-2. **SnapSiteSystemSection.tsx** — Same replacement for system feature cards
-3. **WhyUsSection.tsx** — Same for "Why Us" feature cards
-4. **WhatYouGetSection.tsx** — Same for the features grid card
-5. **SubscriptionExplanationSection.tsx** — Same for subscription explanation cards
-6. **PainPointsSection.tsx** — Same for pain point cards
-7. **PricingSection.tsx** — Same for the pricing card
+Seed one default row with `is_active = false`.
 
-Each replacement:
-- Remove `<BorderGlow ...props>` and its `<span className="edge-light" />` child
-- Replace with `<div className="gradient-border rounded-3xl bg-card">` keeping the same inner content and padding
-- Remove the `BorderGlow` import from each file
+### Frontend Components
 
-**Cleanup (optional):**
-- The `BorderGlow.tsx` and `BorderGlow.css` files can be removed since they will no longer be used anywhere
+**1. `WelcomePopup` component** (`src/components/WelcomePopup.tsx`)
+- Fetches `popup_settings` on mount
+- If `is_active` is false, renders nothing
+- Uses `sessionStorage` to only show once per session
+- Dialog with X close button
+- Shows title and description based on current language
+- If `include_coupon` is true and `coupon_code` is set, shows the code with a copy-to-clipboard button (same style as the payment checkout copy button with Copy/Check icon toggle)
 
-### Impact
-- Removes 7 simultaneous `requestAnimationFrame` animation loops
-- Eliminates complex CSS with pseudo-elements, `mask-image`, and `mix-blend-mode`
-- Significant performance improvement, especially on mobile
-- Consistent visual style matching the FAQ section's existing gradient border
+**2. `PopupSettingsManager` component** (`src/components/admin/PopupSettingsManager.tsx`)
+- Toggle switch for popup active/inactive
+- Input fields for title (EN/AR) and description (EN/AR)
+- Toggle for include coupon
+- Conditional input for coupon code (shown only when include coupon is on)
+- Save button that updates the `popup_settings` table
+
+**3. Integration**
+- Add `WelcomePopup` to `Index.tsx` (homepage only)
+- Add "Popup" tab to `AdminDashboard.tsx` with a `Megaphone` icon
+
+### Technical Details
+- Copy button reuses the same Copy → Check icon pattern from `PaymentStep.tsx`
+- Popup uses the existing `Dialog` component for consistent styling
+- `sessionStorage` key `popup_dismissed` prevents repeat showing during same session
 
