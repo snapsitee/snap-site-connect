@@ -15,10 +15,11 @@ import AnalyticsDashboard from './AnalyticsDashboard';
 import CouponManager from './CouponManager';
 import SnapsManager from './SnapsManager';
 import ReviewsManager from './ReviewsManager';
+import PopupSettingsManager from './PopupSettingsManager';
 import logoWhite from '@/assets/logo-white.png';
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, Megaphone } from 'lucide-react';
 
-type Tab = 'analytics' | 'leads' | 'subscribers' | 'renewals' | 'pricing' | 'payment' | 'addons' | 'coupons' | 'snaps' | 'reviews';
+type Tab = 'analytics' | 'leads' | 'subscribers' | 'renewals' | 'pricing' | 'payment' | 'addons' | 'coupons' | 'snaps' | 'reviews' | 'popup';
 
 const AdminDashboard = () => {
   const { t, isRTL } = useLanguage();
@@ -41,6 +42,7 @@ const AdminDashboard = () => {
     { id: 'addons' as Tab, label: isRTL ? 'الإضافات' : 'Add-ons', icon: Settings },
     { id: 'snaps' as Tab, label: isRTL ? 'أعمالنا' : 'Snaps', icon: Camera },
     { id: 'reviews' as Tab, label: isRTL ? 'التقييمات' : 'Reviews', icon: MessageSquare },
+    { id: 'popup' as Tab, label: isRTL ? 'النافذة المنبثقة' : 'Popup', icon: Megaphone },
   ];
 
   return (
@@ -142,6 +144,7 @@ const AdminDashboard = () => {
           {activeTab === 'addons' && <AddonSettingsManager />}
           {activeTab === 'snaps' && <SnapsManager />}
           {activeTab === 'reviews' && <ReviewsManager />}
+          {activeTab === 'popup' && <PopupSettingsManager />}
         </div>
       </main>
     </div>
