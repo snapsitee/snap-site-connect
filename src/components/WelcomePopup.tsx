@@ -59,7 +59,7 @@ const WelcomePopup = () => {
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className={`w-[calc(100vw-2rem)] max-w-md mx-auto p-4 sm:p-6 ${isRTL ? 'font-cairo text-right' : ''}`}>
+      <DialogContent className={`w-[calc(100vw-2rem)] max-w-md mx-auto p-4 sm:p-6 animate-enter ${isRTL ? 'font-cairo text-right' : ''}`}>
         <DialogHeader>
           <DialogTitle className="text-lg sm:text-xl leading-tight">{title}</DialogTitle>
           <DialogDescription className="text-sm sm:text-base pt-2 leading-relaxed">{description}</DialogDescription>
