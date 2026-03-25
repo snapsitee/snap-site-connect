@@ -59,22 +59,22 @@ const WelcomePopup = () => {
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className={`sm:max-w-md ${isRTL ? 'font-cairo text-right' : ''}`}>
+      <DialogContent className={`w-[calc(100vw-2rem)] max-w-md mx-auto p-4 sm:p-6 ${isRTL ? 'font-cairo text-right' : ''}`}>
         <DialogHeader>
-          <DialogTitle className="text-xl">{title}</DialogTitle>
-          <DialogDescription className="text-base pt-2">{description}</DialogDescription>
+          <DialogTitle className="text-lg sm:text-xl leading-tight">{title}</DialogTitle>
+          <DialogDescription className="text-sm sm:text-base pt-2 leading-relaxed">{description}</DialogDescription>
         </DialogHeader>
 
         {settings.include_coupon && settings.coupon_code && (
-          <div className="flex items-center justify-between gap-3 mt-2 p-3 rounded-lg bg-muted border border-border">
-            <code className="text-lg font-bold text-primary tracking-wider">
+          <div className="flex items-center justify-between gap-2 sm:gap-3 mt-2 p-2.5 sm:p-3 rounded-lg bg-muted border border-border">
+            <code className="text-base sm:text-lg font-bold text-primary tracking-wider break-all min-w-0">
               {settings.coupon_code}
             </code>
             <Button
               variant="outline"
               size="sm"
               onClick={handleCopy}
-              className="shrink-0 gap-2"
+              className="shrink-0 gap-1.5 sm:gap-2 text-xs sm:text-sm"
             >
               {copied ? <Check className="h-4 w-4 text-primary" /> : <Copy className="h-4 w-4" />}
               {copied
