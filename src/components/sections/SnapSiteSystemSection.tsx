@@ -12,7 +12,7 @@ const SnapSiteSystemSection = () => {
       titleEn: 'A Website That Sells For You',
       titleAr: 'موقع بيبيعلك',
       descEn: 'Designed to convert visitors into paying customers, not just look pretty.',
-      descAr: 'مصمم يحوّل الزوار لعملاء يدفعوا، مش بس شكل حلو.',
+      descAr: 'مصمم لتحويل الزوار لعملاء يدفعوا، مش بس شكل حلو.',
       iconBg: 'from-emerald-500 to-emerald-600',
     },
     {
