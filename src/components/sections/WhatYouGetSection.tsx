@@ -34,7 +34,7 @@ const WhatYouGetSection = () => {
     },
     {
       en: 'Focus on your work while SnapSite handles the rest',
-      ar: 'ركّز على شغلك وSnapSite يتولى الباقي',
+      ar: 'ركّز على شغلك وSnapSite بيتولى الباقي',
     },
   ];
 
