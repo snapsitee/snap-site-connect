@@ -263,6 +263,42 @@ export type Database = {
         }
         Relationships: []
       }
+      popup_settings: {
+        Row: {
+          coupon_code: string | null
+          description_ar: string
+          description_en: string
+          id: string
+          include_coupon: boolean
+          is_active: boolean
+          title_ar: string
+          title_en: string
+          updated_at: string
+        }
+        Insert: {
+          coupon_code?: string | null
+          description_ar?: string
+          description_en?: string
+          id?: string
+          include_coupon?: boolean
+          is_active?: boolean
+          title_ar?: string
+          title_en?: string
+          updated_at?: string
+        }
+        Update: {
+          coupon_code?: string | null
+          description_ar?: string
+          description_en?: string
+          id?: string
+          include_coupon?: boolean
+          is_active?: boolean
+          title_ar?: string
+          title_en?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       pricing: {
         Row: {
           discount_enabled: boolean
