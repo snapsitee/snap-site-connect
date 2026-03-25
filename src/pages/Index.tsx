@@ -2,6 +2,7 @@ import { forwardRef, lazy, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/sections/HeroSection';
 import PainPointsSection from '@/components/sections/PainPointsSection';
+import WelcomePopup from '@/components/WelcomePopup';
 
 const SnapSiteSystemSection = lazy(() => import('@/components/sections/SnapSiteSystemSection'));
 const HowItWorksSection = lazy(() => import('@/components/sections/HowItWorksSection'));
@@ -19,6 +20,7 @@ const Footer = lazy(() => import('@/components/Footer'));
 const Index = forwardRef<HTMLDivElement>((_, ref) => {
   return (
     <div ref={ref} className="min-h-screen bg-background">
+      <WelcomePopup />
       <Navbar />
       <main>
         <HeroSection />
