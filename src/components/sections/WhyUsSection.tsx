@@ -28,7 +28,7 @@ const WhyUsSection = () => {
       titleEn: 'Built to Get You Customers',
       titleAr: 'كتصمم عشان يجيبلك عملاء',
       descEn: 'Every page, every button is designed to convert visitors into paying customers',
-      descAr: 'كل صفحة وكل زر مصمم يحوّل الزوار لعملاء يدفعوا',
+      descAr: 'كل صفحة وكل زر مصمم لتحويل الزوار لعملاء يدفعوا',
       iconBg: 'from-pink-500 to-rose-500',
     },
     {
