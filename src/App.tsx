@@ -7,6 +7,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
 import Admin from "./pages/Admin";
 import Subscribe from "./pages/Subscribe";
+import Renew from "./pages/Renew";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "@/components/ScrollToTop";
 import WhatsAppFloatingButton from "@/components/WhatsAppFloatingButton";
