@@ -86,7 +86,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
   const dateLocale = language === 'ar' ? ar : enUS;
 
   const handleRenew = () => {
-    navigate(`/subscribe?renewal=true&orderId=${order.order_id}`);
+    navigate(`/renew?orderId=${order.order_id}`);
   };
 
   return (

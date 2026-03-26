@@ -108,7 +108,7 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
             >
               <Button
                 variant="outline"
-                onClick={() => navigate('/subscribe?renewal=true')}
+                onClick={() => navigate('/renew')}
                 className="border-gradient-purple/50 hover:bg-gradient-purple/10 hover:border-gradient-purple transition-all hover:scale-105"
               >
                 {isRTL ? 'تجديد' : 'Renew'}
@@ -200,7 +200,7 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
                       variant="outline"
                       onClick={() => {
                         setIsMenuOpen(false);
-                        navigate('/subscribe?renewal=true');
+                        navigate('/renew');
                       }}
                       className="border-gradient-purple/50 hover:bg-gradient-purple/10 w-full"
                     >
