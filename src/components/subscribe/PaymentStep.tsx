@@ -205,6 +205,21 @@ const PaymentStep = ({
       exit={{ opacity: 0, x: -20 }}
       className="space-y-4 sm:space-y-6"
     >
+      {/* Amount Display */}
+      <div className="text-center p-3 sm:p-4 rounded-xl bg-primary/10 border border-primary/30">
+        <p className="text-xs sm:text-sm text-muted-foreground mb-1">
+          {isRTL ? 'المبلغ المطلوب' : 'Amount Due'}
+        </p>
+        <p className="text-2xl sm:text-3xl font-bold text-primary">
+          {totalAmount.toLocaleString()} {isRTL ? 'جنيه' : 'EGP'}
+        </p>
+        {isRenewal && couponData && (
+          <p className="text-sm text-muted-foreground mt-1 line-through">
+            {(totalAmount + couponData.discountAmount).toLocaleString()} {isRTL ? 'جنيه' : 'EGP'}
+          </p>
+        )}
+      </div>
+
       {/* Coupon Section - for renewals */}
       {isRenewal && (
         <div className="space-y-3">
@@ -243,21 +258,6 @@ const PaymentStep = ({
           )}
         </div>
       )}
-
-      {/* Amount Display */}
-      <div className="text-center p-3 sm:p-4 rounded-xl bg-primary/10 border border-primary/30">
-        <p className="text-xs sm:text-sm text-muted-foreground mb-1">
-          {isRTL ? 'المبلغ المطلوب' : 'Amount Due'}
-        </p>
-        <p className="text-2xl sm:text-3xl font-bold text-primary">
-          {totalAmount.toLocaleString()} {isRTL ? 'جنيه' : 'EGP'}
-        </p>
-        {isRenewal && couponData && (
-          <p className="text-sm text-muted-foreground mt-1 line-through">
-            {(totalAmount + couponData.discountAmount).toLocaleString()} {isRTL ? 'جنيه' : 'EGP'}
-          </p>
-        )}
-      </div>
 
       {/* Payment Method Selection */}
       <div className="space-y-3">
