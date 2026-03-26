@@ -43,6 +43,7 @@ export type Database = {
       }
       coupons: {
         Row: {
+          applies_to: string
           code: string
           created_at: string
           discount_type: string
@@ -54,6 +55,7 @@ export type Database = {
           usage_count: number
         }
         Insert: {
+          applies_to?: string
           code: string
           created_at?: string
           discount_type: string
@@ -65,6 +67,7 @@ export type Database = {
           usage_count?: number
         }
         Update: {
+          applies_to?: string
           code?: string
           created_at?: string
           discount_type?: string
