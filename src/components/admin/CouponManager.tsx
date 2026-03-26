@@ -46,6 +46,7 @@ const CouponManager = () => {
   const [discountType, setDiscountType] = useState<'fixed' | 'percentage'>('percentage');
   const [discountValue, setDiscountValue] = useState('');
   const [maxUses, setMaxUses] = useState('');
+  const [appliesTo, setAppliesTo] = useState<'setup_fee' | 'monthly_fee' | 'both'>('setup_fee');
   
   // Delete dialog state
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
