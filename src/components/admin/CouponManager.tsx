@@ -10,7 +10,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
-import { Plus, Trash2, Ticket, Percent, DollarSign, Copy } from 'lucide-react';
+import { Plus, Trash2, Ticket, Percent, DollarSign, Copy, Settings2 } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,6 +31,7 @@ interface Coupon {
   is_active: boolean;
   usage_count: number;
   max_uses: number | null;
+  applies_to: 'setup_fee' | 'monthly_fee' | 'both';
   created_at: string;
 }
 
@@ -44,6 +46,7 @@ const CouponManager = () => {
   const [discountType, setDiscountType] = useState<'fixed' | 'percentage'>('percentage');
   const [discountValue, setDiscountValue] = useState('');
   const [maxUses, setMaxUses] = useState('');
+  const [appliesTo, setAppliesTo] = useState<'setup_fee' | 'monthly_fee' | 'both'>('setup_fee');
   
   // Delete dialog state
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -87,6 +90,7 @@ const CouponManager = () => {
         discount_type: discountType,
         discount_value: value,
         max_uses: maxUses ? parseInt(maxUses) : null,
+        applies_to: appliesTo,
       });
 
     if (error) {
@@ -100,6 +104,7 @@ const CouponManager = () => {
       setNewCode('');
       setDiscountValue('');
       setMaxUses('');
+      setAppliesTo('setup_fee');
       fetchCoupons();
     }
     setSaving(false);
@@ -240,6 +245,22 @@ const CouponManager = () => {
               />
             </div>
 
+            <div className="space-y-2">
+              <Label className={isRTL ? 'text-right block' : ''}>
+                {isRTL ? 'يُطبق على' : 'Applies To'}
+              </Label>
+              <Select value={appliesTo} onValueChange={(val) => setAppliesTo(val as 'setup_fee' | 'monthly_fee' | 'both')}>
+                <SelectTrigger className={isRTL ? 'text-right' : ''}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="setup_fee">{isRTL ? 'رسوم التأسيس فقط' : 'Setup Fee Only'}</SelectItem>
+                  <SelectItem value="monthly_fee">{isRTL ? 'الاشتراك الشهري فقط' : 'Monthly Subscription Only'}</SelectItem>
+                  <SelectItem value="both">{isRTL ? 'الاثنين' : 'Both'}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
             <Button type="submit" disabled={saving} className="gradient-bg w-full md:w-auto">
               {saving 
                 ? (isRTL ? 'جاري الإنشاء...' : 'Creating...') 
@@ -273,6 +294,7 @@ const CouponManager = () => {
                   <TableRow>
                     <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'الكود' : 'Code'}</TableHead>
                     <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'الخصم' : 'Discount'}</TableHead>
+                    <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'يُطبق على' : 'Applies To'}</TableHead>
                     <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'الاستخدام' : 'Usage'}</TableHead>
                     <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'الحالة' : 'Status'}</TableHead>
                     <TableHead className={isRTL ? 'text-right' : ''}>{isRTL ? 'الإجراءات' : 'Actions'}</TableHead>
@@ -302,6 +324,16 @@ const CouponManager = () => {
                           {coupon.discount_type === 'percentage' 
                             ? `${coupon.discount_value}%`
                             : `${formatPrice(coupon.discount_value)} EGP`
+                          }
+                        </Badge>
+                      </TableCell>
+                      <TableCell className={isRTL ? 'text-right' : ''}>
+                        <Badge variant="secondary" className="text-xs">
+                          {coupon.applies_to === 'setup_fee' 
+                            ? (isRTL ? 'رسوم التأسيس' : 'Setup Fee')
+                            : coupon.applies_to === 'monthly_fee'
+                            ? (isRTL ? 'الاشتراك الشهري' : 'Monthly')
+                            : (isRTL ? 'الاثنين' : 'Both')
                           }
                         </Badge>
                       </TableCell>
