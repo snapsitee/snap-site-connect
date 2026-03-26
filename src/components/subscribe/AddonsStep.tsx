@@ -22,6 +22,7 @@ interface CouponData {
   discount_type: string;
   discount_value: number;
   discountAmount: number;
+  applies_to: string;
 }
 
 interface AddonsStepProps {
@@ -100,6 +101,19 @@ const AddonsStep = ({
       return;
     }
 
+    // Check if coupon applies to setup fee
+    const appliesTo = (data as any).applies_to || 'setup_fee';
+    if (appliesTo === 'monthly_fee') {
+      toast({
+        variant: 'destructive',
+        title: isRTL ? 'كود غير صالح' : 'Invalid code',
+        description: isRTL ? 'هذا الكود يُطبق على الاشتراك الشهري فقط' : 'This code applies to monthly subscription only',
+      });
+      setCouponData(null);
+      setIsValidating(false);
+      return;
+    }
+
     // Calculate discount on base price only
     const discountAmount = data.discount_type === 'percentage'
       ? Math.round(basePrice * data.discount_value / 100)
@@ -110,6 +124,7 @@ const AddonsStep = ({
       discount_type: data.discount_type,
       discount_value: data.discount_value,
       discountAmount,
+      applies_to: appliesTo,
     });
 
     toast({

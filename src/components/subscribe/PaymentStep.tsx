@@ -26,6 +26,7 @@ interface CouponData {
   discount_type: string;
   discount_value: number;
   discountAmount: number;
+  applies_to: string;
 }
 
 interface PaymentStepProps {
@@ -103,6 +104,29 @@ const PaymentStep = ({
       return;
     }
 
+    // Check if coupon applies to this flow
+    const appliesTo = (data as any).applies_to || 'setup_fee';
+    if (isRenewal && appliesTo === 'setup_fee') {
+      toast({
+        variant: 'destructive',
+        title: isRTL ? 'كود غير صالح' : 'Invalid code',
+        description: isRTL ? 'هذا الكود يُطبق على رسوم التأسيس فقط' : 'This code applies to setup fee only',
+      });
+      setCouponData(null);
+      setIsValidating(false);
+      return;
+    }
+    if (!isRenewal && appliesTo === 'monthly_fee') {
+      toast({
+        variant: 'destructive',
+        title: isRTL ? 'كود غير صالح' : 'Invalid code',
+        description: isRTL ? 'هذا الكود يُطبق على الاشتراك الشهري فقط' : 'This code applies to monthly subscription only',
+      });
+      setCouponData(null);
+      setIsValidating(false);
+      return;
+    }
+
     const discountAmount = data.discount_type === 'percentage'
       ? Math.round(basePrice * data.discount_value / 100)
       : Math.min(data.discount_value, basePrice);
@@ -112,6 +136,7 @@ const PaymentStep = ({
       discount_type: data.discount_type,
       discount_value: data.discount_value,
       discountAmount,
+      applies_to: appliesTo,
     });
 
     toast({
