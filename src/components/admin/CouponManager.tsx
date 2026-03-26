@@ -10,7 +10,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
-import { Plus, Trash2, Ticket, Percent, DollarSign, Copy } from 'lucide-react';
+import { Plus, Trash2, Ticket, Percent, DollarSign, Copy, Settings2 } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,6 +31,7 @@ interface Coupon {
   is_active: boolean;
   usage_count: number;
   max_uses: number | null;
+  applies_to: 'setup_fee' | 'monthly_fee' | 'both';
   created_at: string;
 }
 
