@@ -34,6 +34,7 @@ interface CouponData {
   discount_type: string;
   discount_value: number;
   discountAmount: number;
+  applies_to: string;
 }
 
 interface PricingData {
