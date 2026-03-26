@@ -44,7 +44,7 @@ const WhyUsSection = () => {
       titleEn: 'Designed to Convert',
       titleAr: 'مصمم للنتائج',
       descEn: 'Not just a pretty website — a system engineered for real business results',
-      descAr: 'مش مجرد موقع حلو — نظام مهندس لنتائج بيزنس حقيقية',
+      descAr: 'مش مجرد موقع حلو — نظام متهندس لنتائج بيزنس حقيقية',
       iconBg: 'from-cyan-500 to-teal-500',
     },
     {
