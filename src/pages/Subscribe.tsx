@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -47,11 +46,9 @@ interface PricingData {
 const Subscribe = () => {
   const { isRTL } = useLanguage();
   const { toast } = useToast();
-  const [searchParams] = useSearchParams();
-  const isRenewal = searchParams.get('renewal') === 'true';
   
   // Wizard state
-  const [currentStep, setCurrentStep] = useState(isRenewal ? 2 : 1);
+  const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedId, setSubmittedId] = useState('');
   
