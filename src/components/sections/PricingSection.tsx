@@ -45,7 +45,7 @@ const PricingSection = () => {
     { en: 'Hosting & maintenance included', ar: 'استضافة وصيانة مشمولة' },
     { en: 'Business dashboard', ar: 'لوحة تحكم للبيزنس' },
     { en: 'Ongoing support & updates', ar: 'دعم مستمر وتحديثات' },
-    { en: 'Ready in 7 days', ar: 'جاهز في ٧ أيام' },
+    { en: 'Ready in 10–14 days', ar: 'جاهز في ١٠-١٤ يوم' },
   ];
 
   const formatPrice = (price: number) => {
