@@ -54,8 +54,8 @@ const HeroSection = () => {
           >
             <span className="gradient-text">
               {isRTL
-                ? 'حوّل زوّارك لعملاء يدفعوا  في ٧ أيام بس'
-                : 'Turn Your Visitors Into Paying Customers In Just 7 Days'}
+                ? 'بطّل تخسر عملاء. ابدأ تكسب أونلاين من النهاردة'
+                : 'Stop Losing Customers. Start Winning Online — Today'}
             </span>
           </motion.h1>
           
@@ -102,7 +102,7 @@ const HeroSection = () => {
           >
             {[
               { value: isRTL ? '+٥٠' : '50+', label: isRTL ? 'بيزنس خدمناهم' : 'Businesses Served' },
-              { value: isRTL ? '٧ أيام' : '7 Days', label: isRTL ? 'للإطلاق' : 'To Launch' },
+              { value: isRTL ? '١٠-١٤ يوم' : '10–14 Days', label: isRTL ? 'للإطلاق' : 'To Launch' },
               { value: isRTL ? '+٩٨%' : '98%', label: isRTL ? 'رضا العملاء' : 'Client Satisfaction' },
             ].map((stat, i) => (
               <motion.div

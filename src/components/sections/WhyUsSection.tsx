@@ -9,10 +9,10 @@ const WhyUsSection = () => {
   const features = [
     {
       icon: Zap,
-      titleEn: 'Ready in 7 Days, Not Months',
-      titleAr: 'جاهز في ٧ أيام مش شهور',
-      descEn: 'While agencies take weeks, your system is live and getting you customers in just 7 days',
-      descAr: 'بينما الشركات بتاخد أسابيع، نظامك بيكون شغّال وبيجيبلك عملاء في ٧ أيام بس',
+      titleEn: 'Ready in 10–14 Days, Not Months',
+      titleAr: 'جاهز في ١٠-١٤ يوم مش شهور',
+      descEn: 'While agencies take months, your system is live and getting you customers in just 10–14 days',
+      descAr: 'بينما الشركات بتاخد شهور، نظامك بيكون شغّال وبيجيبلك عملاء في ١٠-١٤ يوم بس',
       iconBg: 'from-amber-500 to-orange-500',
     },
     {
