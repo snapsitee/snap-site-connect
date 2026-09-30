@@ -10,7 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
-import { Plus, Trash2, Ticket, Percent, DollarSign, Copy, Settings2 } from 'lucide-react';
+import { Plus, Trash2, Percent, DollarSign, Copy, Settings2 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   AlertDialog,
@@ -150,9 +150,6 @@ const CouponManager = () => {
   return (
     <div className="space-y-6">
       <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
-        <div className="w-12 h-12 rounded-xl gradient-bg flex items-center justify-center">
-          <Ticket className="w-6 h-6 text-white" />
-        </div>
         <div>
           <h2 className={`text-2xl font-bold ${isRTL ? 'text-right' : ''}`}>
             {isRTL ? 'إدارة الكوبونات' : 'Coupon Management'}
