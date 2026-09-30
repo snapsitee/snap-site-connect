@@ -173,7 +173,7 @@ const AddonsStep = ({
                 <div className={isRTL ? 'text-right' : ''}>
                   <p className="font-medium text-sm sm:text-base">{isRTL ? 'دومين مخصص' : 'Custom Domain'}</p>
                   <p className="text-xs sm:text-sm text-muted-foreground">
-                    {isRTL ? 'بدلاً من .snapsitee.com' : 'Instead of .snapsitee.com'}
+                    {isRTL ? 'بدلاً من .corestudioss.com' : 'Instead of .corestudioss.com'}
                   </p>
                 </div>
               </div>
