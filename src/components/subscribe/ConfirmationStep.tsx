@@ -39,7 +39,7 @@ const ConfirmationStep = ({ orderId, isRenewal }: ConfirmationStepProps) => {
         transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
         className="w-20 h-20 sm:w-24 sm:h-24 rounded-full gradient-bg flex items-center justify-center mx-auto"
       >
-        <CheckCircle className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
+        <CheckCircle className="w-10 h-10 sm:w-12 sm:h-12 text-primary-foreground" />
       </motion.div>
 
       {/* Success Message */}
