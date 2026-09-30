@@ -164,67 +164,72 @@ const Subscribe = () => {
       <RaysBackground fixed />
       <Navbar />
       <main className="pt-20 sm:pt-24 pb-10 sm:pb-16">
-        <div className="container mx-auto px-3 sm:px-4 max-w-2xl">
+        <div className="container mx-auto max-w-2xl px-3 sm:px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass rounded-2xl sm:rounded-3xl p-4 sm:p-8 gradient-border"
+            className="overflow-hidden border border-border bg-card/90 backdrop-blur-xl"
           >
-            <div className="text-center mb-4 sm:mb-6">
-              <h1 className="text-2xl sm:text-3xl font-bold gradient-text mb-2">
+            <div className={`border-b border-border px-4 py-5 sm:px-8 sm:py-6 ${isRTL ? 'text-right' : 'text-left'}`}>
+              <p className="mb-2 font-mono text-[10px] uppercase text-muted-foreground">
+                {isRTL ? 'كور ستوديو / مشروع جديد' : 'Core Studio / New project'}
+              </p>
+              <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
                 {isRTL ? 'اشترك الآن' : 'Subscribe Now'}
               </h1>
             </div>
 
-            {currentStep < 4 && (
-              <StepIndicator currentStep={currentStep} totalSteps={4} stepLabels={stepLabels} isRTL={isRTL} />
-            )}
+            <div className="p-4 sm:p-8">
+              {currentStep < 4 && (
+                <StepIndicator currentStep={currentStep} totalSteps={4} stepLabels={stepLabels} isRTL={isRTL} />
+              )}
 
-            <AnimatePresence mode="wait">
-              {currentStep === 1 && (
-                <AddonsStep
-                  key="addons"
-                  addonSettings={addonSettings}
-                  basePrice={basePrice}
-                  selectedAddons={selectedAddons}
-                  setSelectedAddons={setSelectedAddons}
-                  couponData={couponData}
-                  setCouponData={setCouponData}
-                  onNext={() => setCurrentStep(2)}
-                />
-              )}
-              {currentStep === 2 && (
-                <PaymentStep
-                  key="payment"
-                  paymentSettings={paymentSettings}
-                  totalAmount={totalAmount}
-                  basePrice={basePrice}
-                  selectedPayment={selectedPayment}
-                  setSelectedPayment={setSelectedPayment}
-                  receiptFile={receiptFile}
-                  setReceiptFile={setReceiptFile}
-                  couponData={couponData}
-                  setCouponData={setCouponData}
-                  onNext={() => setCurrentStep(3)}
-                  onBack={() => setCurrentStep(1)}
-                  isRenewal={false}
-                />
-              )}
-              {currentStep === 3 && (
-                <DetailsStep
-                  key="details"
-                  formData={formData}
-                  setFormData={setFormData}
-                  isRenewal={false}
-                  isSubmitting={isSubmitting}
-                  onSubmit={handleSubmit}
-                  onBack={() => setCurrentStep(2)}
-                />
-              )}
-              {currentStep === 4 && (
-                <ConfirmationStep key="confirmation" orderId={submittedId} isRenewal={false} />
-              )}
-            </AnimatePresence>
+              <AnimatePresence mode="wait">
+                {currentStep === 1 && (
+                  <AddonsStep
+                    key="addons"
+                    addonSettings={addonSettings}
+                    basePrice={basePrice}
+                    selectedAddons={selectedAddons}
+                    setSelectedAddons={setSelectedAddons}
+                    couponData={couponData}
+                    setCouponData={setCouponData}
+                    onNext={() => setCurrentStep(2)}
+                  />
+                )}
+                {currentStep === 2 && (
+                  <PaymentStep
+                    key="payment"
+                    paymentSettings={paymentSettings}
+                    totalAmount={totalAmount}
+                    basePrice={basePrice}
+                    selectedPayment={selectedPayment}
+                    setSelectedPayment={setSelectedPayment}
+                    receiptFile={receiptFile}
+                    setReceiptFile={setReceiptFile}
+                    couponData={couponData}
+                    setCouponData={setCouponData}
+                    onNext={() => setCurrentStep(3)}
+                    onBack={() => setCurrentStep(1)}
+                    isRenewal={false}
+                  />
+                )}
+                {currentStep === 3 && (
+                  <DetailsStep
+                    key="details"
+                    formData={formData}
+                    setFormData={setFormData}
+                    isRenewal={false}
+                    isSubmitting={isSubmitting}
+                    onSubmit={handleSubmit}
+                    onBack={() => setCurrentStep(2)}
+                  />
+                )}
+                {currentStep === 4 && (
+                  <ConfirmationStep key="confirmation" orderId={submittedId} isRenewal={false} />
+                )}
+              </AnimatePresence>
+            </div>
           </motion.div>
         </div>
       </main>
