@@ -31,7 +31,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className={`flex flex-col items-center md:items-start ${isRTL ? 'md:items-end' : ''}`}
           >
-            <img src={logoWhite} alt="Core Studio" className="h-10 w-auto mb-3" />
+            <img src={logoWhite} alt="Core Studio" className="h-6 w-auto mb-4" width={1066} height={165} loading="lazy" />
             <p className={`text-muted-foreground text-sm ${isRTL ? 'font-cairo text-right' : 'font-sans text-left'}`}>
               {t('footer.slogan')}
             </p>
