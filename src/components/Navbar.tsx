@@ -22,7 +22,9 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const hero = document.getElementById('hero');
+    const threshold = () => Math.max(40, (hero?.offsetHeight ?? window.innerHeight) - 80);
+    const handleScroll = () => setIsScrolled(window.scrollY > threshold());
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
