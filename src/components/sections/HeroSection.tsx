@@ -17,15 +17,15 @@ const HeroSection = () => {
 
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 bg-background">
-      <div className="absolute inset-0 opacity-50 pointer-events-none">
+      <div className="absolute inset-0 opacity-40 pointer-events-none">
         <LightRays
           raysOrigin="top-center"
           raysSpeed={0.8}
-          lightSpread={0.7}
-          rayLength={2.5}
+          lightSpread={0.6}
+          rayLength={1.5}
           followMouse
           mouseInfluence={0.1}
-          fadeDistance={4}
+          fadeDistance={1.2}
           saturation={0}
         />
       </div>
