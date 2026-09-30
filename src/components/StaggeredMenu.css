@@ -8,17 +8,16 @@
 .staggered-navigation-header {
   position: relative;
   z-index: 4;
-  transition: background-color .3s ease, box-shadow .3s ease;
+  transition: background-color .3s ease, box-shadow .3s ease, border-color .3s ease;
   pointer-events: none;
-  background: hsl(var(--background) / .55);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid hsl(var(--border) / .25);
+  background: transparent;
+  border-bottom: 1px solid transparent;
 }
 .staggered-navigation-header > div > * { pointer-events: auto; }
 .staggered-navigation-scrolled {
   background: hsl(var(--background) / .88);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid hsl(var(--border) / .4);
 }
 .staggered-menu-toggle { gap: .75rem; color: hsl(var(--foreground)); font-size: .9rem; }
