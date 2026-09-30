@@ -1,56 +1,117 @@
-import { useState, useEffect, forwardRef } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import LanguageSwitcher from './LanguageSwitcher';
 import { Button } from '@/components/ui/button';
-import { Menu, X } from 'lucide-react';
 import logoWhite from '@/assets/logo-white.png';
-import { motion, AnimatePresence } from 'framer-motion';
+import './StaggeredMenu.css';
 
 const Navbar = forwardRef<HTMLElement>((_, ref) => {
   const { t, isRTL } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-
-  const isHomePage = location.pathname === '/';
+  const panelRef = useRef<HTMLDivElement>(null);
+  const layersRef = useRef<HTMLDivElement>(null);
+  const iconRef = useRef<HTMLSpanElement>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const openRef = useRef(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    setIsMenuOpen(false);
-    
-    if (!isHomePage) {
-      navigate('/#' + id);
-      return;
+  const animateMenu = useCallback((next: boolean, immediate = false) => {
+    const panel = panelRef.current;
+    const layers = Array.from(layersRef.current?.children ?? []);
+    if (!panel) return;
+    timelineRef.current?.kill();
+    const direction = isRTL ? -100 : 100;
+    const reduced = immediate || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const duration = reduced ? 0 : 0.56;
+    const stagger = reduced ? 0 : 0.07;
+    const links = panel.querySelectorAll('.staggered-menu-link');
+    if (next) {
+      gsap.set([panel, ...layers], { xPercent: direction, visibility: 'visible' });
+      gsap.set(links, { yPercent: reduced ? 0 : 110, opacity: reduced ? 1 : 0 });
+      const timeline = gsap.timeline({ onComplete: () => firstLinkRef.current?.focus({ preventScroll: true }) });
+      timeline.to(layers, { xPercent: 0, duration, stagger, ease: 'power4.out' }, 0);
+      timeline.to(panel, { xPercent: 0, duration: reduced ? 0 : 0.65, ease: 'power4.out' }, stagger * layers.length);
+      timeline.to(links, { yPercent: 0, opacity: 1, duration: reduced ? 0 : 0.65, stagger: reduced ? 0 : 0.085, ease: 'power4.out' }, stagger * layers.length + (reduced ? 0 : 0.18));
+      timelineRef.current = timeline;
+    } else {
+      timelineRef.current = gsap.timeline({ onComplete: () => {
+        gsap.set([panel, ...layers], { visibility: 'hidden' });
+        if (!immediate) triggerRef.current?.focus({ preventScroll: true });
+      }}).to([panel, ...layers.reverse()], { xPercent: direction, duration: reduced ? 0 : 0.32, stagger: reduced ? 0 : 0.04, ease: 'power3.in' });
     }
-    
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    gsap.to(iconRef.current, { rotation: next ? 135 : 0, duration: reduced ? 0 : 0.42, ease: 'power3.out' });
+  }, [isRTL]);
+
+  const setMenu = useCallback((next: boolean, immediate = false) => {
+    if (next === openRef.current && !immediate) return;
+    openRef.current = next;
+    setOpen(next);
+    animateMenu(next, immediate);
+  }, [animateMenu]);
+
+  useEffect(() => {
+    if (!open) return;
+    const oldOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenu(false);
+      if (event.key === 'Tab') {
+        const focusable = Array.from(panelRef.current?.querySelectorAll<HTMLElement>('a, button:not([disabled])') ?? []);
+        if (triggerRef.current) focusable.unshift(triggerRef.current);
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = oldOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open, setMenu]);
+
+  useEffect(() => {
+    if (openRef.current) setMenu(false, true);
+  }, [location.pathname, location.hash]);
+
+  useEffect(() => () => { timelineRef.current?.kill(); }, []);
+
+  useEffect(() => {
+    if (location.pathname === '/' && location.hash) {
+      const timer = window.setTimeout(() => document.getElementById(location.hash.slice(1))?.scrollIntoView({ behavior: 'smooth' }), 150);
+      return () => clearTimeout(timer);
+    }
+  }, [location.pathname, location.hash]);
+
+  const scrollToSection = (id: string) => {
+    setMenu(false);
+    if (location.pathname !== '/') {
+      navigate('/#' + id);
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  useEffect(() => {
-    if (isHomePage && location.hash) {
-      const id = location.hash.replace('#', '');
-      setTimeout(() => {
-        const element = document.getElementById(id);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
-    }
-  }, [location, isHomePage]);
-
-  const navLinks = [
+  const items = [
     { key: 'nav.home', id: 'hero' },
     { key: 'nav.howItWorks', id: 'how-it-works' },
     { key: 'nav.whyUs', id: 'why-us' },
@@ -59,170 +120,50 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
   ];
 
   return (
-    <motion.nav
-      ref={ref}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'glass shadow-lg shadow-black/5' 
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo - clickable to go home */}
-          <motion.div 
-            className="flex items-center cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: 'spring', stiffness: 400 }}
-            onClick={() => navigate('/')}
-          >
-            <img src={logoWhite} alt="SnapSite" className="h-8 w-auto" />
-          </motion.div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link, index) => (
-              <motion.button
-                key={link.id}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-                onClick={() => scrollToSection(link.id)}
-                className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium px-4 py-2 rounded-lg hover:bg-muted/50"
-              >
-                {t(link.key)}
-              </motion.button>
+    <nav ref={ref} className="staggered-navigation" dir={isRTL ? 'rtl' : 'ltr'} aria-label={isRTL ? 'القائمة الرئيسية' : 'Main navigation'}>
+      <div ref={layersRef} className={`staggered-menu-layers ${isRTL ? 'staggered-menu-rtl' : ''}`} aria-hidden="true">
+        <div className="staggered-menu-layer staggered-menu-layer-first" />
+        <div className="staggered-menu-layer staggered-menu-layer-second" />
+      </div>
+      {open && <div className="staggered-menu-backdrop" onClick={() => setMenu(false)} aria-hidden="true" />}
+      <div ref={panelRef} id="site-menu" className={`staggered-menu-panel ${isRTL ? 'staggered-menu-rtl' : ''}`} aria-hidden={!open} inert={!open ? true : undefined}>
+        <div className="staggered-menu-content">
+          <ol className="staggered-menu-list">
+            {items.map((item, index) => (
+              <li key={item.id} className="staggered-menu-item">
+                <a
+                  ref={index === 0 ? firstLinkRef : undefined}
+                  className="staggered-menu-link"
+                  href={`/#${item.id}`}
+                  onClick={(event) => { event.preventDefault(); scrollToSection(item.id); }}
+                >
+                  <span className="staggered-menu-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  <span>{t(item.key)}</span>
+                </a>
+              </li>
             ))}
-          </div>
-
-          {/* Right side - Desktop */}
-          <div className="hidden md:flex items-center gap-3">
+          </ol>
+          <div className="staggered-menu-actions">
+            <Button variant="outline" onClick={() => { setMenu(false); navigate('/renew'); }}>{isRTL ? 'تجديد' : 'Renew'}</Button>
+            <Button onClick={() => scrollToSection('contact')}>{t('nav.getStarted')}</Button>
             <LanguageSwitcher />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: 0.35 }}
-            >
-              <Button
-                variant="outline"
-                onClick={() => navigate('/renew')}
-                className="border-gradient-purple/50 hover:bg-gradient-purple/10 hover:border-gradient-purple transition-all hover:scale-105"
-              >
-                {isRTL ? 'تجديد' : 'Renew'}
-              </Button>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: 0.4 }}
-            >
-              <Button
-                onClick={() => scrollToSection('contact')}
-                className="gradient-bg hover:opacity-90 transition-all hover:scale-105 shadow-md shadow-gradient-purple/20"
-              >
-                {t('nav.getStarted')}
-              </Button>
-            </motion.div>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center gap-2">
-            <LanguageSwitcher />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="relative"
-            >
-              <AnimatePresence mode="wait">
-                {isMenuOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <X className="h-5 w-5" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Menu className="h-5 w-5" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </Button>
           </div>
         </div>
-
-        {/* Mobile menu */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="md:hidden overflow-hidden"
-            >
-              <div className="py-4 border-t border-border">
-                <div className="flex flex-col gap-1">
-                  {navLinks.map((link, index) => (
-                    <motion.button
-                      key={link.id}
-                      initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.05 }}
-                      onClick={() => scrollToSection(link.id)}
-                      className={`text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors py-3 px-4 text-sm font-medium rounded-lg ${isRTL ? 'text-right' : 'text-left'}`}
-                    >
-                      {t(link.key)}
-                    </motion.button>
-                  ))}
-                  
-                  {/* Mobile CTA Buttons */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: 0.25 }}
-                    className="mt-2 flex flex-col gap-2"
-                  >
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        setIsMenuOpen(false);
-                        navigate('/renew');
-                      }}
-                      className="border-gradient-purple/50 hover:bg-gradient-purple/10 w-full"
-                    >
-                      {isRTL ? 'تجديد' : 'Renew'}
-                    </Button>
-                    <Button
-                      onClick={() => scrollToSection('contact')}
-                      className="gradient-bg hover:opacity-90 transition-opacity w-full"
-                    >
-                      {t('nav.getStarted')}
-                    </Button>
-                  </motion.div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
-    </motion.nav>
+      <div className={`staggered-navigation-header ${isScrolled && !open ? 'staggered-navigation-scrolled' : ''}`}>
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <Button variant="ghost" className="staggered-logo h-12 px-0 hover:bg-transparent" onClick={() => { setMenu(false); navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} aria-label="SnapSite home">
+            <img src={logoWhite} alt="SnapSite" className="h-8 w-auto" />
+          </Button>
+          <Button ref={triggerRef} variant="ghost" className="staggered-menu-toggle" aria-expanded={open} aria-controls="site-menu" aria-label={open ? (isRTL ? 'اقفل القائمة' : 'Close menu') : (isRTL ? 'افتح القائمة' : 'Open menu')} onClick={() => setMenu(!openRef.current)}>
+            <span>{open ? (isRTL ? 'اقفل' : 'Close') : (isRTL ? 'القائمة' : 'Menu')}</span>
+            <span ref={iconRef} className="staggered-menu-icon" aria-hidden="true"><span /><span /></span>
+          </Button>
+        </div>
+      </div>
+    </nav>
   );
 });
 
 Navbar.displayName = 'Navbar';
-
 export default Navbar;
