@@ -99,6 +99,23 @@ html, body {
     filter: grayscale(1);
   }
 
+  /* Professional typography: tight, balanced headings and readable body copy */
+  h1, h2, h3 {
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+    line-height: 1.1;
+  }
+  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3 {
+    letter-spacing: 0;
+    line-height: 1.35;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  main > section, main > div > section {
+    scroll-margin-top: 4rem;
+  }
+
   /* RTL Support for Arabic */
   [dir="rtl"] body {
     font-family: 'Cairo', sans-serif;
