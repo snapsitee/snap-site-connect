@@ -15,7 +15,7 @@ const ServicesBentoSection = () => {
       desc: isRTL ? 'أتمتة للباك إند وربط الـ CRM بـ n8n عشان نلغي الشغل اليدوي.' : 'Backend automation pipelines and CRM syncing using n8n to eliminate manual tasks.' },
     { icon: PenTool, tag: '03 / Design', span: 'md:col-span-3',
       title: isRTL ? 'تصميم جرافيك' : 'Graphic Design',
-      desc: isRTL ? 'هوية بصرية، عناصر UI/UX، ومواد تسويقية.' : 'Brand identity, UI/UX assets, and marketing collateral.' },
+      desc: isRTL ? 'هوية بصرية، تصميم UI/UX، ومواد تسويقية.' : 'Brand identity, UI/UX design, and marketing collateral.' },
   ];
 
   return (
