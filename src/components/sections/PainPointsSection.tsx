@@ -67,7 +67,7 @@ const PainPointsSection = () => {
                 <div className={`p-6 flex flex-col gap-4 ${isRTL ? 'font-cairo' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${point.gradient} flex items-center justify-center shrink-0`}>
-                      <point.icon className="w-6 h-6 text-white" />
+                      <point.icon className="w-6 h-6 text-background" />
                     </div>
                     <h3 className="text-lg font-bold text-foreground">
                       {isRTL ? point.titleAr : point.titleEn}

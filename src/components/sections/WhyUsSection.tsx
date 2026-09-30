@@ -83,7 +83,7 @@ const WhyUsSection = () => {
                 <div className={`p-6 h-full ${isRTL ? 'font-cairo text-right' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
                   <div className="flex items-center gap-4 mb-4">
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.iconBg} flex items-center justify-center shrink-0 shadow-lg`}>
-                      <feature.icon className="w-6 h-6 text-white" />
+                      <feature.icon className="w-6 h-6 text-background" />
                     </div>
                     <h3 className="text-lg font-bold text-foreground">
                       {isRTL ? feature.titleAr : feature.titleEn}

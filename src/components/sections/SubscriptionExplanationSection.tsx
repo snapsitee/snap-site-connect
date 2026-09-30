@@ -91,7 +91,7 @@ const SubscriptionExplanationSection = () => {
                         }}
                         className={`w-14 h-14 rounded-2xl ${step.iconBg} flex items-center justify-center flex-shrink-0 shadow-lg`}
                       >
-                        <step.icon className="w-7 h-7 text-white" />
+                        <step.icon className="w-7 h-7 text-background" />
                       </motion.div>
                     </div>
                   </div>

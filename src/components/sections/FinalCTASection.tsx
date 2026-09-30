@@ -40,7 +40,7 @@ const FinalCTASection = () => {
               transition={{ duration: 0.5, type: 'spring' }}
               className="w-20 h-20 mx-auto mb-8 rounded-2xl gradient-bg flex items-center justify-center shadow-xl shadow-gradient-purple/30"
             >
-              <Rocket className="w-10 h-10 text-white" />
+              <Rocket className="w-10 h-10 text-primary-foreground" />
             </motion.div>
           </ScrollReveal>
 
