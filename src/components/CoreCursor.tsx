@@ -22,10 +22,11 @@ const CoreCursor = () => {
       const dot = dotRef.current;
       if (!frame || !dot) return;
 
-      frame.style.transform = `translate3d(${event.clientX - frame.offsetWidth / 2}px, ${event.clientY - frame.offsetHeight / 2}px, 0) rotate(${isInteractive ? 45 : 0}deg)`;
+      const overInteractive = event.target instanceof Element && Boolean(event.target.closest(INTERACTIVE_SELECTOR));
+      frame.style.transform = `translate3d(${event.clientX - frame.offsetWidth / 2}px, ${event.clientY - frame.offsetHeight / 2}px, 0) rotate(${overInteractive ? 45 : 0}deg)`;
       dot.style.transform = `translate3d(${event.clientX - 2}px, ${event.clientY - 2}px, 0)`;
       setIsVisible(true);
-      setIsInteractive(event.target instanceof Element && Boolean(event.target.closest(INTERACTIVE_SELECTOR)));
+      setIsInteractive(overInteractive);
     };
 
     const handlePointerLeave = () => setIsVisible(false);
@@ -44,7 +45,7 @@ const CoreCursor = () => {
       window.removeEventListener('pointerdown', handlePointerDown);
       window.removeEventListener('pointerup', handlePointerUp);
     };
-  }, [isInteractive]);
+  }, []);
 
   const frameClasses = [
     'core-cursor',

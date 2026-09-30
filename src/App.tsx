@@ -11,6 +11,7 @@ import Renew from "./pages/Renew";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "@/components/ScrollToTop";
 import WhatsAppFloatingButton from "@/components/WhatsAppFloatingButton";
+import CoreCursor from "@/components/CoreCursor";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <CoreCursor />
         <BrowserRouter>
           <ScrollToTop />
           <WhatsAppFloatingButton />
