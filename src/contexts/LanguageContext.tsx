@@ -43,7 +43,7 @@ export const translations = {
     'whyUs.title': 'Why Teams Choose Core Studio',
     'whyUs.subtitle': 'Everything you need for a successful online presence',
     'whyUs.fastDelivery.title': 'Fast Delivery',
-    'whyUs.fastDelivery.desc': 'Get your website live in just 7-10 days',
+    'whyUs.fastDelivery.desc': 'Get your website live in 10–14 days',
     'whyUs.subscription.title': 'Subscription Pricing',
     'whyUs.subscription.desc': 'Predictable monthly costs, no surprises',
     'whyUs.noUpfront.title': 'No Large Upfront Payments',
@@ -77,7 +77,7 @@ export const translations = {
     'pricing.features.hosting': 'Hosting & maintenance',
     'pricing.features.unlimitedEdits': 'Admin Dashboard',
     'pricing.features.support': 'Continuous support',
-    'pricing.features.delivery': 'Delivery time: 7-10 Days',
+    'pricing.features.delivery': 'Delivery time: 10–14 days',
     'pricing.subscribe': 'Subscribe Now',
     'pricing.discount': 'OFF',
     
@@ -87,7 +87,7 @@ export const translations = {
     'subscription.step1.title': 'Pay Setup Fee',
     'subscription.step1.desc': 'One-time payment to start your project',
     'subscription.step2.title': 'System Delivered',
-    'subscription.step2.desc': 'Your complete system goes live in 7 days',
+    'subscription.step2.desc': 'Your complete system goes live in 10–14 days',
     'subscription.step3.title': 'Monthly Billing',
     'subscription.step3.desc': 'Billing starts 30 days after delivery',
     'subscription.step4.title': 'Cancel Anytime',
@@ -124,15 +124,15 @@ export const translations = {
     'faq.q2': 'What if I already have a website?',
     'faq.a2': 'Most websites just sit there. Core Studio is built specifically to convert visitors into customers with booking, contact forms, and clear calls-to-action. We can replace or complement your existing site.',
     'faq.q3': 'How is this different from hiring a freelancer?',
-    'faq.a3': 'Freelancers take months, often ghost you, and deliver a static page. Core Studio delivers in 7 days with ongoing support, updates, and a system built for results — not just a design.',
-    'faq.q4': 'What happens after the 7 days?',
+    'faq.a3': 'Freelancers take months, often ghost you, and deliver a static page. Core Studio delivers in 10–14 days with ongoing support, updates, and a system built for results — not just a design.',
+    'faq.q4': 'What happens after the 10–14 days?',
     'faq.a4': 'Your system goes live and starts working for you. We continue providing support, updates, and improvements as part of your monthly subscription.',
     'faq.q5': 'Can I cancel anytime?',
     'faq.a5': 'Yes — no contracts, no penalties. If you ever want to stop, just let us know. But once you see the results, you won\'t want to.',
     
     // Final CTA
     'cta.title': 'Stop Losing Customers Today',
-    'cta.subtitle': 'Book a call and see how Core Studio can grow your business in just 7 days',
+    'cta.subtitle': 'Book a call and see how Core Studio can grow your business in 10–14 days',
     'cta.button': 'Book a Call',
     
     // Footer
@@ -203,7 +203,7 @@ export const translations = {
     'whyUs.title': 'ليه الشركات بتختار Core Studio',
     'whyUs.subtitle': 'كل ما تحتاجه لتواجد ناجح على الإنترنت',
     'whyUs.fastDelivery.title': 'تسليم سريع',
-    'whyUs.fastDelivery.desc': 'احصل على موقعك خلال ٧-١٠ أيام',
+    'whyUs.fastDelivery.desc': 'موقعك يبقى جاهز خلال ١٠ لـ ١٤ يوم',
     'whyUs.subscription.title': 'أسعار اشتراك',
     'whyUs.subscription.desc': 'تكاليف شهرية متوقعة بدون مفاجآت',
     'whyUs.noUpfront.title': 'بدون دفعات كبيرة مقدماً',
@@ -237,7 +237,7 @@ export const translations = {
     'pricing.features.hosting': 'استضافة وصيانة',
     'pricing.features.unlimitedEdits': 'لوحة تحكم',
     'pricing.features.support': 'دعم مستمر',
-    'pricing.features.delivery': 'وقت التسليم: ٧-١٠ أيام',
+    'pricing.features.delivery': 'وقت التسليم: من ١٠ لـ ١٤ يوم',
     'pricing.subscribe': 'اشترك الآن',
     'pricing.discount': 'خصم',
     
@@ -247,7 +247,7 @@ export const translations = {
     'subscription.step1.title': 'ادفع رسوم الإعداد',
     'subscription.step1.desc': 'دفعة واحدة لبدء مشروعك',
     'subscription.step2.title': 'النظام يتسلم',
-    'subscription.step2.desc': 'نظامك الكامل بيبدأ يشتغل في خلال ٧ أيام',
+    'subscription.step2.desc': 'نظامك الكامل بيبدأ يشتغل خلال ١٠ لـ ١٤ يوم',
     'subscription.step3.title': 'الفوترة الشهرية',
     'subscription.step3.desc': 'تبدأ الفوترة بعد ٣٠ يوماً من التسليم',
     'subscription.step4.title': 'ألغِ في أي وقت',
@@ -284,15 +284,15 @@ export const translations = {
     'faq.q2': 'لو عندي موقع بالفعل؟',
     'faq.a2': 'معظم المواقع بتفضل واقفة مبتعملش حاجة. Core Studio مبني خصيصاً يحوّل الزوار لعملاء بحجوزات وفورم تواصل وأزرار واضحة. ممكن نبدله أو نكمّل عليه.',
     'faq.q3': 'إيه الفرق بينكم وبين فريلانسر؟',
-    'faq.a3': 'الفريلانسرز بياخدوا شهور وغالباً بيختفوا وبيسلموا صفحة ثابتة. Core Studio بيسلم في ٧ أيام مع دعم مستمر وتحديثات ونظام مبني للنتائج — مش مجرد تصميم.',
-    'faq.q4': 'إيه اللي بيحصل بعد ال٧ أيام؟',
+    'faq.a3': 'الفريلانسرز بياخدوا شهور وغالباً بيختفوا وبيسلموا صفحة ثابتة. Core Studio بيسلم خلال ١٠ لـ ١٤ يوم مع دعم مستمر وتحديثات ونظام مبني للنتائج — مش مجرد تصميم.',
+    'faq.q4': 'إيه اللي بيحصل بعد الـ ١٠ لـ ١٤ يوم؟',
     'faq.a4': 'نظامك بيبدأ يشتغل ويجيبلك عملاء. واحنا بنفضل نقدم دعم وتحديثات وتحسينات كجزء من اشتراكك الشهري.',
     'faq.q5': 'أقدر ألغي في أي وقت؟',
     'faq.a5': 'أيوه — من غير عقود ومن غير غرامات. لو عايز توقف في أي وقت قولنا. بس أول ما تشوف النتائج، مش هتحب توقف.',
     
     // Final CTA
     'cta.title': 'بطّل تخسر عملاء من النهاردة',
-    'cta.subtitle': 'احجز مكالمة وشوف إزاي Core Studio هيكبّر بيزنسك في ٧ أيام بس',
+    'cta.subtitle': 'احجز مكالمة وشوف إزاي Core Studio هيكبّر بيزنسك خلال ١٠ لـ ١٤ يوم',
     'cta.button': 'احجز مكالمة',
     
     // Footer
