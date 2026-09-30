@@ -13,7 +13,7 @@ const StepIndicator = ({ currentStep, totalSteps, stepLabels, isRTL }: StepIndic
 
   return (
     <div className="mb-5 sm:mb-7">
-      <div className={`mb-4 flex items-end justify-between gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+      <div className={`mb-4 flex items-end justify-between gap-4`}>
         <div className={isRTL ? 'text-right' : 'text-left'}>
           <p className="font-mono text-[10px] uppercase text-muted-foreground">
             {isRTL ? 'المرحلة الحالية' : 'Current step'}
@@ -25,14 +25,14 @@ const StepIndicator = ({ currentStep, totalSteps, stepLabels, isRTL }: StepIndic
         </span>
       </div>
 
-      <div className={`flex w-full items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
+      <div className={`flex w-full items-center`}>
         {Array.from({ length: totalSteps }, (_, index) => {
           const stepNumber = index + 1;
           const isCompleted = stepNumber < currentStep;
           const isCurrent = stepNumber === currentStep;
 
           return (
-            <div key={stepNumber} className={`flex min-w-0 items-center ${stepNumber < totalSteps ? 'flex-1' : ''} ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <div key={stepNumber} className={`flex min-w-0 items-center ${stepNumber < totalSteps ? 'flex-1' : ''}`}>
               <motion.div
                 initial={false}
                 animate={{ scale: isCurrent ? 1.08 : 1 }}

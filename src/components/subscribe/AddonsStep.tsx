@@ -165,8 +165,8 @@ const AddonsStep = ({
             }`}
             onClick={() => setSelectedAddons({ ...selectedAddons, customDomain: !selectedAddons.customDomain })}
           >
-            <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
-              <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3`}>
+              <div className={`flex items-center gap-3`}>
                 <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0 ${selectedAddons.customDomain ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
                   <Globe className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
@@ -177,7 +177,7 @@ const AddonsStep = ({
                   </p>
                 </div>
               </div>
-              <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''} ${isRTL ? 'mr-12 sm:mr-0' : 'ml-12 sm:ml-0'}`}>
+              <div className={`flex items-center gap-3 ms-12 sm:ms-0`}>
                 <Badge variant="secondary" className="text-xs sm:text-sm">
                   {addonSettings.custom_domain_price.toLocaleString()} {isRTL ? 'جنيه/سنة' : 'EGP/year'}
                 </Badge>
@@ -200,8 +200,8 @@ const AddonsStep = ({
             }`}
             onClick={() => setSelectedAddons({ ...selectedAddons, businessEmail: !selectedAddons.businessEmail })}
           >
-            <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
-              <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3`}>
+              <div className={`flex items-center gap-3`}>
                 <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0 ${selectedAddons.businessEmail ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
                   <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
@@ -212,7 +212,7 @@ const AddonsStep = ({
                   </p>
                 </div>
               </div>
-              <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''} ${isRTL ? 'mr-12 sm:mr-0' : 'ml-12 sm:ml-0'}`}>
+              <div className={`flex items-center gap-3 ms-12 sm:ms-0`}>
                 <Badge variant="secondary" className="text-xs sm:text-sm">
                   {addonSettings.business_email_price.toLocaleString()} {isRTL ? 'جنيه/سنة' : 'EGP/year'}
                 </Badge>
@@ -229,15 +229,15 @@ const AddonsStep = ({
       {/* Coupon Section */}
       <div className="space-y-3">
         <Label className={isRTL ? 'text-right block' : ''}>
-          <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex items-center gap-2`}>
             <Ticket className="w-4 h-4" />
             {isRTL ? 'كود الخصم' : 'Coupon Code'}
           </div>
         </Label>
         
         {couponData ? (
-          <div className={`p-3 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
-            <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <div className={`p-3 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-between`}>
+            <div className={`flex items-center gap-2`}>
               <Check className="w-5 h-5 text-primary" />
               <span className="font-mono font-medium">{couponData.code}</span>
               <Badge variant="outline" className="text-primary">
@@ -249,7 +249,7 @@ const AddonsStep = ({
             </Button>
           </div>
         ) : (
-          <div className={`flex gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex gap-2`}>
             <Input
               value={couponCode}
               onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
@@ -269,27 +269,27 @@ const AddonsStep = ({
           {isRTL ? 'ملخص السعر' : 'Price Summary'}
         </h4>
         
-        <div className={`flex justify-between text-sm ${isRTL ? 'flex-row-reverse' : ''}`}>
+        <div className={`flex justify-between text-sm`}>
           <span className="text-muted-foreground">{isRTL ? 'رسوم الإعداد' : 'Setup Fee'}</span>
           <span>{basePrice.toLocaleString()} {isRTL ? 'جنيه' : 'EGP'}</span>
         </div>
 
         {addonTotal > 0 && (
-          <div className={`flex justify-between text-sm ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex justify-between text-sm`}>
             <span className="text-muted-foreground">{isRTL ? 'الإضافات' : 'Add-ons'}</span>
             <span>+{addonTotal.toLocaleString()} {isRTL ? 'جنيه' : 'EGP'}</span>
           </div>
         )}
 
         {discount > 0 && (
-          <div className={`flex justify-between text-sm text-primary ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex justify-between text-sm text-primary`}>
             <span>{isRTL ? 'الخصم' : 'Discount'}</span>
             <span>-{discount.toLocaleString()} {isRTL ? 'جنيه' : 'EGP'}</span>
           </div>
         )}
 
         <div className="border-t pt-3">
-          <div className={`flex justify-between font-bold text-lg ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex justify-between font-bold text-lg`}>
             <span>{isRTL ? 'الإجمالي' : 'Total'}</span>
             <span className="text-primary">{finalTotal.toLocaleString()} {isRTL ? 'جنيه' : 'EGP'}</span>
           </div>
@@ -298,7 +298,7 @@ const AddonsStep = ({
 
       {/* Next Button */}
       <Button onClick={onNext} className="w-full gradient-bg text-base sm:text-lg py-5 sm:py-6">
-        <span className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+        <span className={`flex items-center gap-2`}>
           {isRTL ? 'التالي' : 'Next'}
           {isRTL ? <ArrowLeft className="w-5 h-5" /> : <ArrowRight className="w-5 h-5" />}
         </span>
