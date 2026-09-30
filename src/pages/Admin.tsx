@@ -79,7 +79,7 @@ const Admin = forwardRef<HTMLDivElement>((_, ref) => {
     return (
       <div ref={ref} dir={isRTL ? 'rtl' : 'ltr'} className={`min-h-screen bg-background flex items-center justify-center ${isRTL ? 'font-cairo' : ''}`}>
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-destructive mb-2">{isRTL ? 'الدخول مرفوض' : 'Access Denied'}</h1>
+          <h1 className="text-2xl font-bold text-destructive mb-2">{isRTL ? 'الصفحة غير متوفرة' : 'Page not found'}</h1>
           <p className="text-muted-foreground">{isRTL ? 'بيانات الدخول خاطئة.' : 'Wrong credentials.'}</p>
           <button
             onClick={() => supabase.auth.signOut()}
