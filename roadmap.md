@@ -4,4 +4,4 @@
 - [x] Replace the hero topography with responsive, full-bleed light rays that crop within the hero without stretching.
 - [x] Add a secure read-only `/work` dashboard for analytics, subscribers, renewals, and leads.
 - [x] Align Arabic dashboard headings to the right and move search opposite them in admin and work views.
-- [ ] Change the footer contact email to contact@corestudioss.com.
+- [x] Change the footer contact email to contact@corestudioss.com.

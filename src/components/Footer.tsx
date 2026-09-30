@@ -47,8 +47,8 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
               <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center">
                 <Mail className="w-4 h-4 text-gradient-purple" />
               </div>
-              <a href="mailto:contact@snapsitee.com" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
-                contact@snapsitee.com
+              <a href="mailto:contact@corestudioss.com" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+                contact@corestudioss.com
               </a>
             </div>
             <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
