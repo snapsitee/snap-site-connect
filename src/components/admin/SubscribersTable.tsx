@@ -300,11 +300,17 @@ const SubscribersTable = () => {
             </AlertDialogContent>
           </AlertDialog>
         )}
+        {isRTL && (
+          <div className="relative w-full sm:w-72 sm:mr-auto">
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input placeholder="بحث بالاسم أو رقم الطلب..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pr-10 text-right" dir="rtl" />
+          </div>
+        )}
       </div>
 
       {/* Filters */}
       <div className={`flex flex-wrap gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
-        <div className="relative flex-1 min-w-[200px]">
+        {!isRTL && <div className="relative flex-1 min-w-[200px]">
           <Search className={`absolute top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground ${isRTL ? 'right-3' : 'left-3'}`} />
           <Input
             placeholder={isRTL ? 'بحث بالاسم أو رقم الطلب...' : 'Search by name or order ID...'}
@@ -312,7 +318,7 @@ const SubscribersTable = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             className={isRTL ? 'pr-10 text-right' : 'pl-10'}
           />
-        </div>
+        </div>}
         
         <Select value={subscriptionFilter} onValueChange={setSubscriptionFilter}>
           <SelectTrigger className="w-[160px]">

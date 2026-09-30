@@ -212,14 +212,15 @@ const LeadsTable = () => {
         <h1 className={`text-2xl font-bold ${isRTL ? 'font-cairo' : 'font-sans'}`}>
           {t('admin.leads')}
         </h1>
-        <div className={`flex gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
-          <div className="relative">
+        <div className={`flex flex-wrap gap-2 ${isRTL ? 'sm:mr-auto' : ''}`}>
+          <div className="relative flex-1 sm:flex-none">
             <Search className={`absolute top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground ${isRTL ? 'right-3' : 'left-3'}`} />
             <Input
-              placeholder="Search..."
+              placeholder={isRTL ? 'بحث...' : 'Search...'}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-64 bg-muted border-border ${isRTL ? 'pr-10 text-right' : 'pl-10'}`}
+              className={`w-full sm:w-64 bg-muted border-border ${isRTL ? 'pr-10 text-right' : 'pl-10'}`}
+              dir={isRTL ? 'rtl' : 'ltr'}
             />
           </div>
           <Button onClick={exportToCSV} className="gradient-bg hover:opacity-90">
