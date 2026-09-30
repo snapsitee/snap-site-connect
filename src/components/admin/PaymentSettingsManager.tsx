@@ -87,13 +87,13 @@ const PaymentSettingsManager = () => {
       const filePath = `qr-codes/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
-        .from('receipts')
+        .from('snaps')
         .upload(filePath, file, { upsert: true });
 
       if (uploadError) throw uploadError;
 
       const { data: { publicUrl } } = supabase.storage
-        .from('receipts')
+        .from('snaps')
         .getPublicUrl(filePath);
 
       setSettings(prev => prev ? {

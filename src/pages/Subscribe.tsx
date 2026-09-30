@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import RaysBackground from '@/components/RaysBackground';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { generateId } from '@/lib/ids';
 import { supabase } from '@/integrations/supabase/client';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -108,16 +109,17 @@ const Subscribe = () => {
         return;
       }
 
-      const fileName = `${Date.now()}-${receiptFile.name}`;
+      const fileName = `${Date.now()}-${crypto.randomUUID()}.${receiptFile.name.split('.').pop() || 'jpg'}`;
       const { error: uploadError } = await supabase.storage.from('receipts').upload(fileName, receiptFile);
       if (uploadError) throw new Error(`Upload failed: ${uploadError.message}`);
 
-      const { data: { publicUrl } } = supabase.storage.from('receipts').getPublicUrl(fileName);
+      const publicUrl = fileName;
 
-      const { data, error } = await supabase
+      const newId = generateId('CS-');
+      const { error } = await supabase
         .from('orders')
         .insert([{
-          order_id: 'TEMP',
+          order_id: newId,
           full_name: formData.fullName.trim(),
           business_name: formData.businessName.trim(),
           email: formData.email.trim(),
@@ -133,12 +135,10 @@ const Subscribe = () => {
           receipt_url: publicUrl,
           coupon_code: couponData?.code || null,
           coupon_discount: discount,
-        }])
-        .select('order_id')
-        .single();
+        }]);
 
       if (error) throw new Error(`Order failed: ${error.message}`);
-      setSubmittedId(data.order_id);
+      setSubmittedId(newId);
       setCurrentStep(4);
     } catch (error) {
       console.error('Submit error:', error);

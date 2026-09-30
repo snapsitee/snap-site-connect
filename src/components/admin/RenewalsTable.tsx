@@ -1,3 +1,4 @@
+import ReceiptImage from '@/components/ReceiptImage';
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -397,11 +398,7 @@ const RenewalsTable = () => {
             <DialogTitle>{isRTL ? 'إيصال الدفع' : 'Payment Receipt'}</DialogTitle>
           </DialogHeader>
           {selectedReceipt && (
-            <img 
-              src={selectedReceipt} 
-              alt="Receipt" 
-              className="w-full max-h-[65vh] object-contain rounded-lg"
-            />
+            <ReceiptImage value={selectedReceipt} className="w-full max-h-[65vh] object-contain rounded-lg" />
           )}
         </DialogContent>
       </Dialog>
