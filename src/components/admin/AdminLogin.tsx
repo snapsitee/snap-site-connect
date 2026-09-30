@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import RaysBackground from '@/components/RaysBackground';
-import logoWhite from '@/assets/core-studio-logo-white.png';
+import logoAsset from '@/assets/core-studio-wordlogo-white.svg.asset.json';
 import { z } from 'zod';
 
 const loginSchema = z.object({
@@ -70,7 +70,7 @@ const AdminLogin = () => {
       <div className="w-full max-w-md">
         <div className="glass rounded-3xl p-8 gradient-border">
           <div className="text-center mb-8">
-            <img src={logoWhite} alt="Core Studio" className="h-6 w-auto mx-auto mb-6" />
+            <img src={logoAsset.url} alt="Core Studio" className="h-9 w-auto mx-auto mb-6" />
             <h1 className={`text-2xl font-bold gradient-text ${isRTL ? 'font-cairo' : 'font-sans'}`}>
               {t('admin.login')}
             </h1>

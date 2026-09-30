@@ -1,7 +1,7 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
 import { Mail, Phone } from 'lucide-react';
-import logoWhite from '@/assets/core-studio-logo-white.png';
+import logoAsset from '@/assets/core-studio-wordlogo-white.svg.asset.json';
 import { motion, useInView } from 'framer-motion';
 import { useRef, forwardRef } from 'react';
 
@@ -30,7 +30,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className={`flex flex-col items-center md:items-start ${isRTL ? 'md:items-end' : ''}`}
           >
-            <img src={logoWhite} alt="Core Studio" className="h-6 w-auto mb-4" width={1066} height={165} loading="lazy" />
+            <img src={logoAsset.url} alt="Core Studio" className="h-8 w-auto mb-4" width={116} height={29} loading="lazy" />
             <p className={`text-muted-foreground text-sm ${isRTL ? 'font-cairo text-right' : 'font-sans text-left'}`}>
               {t('footer.slogan')}
             </p>

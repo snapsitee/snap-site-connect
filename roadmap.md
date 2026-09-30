@@ -5,3 +5,4 @@
 - [x] Add a secure read-only `/work` dashboard for analytics, subscribers, renewals, and leads.
 - [x] Align Arabic dashboard headings to the right and move search opposite them in admin and work views.
 - [x] Change the footer contact email to contact@corestudioss.com.
+- [x] Replace site logos with the uploaded white Core Studio word logo and favicon with the uploaded square logo.

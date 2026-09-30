@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import RaysBackground from '@/components/RaysBackground';
-import logoWhite from '@/assets/core-studio-logo-white.png';
+import logoAsset from '@/assets/core-studio-wordlogo-white.svg.asset.json';
 
 const schema = z.object({ email: z.string().trim().email().max(255), password: z.string().min(6).max(100) });
 
@@ -36,7 +36,7 @@ const WorkLogin = () => {
     <RaysBackground />
     <div className="absolute top-4 end-4"><LanguageSwitcher /></div>
     <section className="w-full max-w-md border border-border bg-card p-8">
-      <img src={logoWhite} alt="Core Studio" className="h-6 w-auto mx-auto mb-8" />
+      <img src={logoAsset.url} alt="Core Studio" className="h-9 w-auto mx-auto mb-8" />
       <div className="mb-8 text-center"><p className="font-mono text-xs uppercase text-muted-foreground mb-2">{isRTL ? 'وصول الفريق' : 'Team access'}</p><h1 className="text-2xl font-bold">{isRTL ? 'لوحة العمل' : 'Work Dashboard'}</h1></div>
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2"><Label htmlFor="work-email">{isRTL ? 'البريد الإلكتروني' : 'Email'}</Label><Input id="work-email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className={isRTL ? 'text-right' : ''} required /></div>
