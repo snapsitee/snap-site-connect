@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { User, Session } from '@supabase/supabase-js';
 import AdminLogin from '@/components/admin/AdminLogin';
 import AdminDashboard from '@/components/admin/AdminDashboard';
+import RaysBackground from '@/components/RaysBackground';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Admin = forwardRef<HTMLDivElement>((_, ref) => {
@@ -77,13 +78,39 @@ const Admin = forwardRef<HTMLDivElement>((_, ref) => {
 
   if (!isAdmin) {
     return (
-      <div ref={ref} dir={isRTL ? 'rtl' : 'ltr'} className={`min-h-screen bg-background flex items-center justify-center ${isRTL ? 'font-cairo' : ''}`}>
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-destructive mb-2">{isRTL ? 'الصفحة غير متوفرة' : 'Page not found'}</h1>
+      <div
+        ref={ref}
+        dir={isRTL ? 'rtl' : 'ltr'}
+        className={`relative min-h-screen bg-background overflow-hidden flex items-center justify-center ${isRTL ? 'font-cairo' : ''}`}
+      >
+        {/* backdrop */}
+        <div className="pointer-events-none absolute inset-0 opacity-25" aria-hidden="true">
+          <RaysBackground />
+        </div>
+
+        <div className="relative z-10 flex flex-col items-center text-center px-6">
+          {/* square mark */}
+          <div className="relative h-16 w-16 border border-border mb-10" aria-hidden="true">
+            <span className="absolute inset-[18px] border border-muted-foreground/40" />
+          </div>
+
+          <p className="font-mono text-[11px] tracking-[0.35em] text-muted-foreground uppercase mb-4">
+            {isRTL ? 'خطأ ٤٠٤' : 'Error 404'}
+          </p>
+
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
+            {isRTL ? 'الصفحة غير متوفرة' : 'Page not found'}
+          </h1>
+
+          <p className="text-sm text-muted-foreground max-w-sm leading-relaxed mb-10">
+            {isRTL
+              ? 'الصفحة اللي بتدوّر عليها مش موجودة أو مش متاحة ليك.'
+              : "The page you're looking for doesn't exist or isn't available to you."}
+          </p>
 
           <button
             onClick={() => supabase.auth.signOut()}
-            className="mt-4 text-primary hover:underline"
+            className="border border-border px-8 py-3 font-mono text-xs tracking-[0.2em] uppercase text-foreground transition-colors hover:bg-foreground hover:text-background"
           >
             {isRTL ? 'تسجيل الخروج' : 'Sign Out'}
           </button>
