@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { User, Session } from '@supabase/supabase-js';
 import AdminLogin from '@/components/admin/AdminLogin';
 import AdminDashboard from '@/components/admin/AdminDashboard';
+import RaysBackground from '@/components/RaysBackground';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Admin = forwardRef<HTMLDivElement>((_, ref) => {
