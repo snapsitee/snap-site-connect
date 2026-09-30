@@ -78,7 +78,7 @@ const Admin = forwardRef<HTMLDivElement>((_, ref) => {
       <div ref={ref} className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-destructive mb-2">Access Denied</h1>
-          <p className="text-muted-foreground">You don't have admin privileges.</p>
+          <p className="text-muted-foreground">Wrong credentials.</p>
           <button
             onClick={() => supabase.auth.signOut()}
             className="mt-4 text-primary hover:underline"
