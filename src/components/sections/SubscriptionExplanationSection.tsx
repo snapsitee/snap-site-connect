@@ -17,32 +17,31 @@ const SubscriptionExplanationSection = () => {
       icon: CreditCard,
       title: t('subscription.step1.title'),
       desc: t('subscription.step1.desc'),
-      iconBg: 'bg-gradient-to-br from-pink-500 to-purple-500',
+      iconBg: 'bg-foreground',
     },
     {
       icon: Package,
       title: t('subscription.step2.title'),
       desc: t('subscription.step2.desc'),
-      iconBg: 'bg-gradient-to-br from-cyan-400 to-blue-500',
+      iconBg: 'bg-foreground',
     },
     {
       icon: Calendar,
       title: t('subscription.step3.title'),
       desc: t('subscription.step3.desc'),
-      iconBg: 'bg-gradient-to-br from-purple-400 to-blue-500',
+      iconBg: 'bg-foreground',
     },
     {
       icon: XCircle,
       title: t('subscription.step4.title'),
       desc: t('subscription.step4.desc'),
-      iconBg: 'bg-gradient-to-br from-orange-500 to-red-500',
+      iconBg: 'bg-foreground',
     },
   ];
 
   return (
     <section id="how-it-works" className="py-28 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-gradient-purple/5 to-gradient-blue/5 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -103,7 +102,7 @@ const SubscriptionExplanationSection = () => {
                     animate={isInView ? { scaleY: 1 } : {}}
                     transition={{ duration: 0.4, delay: 0.4 + index * 0.15 }}
                     style={{ transformOrigin: 'top' }}
-                    className="w-0.5 h-12 bg-gradient-to-b from-gradient-purple/60 to-gradient-blue/60"
+                    className="w-0.5 h-12 bg-border"
                   />
                 )}
               </div>

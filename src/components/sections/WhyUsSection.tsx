@@ -13,7 +13,6 @@ const WhyUsSection = () => {
       titleAr: 'جاهز في ٧ أيام مش شهور',
       descEn: 'While agencies take weeks, your system is live and getting you customers in just 7 days',
       descAr: 'بينما الشركات بتاخد أسابيع، نظامك بيكون شغّال وبيجيبلك عملاء في ٧ أيام بس',
-      iconBg: 'from-amber-500 to-orange-500',
     },
     {
       icon: Wallet,
@@ -21,7 +20,6 @@ const WhyUsSection = () => {
       titleAr: 'من غير تكاليف ضخمة مقدماً',
       descEn: 'Start with a small setup fee instead of paying 40,000+ EGP upfront to an agency',
       descAr: 'ابدأ برسوم إعداد بسيطة بدل ما تدفع +٤٠,٠٠٠ ج.م مقدم لشركة',
-      iconBg: 'from-emerald-500 to-green-600',
     },
     {
       icon: Target,
@@ -29,7 +27,6 @@ const WhyUsSection = () => {
       titleAr: 'كتصمم عشان يجيبلك عملاء',
       descEn: 'Every page, every button is designed to convert visitors into paying customers',
       descAr: 'كل صفحة وكل زر مصمم لتحويل الزوار لعملاء يدفعوا',
-      iconBg: 'from-pink-500 to-rose-500',
     },
     {
       icon: Headphones,
@@ -37,7 +34,6 @@ const WhyUsSection = () => {
       titleAr: 'دعم مستمر معاك',
       descEn: 'Updates, fixes, and improvements — we handle everything so you focus on your business',
       descAr: 'تحديثات وإصلاحات وتحسينات — بنتولى كل حاجة عشان تركز على شغلك بس!',
-      iconBg: 'from-purple-500 to-fuchsia-500',
     },
     {
       icon: TrendingUp,
@@ -45,7 +41,6 @@ const WhyUsSection = () => {
       titleAr: 'مصمم للنتائج',
       descEn: 'Not just a pretty website — a system engineered for real business results',
       descAr: 'مش مجرد موقع حلو — نظام متهندس لنتائج بيزنس حقيقية',
-      iconBg: 'from-cyan-500 to-teal-500',
     },
     {
       icon: ShieldCheck,
@@ -53,14 +48,12 @@ const WhyUsSection = () => {
       titleAr: 'آمن وموثوق',
       descEn: 'We ensure your website and data are protected with the latest security standards',
       descAr: 'بنتأكد إن موقعك وبياناتك محمية بأحدث معايير الأمان',
-      iconBg: 'from-blue-500 to-indigo-500',
     },
   ];
 
   return (
     <section id="why-us" className="py-28 relative">
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-gradient-to-r from-gradient-purple/5 to-gradient-blue/5 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -82,7 +75,7 @@ const WhyUsSection = () => {
               <div className="gradient-border rounded-2xl h-full">
                 <div className={`p-6 h-full ${isRTL ? 'font-cairo text-right' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
                   <div className="flex items-center gap-4 mb-4">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.iconBg} flex items-center justify-center shrink-0 shadow-lg`}>
+                    <div className={`w-12 h-12 rounded-xl bg-foreground flex items-center justify-center shrink-0 shadow-lg`}>
                       <feature.icon className="w-6 h-6 text-background" />
                     </div>
                     <h3 className="text-lg font-bold text-foreground">

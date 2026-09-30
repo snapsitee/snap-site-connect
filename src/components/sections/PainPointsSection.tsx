@@ -13,7 +13,6 @@ const PainPointsSection = () => {
       titleAr: 'مكالمات فايتة وحجوزات متلخبطة',
       descEn: "Customers call but you're busy. Messages get lost. Bookings fall through the cracks.",
       descAr: 'العملاء بيتصلوا وأنت مشغول. الرسائل بتتوه. والحجوزات بتروح عليك.',
-      gradient: 'from-red-500 to-orange-500',
     },
     {
       icon: Globe,
@@ -21,7 +20,6 @@ const PainPointsSection = () => {
       titleAr: 'مفيش تواجد أونلاين محترف',
       descEn: "Your competitors have websites. Your customers can't find you or trust you online.",
       descAr: 'منافسيك عندهم مواقع. عملاءك مش لاقينك ولا واثقين فيك أونلاين.',
-      gradient: 'from-orange-500 to-amber-500',
     },
     {
       icon: TrendingDown,
@@ -29,7 +27,6 @@ const PainPointsSection = () => {
       titleAr: 'بتخسر لمنافسين شكلهم أحسن',
       descEn: 'Customers choose the business that looks more professional — even if your service is better.',
       descAr: 'العملاء بيختاروا البيزنس اللي شكله احترافي أكتر — حتى لو خدمتك أحسن.',
-      gradient: 'from-pink-500 to-red-500',
     },
     {
       icon: DollarSign,
@@ -37,7 +34,6 @@ const PainPointsSection = () => {
       titleAr: 'الشركات غالية والفريلانسرز بيختفوا',
       descEn: 'Freelancers ghost you. Agencies charge 40,000+ EGP upfront and take months to deliver.',
       descAr: 'الفريلانسرز بيوعدوا ويختفوا. والشركات بتاخد +٤٠,٠٠٠ ج.م مقدم وبتتأخر شهور.',
-      gradient: 'from-amber-500 to-yellow-500',
     },
   ];
 
@@ -66,7 +62,7 @@ const PainPointsSection = () => {
               <div className="gradient-border rounded-2xl">
                 <div className={`p-6 flex flex-col gap-4 ${isRTL ? 'font-cairo' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
                   <div className="flex items-center gap-4">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${point.gradient} flex items-center justify-center shrink-0`}>
+                    <div className={`w-12 h-12 rounded-xl bg-foreground flex items-center justify-center shrink-0`}>
                       <point.icon className="w-6 h-6 text-background" />
                     </div>
                     <h3 className="text-lg font-bold text-foreground">

@@ -51,7 +51,6 @@ const HeroSection = () => {
           </motion.div>
         </div>
       </div>
-      <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
     </section>
   );
 };

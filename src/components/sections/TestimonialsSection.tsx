@@ -91,7 +91,6 @@ const TestimonialsSection = () => {
 
   return (
     <section className="py-20 md:py-32 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
 
@@ -109,7 +108,7 @@ const TestimonialsSection = () => {
                 {isRTL ? 'آراء عملائنا' : 'Client Reviews'}
               </span>
             </motion.div>
-            <h2 className="text-3xl md:text-5xl font-bold mb-4 pb-1 bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 pb-1 text-foreground">
               {isRTL ? 'كلام الناس عننا' : 'What Our Clients Say'}
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -164,8 +163,8 @@ const TestimonialsSection = () => {
                       <p className="text-muted-foreground mb-5 leading-relaxed text-sm md:text-base line-clamp-4">"{text}"</p>
 
                       <div className="flex items-center gap-3">
-                        <Avatar className="w-10 h-10 bg-gradient-to-br from-primary to-accent">
-                          <AvatarFallback className="bg-gradient-to-br from-primary to-accent text-primary-foreground font-semibold text-sm">
+                        <Avatar className="w-10 h-10 bg-primary">
+                          <AvatarFallback className="bg-primary text-primary-foreground font-semibold text-sm">
                             {initials}
                           </AvatarFallback>
                         </Avatar>
@@ -175,7 +174,6 @@ const TestimonialsSection = () => {
                         </div>
                       </div>
 
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/0 via-primary/10 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                     </div>
                   </motion.div>
                 );
@@ -224,7 +222,7 @@ const TestimonialsSection = () => {
             <div className="inline-flex items-center gap-4 px-6 py-3 rounded-full bg-card/50 backdrop-blur-sm border border-border/50">
               <div className="flex -space-x-2">
                 {reviews.slice(0, 4).map((r, i) => (
-                  <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-xs font-semibold text-primary-foreground border-2 border-background">
+                  <div key={i} className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-xs font-semibold text-primary-foreground border-2 border-background">
                     {getInitials(r.name_en)}
                   </div>
                 ))}

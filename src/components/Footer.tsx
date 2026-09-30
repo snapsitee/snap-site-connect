@@ -14,7 +14,6 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
     <footer ref={footerRef} className="py-16 border-t border-border relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-96 h-32 bg-gradient-to-t from-gradient-purple/5 to-transparent blur-2xl" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">

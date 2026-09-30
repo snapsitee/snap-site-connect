@@ -16,10 +16,8 @@ const FinalCTASection = () => {
 
   return (
     <section className="py-28 relative overflow-hidden">
-      {/* Animated gradient background */}
+      {/* Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 gradient-bg opacity-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background" />
         <motion.div
           animate={{ 
             scale: [1, 1.2, 1],
