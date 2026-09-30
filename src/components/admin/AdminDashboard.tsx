@@ -16,7 +16,7 @@ import CouponManager from './CouponManager';
 import SnapsManager from './SnapsManager';
 import ReviewsManager from './ReviewsManager';
 import PopupSettingsManager from './PopupSettingsManager';
-import logoAsset from '@/assets/core-studio-wordlogo-white.svg.asset.json';
+import logoAsset from '@/assets/core-studio-wordlogo-white.svg';
 import { MessageSquare, Megaphone } from 'lucide-react';
 
 type Tab = 'analytics' | 'leads' | 'subscribers' | 'renewals' | 'pricing' | 'payment' | 'addons' | 'coupons' | 'snaps' | 'reviews' | 'popup';
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
           >
             {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
-          <img src={logoAsset.url} alt="Core Studio" className="h-7 w-auto" />
+          <img src={logoAsset} alt="Core Studio" className="h-7 w-auto" />
           <LanguageSwitcher />
         </div>
       </div>
@@ -69,7 +69,7 @@ const AdminDashboard = () => {
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="p-6 border-b border-sidebar-border">
-            <img src={logoAsset.url} alt="Core Studio" className="h-8 w-auto" />
+            <img src={logoAsset} alt="Core Studio" className="h-8 w-auto" />
             <p className="text-sm text-sidebar-foreground/60 mt-1">
               {t('admin.dashboard')}
             </p>
