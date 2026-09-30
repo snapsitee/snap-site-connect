@@ -23,8 +23,8 @@ const CoreCursor = () => {
       if (!frame || !dot) return;
 
       const overInteractive = event.target instanceof Element && Boolean(event.target.closest(INTERACTIVE_SELECTOR));
-      frame.style.transform = `translate3d(${event.clientX - frame.offsetWidth / 2}px, ${event.clientY - frame.offsetHeight / 2}px, 0) rotate(${overInteractive ? 45 : 0}deg)`;
-      dot.style.transform = `translate3d(${event.clientX - 2}px, ${event.clientY - 2}px, 0)`;
+      frame.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0) translate(-50%, -50%) rotate(${overInteractive ? 45 : 0}deg)`;
+      dot.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0) translate(-50%, -50%)`;
       setIsVisible(true);
       setIsInteractive(overInteractive);
     };
