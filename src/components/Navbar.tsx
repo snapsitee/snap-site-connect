@@ -4,7 +4,6 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import LanguageSwitcher from './LanguageSwitcher';
 import { Button } from '@/components/ui/button';
-import logoWhite from '@/assets/logo-white.png';
 import './StaggeredMenu.css';
 
 const Navbar = forwardRef<HTMLElement>((_, ref) => {
@@ -156,8 +155,8 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
       </div>
       <div className={`staggered-navigation-header ${isScrolled && !open ? 'staggered-navigation-scrolled' : ''}`}>
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Button variant="ghost" className="staggered-logo h-12 px-0 hover:bg-transparent" onClick={() => { setMenu(false); navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} aria-label="SnapSite home">
-            <img src={logoWhite} alt="SnapSite" className="h-8 w-auto" />
+          <Button variant="ghost" className="staggered-logo h-12 px-0 hover:bg-transparent" onClick={() => { setMenu(false); navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} aria-label="Core Studio home">
+            <span className="font-mono text-base font-semibold tracking-tight text-foreground" dir="ltr">CORE<span className="text-muted-foreground">/</span>STUDIO</span>
           </Button>
           <Button ref={triggerRef} variant="ghost" className="staggered-menu-toggle" aria-expanded={open} aria-controls="site-menu" aria-label={open ? (isRTL ? 'اقفل القائمة' : 'Close menu') : (isRTL ? 'افتح القائمة' : 'Open menu')} onClick={() => setMenu(!openRef.current)}>
             <span>{open ? (isRTL ? 'اقفل' : 'Close') : (isRTL ? 'القائمة' : 'Menu')}</span>

@@ -1,132 +1,57 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import LightRays from '@/components/LightRays';
+
+const fade = (delay: number) => ({
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] as const },
+});
 
 const HeroSection = () => {
   const { isRTL } = useLanguage();
-
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const go = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  const font = isRTL ? 'font-cairo' : 'font-sans';
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
-      <div className="absolute inset-0 overflow-hidden opacity-40" aria-hidden="true">
-        <LightRays
-          raysOrigin="top-center"
-          raysSpeed={1}
-          lightSpread={0.5}
-          rayLength={3}
-          followMouse
-          mouseInfluence={0.1}
-          noiseAmount={0}
-          distortion={0}
-          pulsating={false}
-          fadeDistance={1}
-          saturation={1}
-        />
+    <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 bg-background">
+      <div className="absolute inset-0 overflow-hidden opacity-25" aria-hidden="true">
+        <LightRays raysOrigin="top-center" raysSpeed={1} lightSpread={0.5} rayLength={3} followMouse mouseInfluence={0.1} noiseAmount={0} distortion={0} pulsating={false} fadeDistance={1} saturation={1} />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-purple/10 border border-gradient-purple/30 mb-8"
-          >
-            <Sparkles className="w-4 h-4 text-gradient-purple" />
-            <span className="text-sm font-medium text-gradient-purple">
-              {isRTL ? 'مواقع إلكترونية بمعدل تحويل عالٍ' : 'High Conversion Websites'}
+        <div className="max-w-5xl mx-auto text-center">
+          <motion.div {...fade(0.05)} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/60 bg-card/40 mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-foreground" />
+            <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              {isRTL ? 'Core Studio · وكالة رقمية متكاملة' : 'Core Studio · Full-Service Digital Agency'}
             </span>
           </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className={`text-4xl md:text-5xl lg:text-7xl font-bold mb-6 leading-tight ${isRTL ? 'font-cairo' : 'font-sans'}`}
-          >
-            <span className="gradient-text">
-              {isRTL
-                ? 'حوّل زوّارك لعملاء يدفعوا  في ٧ أيام بس'
-                : 'Turn Your Visitors Into Paying Customers In Just 7 Days'}
-            </span>
+          <motion.h1 {...fade(0.15)} className={`text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.05] mb-6 text-foreground ${font}`}>
+            {isRTL ? 'ابني، أتمت، وكبّر.' : 'Build, Automate, and Scale.'}
           </motion.h1>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className={`text-lg md:text-xl lg:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto ${isRTL ? 'font-cairo' : 'font-sans'}`}
-          >
+
+          <motion.p {...fade(0.25)} className={`text-base md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed ${font}`}>
             {isRTL
-              ? 'SnapSite بيعملك نظام أونلاين كامل — موقع، حجوزات، واستقبال عملاء — عشان تبطّل تخسر عملاء وتبدأ تكبر.'
-              : 'SnapSite builds you a complete online system — website, booking, and lead capture — so you stop losing customers and start growing.'}
+              ? 'Core Studio هو المحرك الرقمي الكامل لبيزنسك. بنجمعلك مواقع بنظام الاشتراك، أتمتة قوية للباك إند بـ n8n، تصميم جرافيك عالي المستوى، ونمو مستهدف على السوشيال ميديا — في شراكة واحدة متكاملة.'
+              : 'Core Studio is your complete digital engine. We combine custom Web-as-a-Service, powerful n8n backend automation, high-end graphic design, and targeted social media growth into one cohesive partnership.'}
           </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className={`flex flex-col sm:flex-row gap-4 justify-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}
-          >
-            <Button
-              size="lg"
-              onClick={() => scrollToSection('contact')}
-              className="gradient-bg hover:opacity-90 transition-all hover:scale-105 text-lg px-8 py-6 shadow-lg shadow-gradient-purple/25"
-            >
-              {isRTL ? 'احجز مكالمة' : 'Book a Call'}
+          <motion.div {...fade(0.35)} className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button size="lg" onClick={() => go('pricing')} className="text-base px-8 py-6 gap-2">
+              {isRTL ? 'شوف الباقات' : 'View Packages'}
+              <ArrowRight className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => scrollToSection('pricing')}
-              className="border-gradient-purple/50 hover:bg-gradient-purple/10 hover:border-gradient-purple text-lg px-8 py-6 transition-all hover:scale-105"
-            >
-              {isRTL ? 'خطة الأسعار' : 'Pricing Plan'}
+            <Button size="lg" variant="outline" onClick={() => go('contact')} className="text-base px-8 py-6 border-border/60 bg-transparent hover:bg-card">
+              {isRTL ? 'تواصل معانا' : 'Contact Us'}
             </Button>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            className="mt-16 grid grid-cols-3 gap-8 max-w-xl mx-auto"
-          >
-            {[
-              { value: isRTL ? '+٥٠' : '50+', label: isRTL ? 'بيزنس خدمناهم' : 'Businesses Served' },
-              { value: isRTL ? '٧ أيام' : '7 Days', label: isRTL ? 'للإطلاق' : 'To Launch' },
-              { value: isRTL ? '+٩٨%' : '98%', label: isRTL ? 'رضا العملاء' : 'Client Satisfaction' },
-            ].map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 1.1 + i * 0.1 }}
-                className="text-center"
-              >
-                <div className="text-2xl md:text-3xl font-bold gradient-text">{stat.value}</div>
-                <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
-              </motion.div>
-            ))}
           </motion.div>
         </div>
       </div>
-
-      <motion.div
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ duration: 1.5, delay: 1 }}
-        className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gradient-purple/50 to-transparent"
-      />
+      <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
     </section>
   );
 };
