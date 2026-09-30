@@ -124,15 +124,15 @@ export const translations = {
     'faq.q2': 'What if I already have a website?',
     'faq.a2': 'Most websites just sit there. Core Studio is built specifically to convert visitors into customers with booking, contact forms, and clear calls-to-action. We can replace or complement your existing site.',
     'faq.q3': 'How is this different from hiring a freelancer?',
-    'faq.a3': 'Freelancers take months, often ghost you, and deliver a static page. Core Studio delivers in 7 days with ongoing support, updates, and a system built for results — not just a design.',
-    'faq.q4': 'What happens after the 7 days?',
+    'faq.a3': 'Freelancers take months, often ghost you, and deliver a static page. Core Studio delivers in 10–14 days with ongoing support, updates, and a system built for results — not just a design.',
+    'faq.q4': 'What happens after the 10–14 days?',
     'faq.a4': 'Your system goes live and starts working for you. We continue providing support, updates, and improvements as part of your monthly subscription.',
     'faq.q5': 'Can I cancel anytime?',
     'faq.a5': 'Yes — no contracts, no penalties. If you ever want to stop, just let us know. But once you see the results, you won\'t want to.',
     
     // Final CTA
     'cta.title': 'Stop Losing Customers Today',
-    'cta.subtitle': 'Book a call and see how Core Studio can grow your business in just 7 days',
+    'cta.subtitle': 'Book a call and see how Core Studio can grow your business in 10–14 days',
     'cta.button': 'Book a Call',
     
     // Footer
@@ -284,15 +284,15 @@ export const translations = {
     'faq.q2': 'لو عندي موقع بالفعل؟',
     'faq.a2': 'معظم المواقع بتفضل واقفة مبتعملش حاجة. Core Studio مبني خصيصاً يحوّل الزوار لعملاء بحجوزات وفورم تواصل وأزرار واضحة. ممكن نبدله أو نكمّل عليه.',
     'faq.q3': 'إيه الفرق بينكم وبين فريلانسر؟',
-    'faq.a3': 'الفريلانسرز بياخدوا شهور وغالباً بيختفوا وبيسلموا صفحة ثابتة. Core Studio بيسلم في ٧ أيام مع دعم مستمر وتحديثات ونظام مبني للنتائج — مش مجرد تصميم.',
-    'faq.q4': 'إيه اللي بيحصل بعد ال٧ أيام؟',
+    'faq.a3': 'الفريلانسرز بياخدوا شهور وغالباً بيختفوا وبيسلموا صفحة ثابتة. Core Studio بيسلم خلال ١٠ لـ ١٤ يوم مع دعم مستمر وتحديثات ونظام مبني للنتائج — مش مجرد تصميم.',
+    'faq.q4': 'إيه اللي بيحصل بعد الـ ١٠ لـ ١٤ يوم؟',
     'faq.a4': 'نظامك بيبدأ يشتغل ويجيبلك عملاء. واحنا بنفضل نقدم دعم وتحديثات وتحسينات كجزء من اشتراكك الشهري.',
     'faq.q5': 'أقدر ألغي في أي وقت؟',
     'faq.a5': 'أيوه — من غير عقود ومن غير غرامات. لو عايز توقف في أي وقت قولنا. بس أول ما تشوف النتائج، مش هتحب توقف.',
     
     // Final CTA
     'cta.title': 'بطّل تخسر عملاء من النهاردة',
-    'cta.subtitle': 'احجز مكالمة وشوف إزاي Core Studio هيكبّر بيزنسك في ٧ أيام بس',
+    'cta.subtitle': 'احجز مكالمة وشوف إزاي Core Studio هيكبّر بيزنسك خلال ١٠ لـ ١٤ يوم',
     'cta.button': 'احجز مكالمة',
     
     // Footer
