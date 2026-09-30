@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Admin from "./pages/Admin";
 import Subscribe from "./pages/Subscribe";
 import Renew from "./pages/Renew";
+import Work from "./pages/Work";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "@/components/ScrollToTop";
 import WhatsAppFloatingButton from "@/components/WhatsAppFloatingButton";
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/subscribe" element={<Subscribe />} />
             <Route path="/renew" element={<Renew />} />
             <Route path="/admin/*" element={<Admin />} />
+            <Route path="/work" element={<Work />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
