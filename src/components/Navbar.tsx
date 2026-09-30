@@ -90,6 +90,10 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
   }, [open, setMenu]);
 
   useEffect(() => {
+    if (panelRef.current) panelRef.current.inert = !open;
+  }, [open]);
+
+  useEffect(() => {
     if (openRef.current) setMenu(false, true);
   }, [location.pathname, location.hash]);
 
@@ -126,7 +130,7 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
         <div className="staggered-menu-layer staggered-menu-layer-second" />
       </div>
       {open && <div className="staggered-menu-backdrop" onClick={() => setMenu(false)} aria-hidden="true" />}
-      <div ref={panelRef} id="site-menu" className={`staggered-menu-panel ${isRTL ? 'staggered-menu-rtl' : ''}`} aria-hidden={!open} inert={!open ? true : undefined}>
+      <div ref={panelRef} id="site-menu" className={`staggered-menu-panel ${isRTL ? 'staggered-menu-rtl' : ''}`} aria-hidden={!open}>
         <div className="staggered-menu-content">
           <ol className="staggered-menu-list">
             {items.map((item, index) => (
