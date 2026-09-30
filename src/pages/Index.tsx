@@ -5,9 +5,7 @@ import PainPointsSection from '@/components/sections/PainPointsSection';
 import WelcomePopup from '@/components/WelcomePopup';
 
 const ServicesBentoSection = lazy(() => import('@/components/sections/ServicesBentoSection'));
-const HowItWorksSection = lazy(() => import('@/components/sections/HowItWorksSection'));
 const WhyUsSection = lazy(() => import('@/components/sections/WhyUsSection'));
-const WhatYouGetSection = lazy(() => import('@/components/sections/WhatYouGetSection'));
 const PricingSection = lazy(() => import('@/components/sections/PricingSection'));
 const SubscriptionExplanationSection = lazy(() => import('@/components/sections/SubscriptionExplanationSection'));
 const OurSnapsSection = lazy(() => import('@/components/sections/OurSnapsSection'));
@@ -27,9 +25,7 @@ const Index = forwardRef<HTMLDivElement>((_, ref) => {
         <PainPointsSection />
         <Suspense fallback={null}>
           <ServicesBentoSection />
-          <HowItWorksSection />
           <WhyUsSection />
-          <WhatYouGetSection />
           <PricingSection />
           <SubscriptionExplanationSection />
           <OurSnapsSection />

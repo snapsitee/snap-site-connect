@@ -4,7 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* SnapSite monochrome design tokens. All colors are achromatic HSL values. */
+/* Core Studio monochrome design tokens. All colors are achromatic HSL values. */
 
 html, body {
   overflow-x: hidden;

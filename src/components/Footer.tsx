@@ -1,7 +1,7 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
 import { Mail, Phone } from 'lucide-react';
-import logoWhite from '@/assets/logo-white.png';
+import logoWhite from '@/assets/core-studio-logo-white.png';
 import { motion, useInView } from 'framer-motion';
 import { useRef, forwardRef } from 'react';
 
@@ -31,7 +31,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className={`flex flex-col items-center md:items-start ${isRTL ? 'md:items-end' : ''}`}
           >
-            <img src={logoWhite} alt="SnapSite" className="h-10 w-auto mb-3" />
+            <img src={logoWhite} alt="Core Studio" className="h-10 w-auto mb-3" />
             <p className={`text-muted-foreground text-sm ${isRTL ? 'font-cairo text-right' : 'font-sans text-left'}`}>
               {t('footer.slogan')}
             </p>
@@ -89,7 +89,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
           className="mt-8 pt-6 border-t border-border text-center"
         >
           <p className={`text-muted-foreground text-sm ${isRTL ? 'font-cairo' : 'font-sans'}`}>
-            © {new Date().getFullYear()} SnapSite. {t('footer.rights')}.
+            © {new Date().getFullYear()} Core Studio. {t('footer.rights')}.
           </p>
         </motion.div>
       </div>

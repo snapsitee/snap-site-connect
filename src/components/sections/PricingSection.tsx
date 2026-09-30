@@ -109,7 +109,7 @@ const PricingSection = () => {
               )}
 
               <h3 className={`text-2xl font-bold mb-8 text-center pt-4 ${isRTL ? 'font-cairo' : 'font-sans'}`}>
-                {isRTL ? 'نظام SnapSite' : 'SnapSite System'}
+                {isRTL ? 'نظام Core Studio' : 'Core Studio System'}
               </h3>
 
               {/* Setup Fee */}

@@ -113,7 +113,7 @@ const OurSnapsSection = () => {
               </span>
             </motion.div>
             <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
-              {isRTL ? 'أحدث أعمالنا' : 'Our Snaps'}
+              {isRTL ? 'أحدث أعمالنا' : 'Selected Work'}
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               {isRTL
@@ -156,7 +156,7 @@ const OurSnapsSection = () => {
                     <div className="aspect-[4/5]">
                       <img
                         src={snaps[index].image_url}
-                        alt={snaps[index].title || 'SnapSite project'}
+                        alt={snaps[index].title || 'Core Studio project'}
                         className="w-full h-full object-cover"
                         loading="lazy"
                         draggable={false}
@@ -233,7 +233,7 @@ const OurSnapsSection = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               src={selectedImage}
-              alt="Snap preview"
+              alt="Project preview"
               className="max-w-full max-h-[90vh] object-contain rounded-lg"
               onClick={(e) => e.stopPropagation()}
             />
