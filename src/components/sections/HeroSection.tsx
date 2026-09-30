@@ -2,7 +2,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
-import LiquidEther from '@/components/LiquidEther';
+import Topography from '@/components/Topography';
 
 const HeroSection = () => {
   const { isRTL } = useLanguage();
@@ -16,19 +16,8 @@ const HeroSection = () => {
 
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
-      <div className="absolute inset-0 opacity-40">
-        <LiquidEther
-          colors={['#ffffff', '#a3a3a3', '#dedede']}
-          mouseForce={20}
-          cursorSize={100}
-          resolution={0.35}
-          iterationsPoisson={16}
-          iterationsViscous={16}
-          autoDemo={true}
-          autoSpeed={0.5}
-          autoIntensity={2.2}
-          style={{ width: '100%', height: '100%' }}
-        />
+      <div className="absolute inset-0 opacity-40" aria-hidden="true">
+        <Topography />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
