@@ -36,8 +36,8 @@ const HeroSection = () => {
 
           <motion.p {...fade(0.25)} className={`text-base md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed ${font}`}>
             {isRTL
-              ? 'Core Studio هو المحرك الرقمي الكامل لبيزنسك. بنجمعلك مواقع بنظام الاشتراك، أتمتة قوية للباك إند بـ n8n، تصميم جرافيك عالي المستوى، ونمو مستهدف على السوشيال ميديا — في شراكة واحدة متكاملة.'
-              : 'Core Studio is your complete digital engine. We combine custom Web-as-a-Service, powerful n8n backend automation, high-end graphic design, and targeted social media growth into one cohesive partnership.'}
+              ? 'بنبني مواقع بتجيب عملاء، بنأتمت شغلك بـ n8n، وبنصمم هوية تليق ببراندك — كله مع فريق واحد وباشتراك شهري.'
+              : 'We build websites that win customers, automate your operations with n8n, and design a brand worth remembering, all with one team on one monthly plan.'}
           </motion.p>
 
           <motion.div {...fade(0.35)} className="flex flex-col sm:flex-row gap-3 justify-center">
