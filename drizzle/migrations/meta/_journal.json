@@ -8,6 +8,13 @@
       "when": 1790789711314,
       "tag": "0000_core_studio_order_prefixes",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790800270351,
+      "tag": "0001_add_viewer_app_role",
+      "breakpoints": true
     }
   ]
 }
