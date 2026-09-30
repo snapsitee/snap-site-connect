@@ -115,12 +115,12 @@ const AnalyticsDashboard = () => {
 
       const statusColors: Record<string, string> = {
         active: 'hsl(var(--primary))',
-        renewed: 'hsl(142, 76%, 36%)',
-        pending: 'hsl(45, 93%, 47%)',
-        expired: 'hsl(0, 84%, 60%)',
-        suspended: 'hsl(0, 0%, 45%)',
-        didnt_renew: 'hsl(0, 74%, 42%)',
-        fake_order: 'hsl(0, 0%, 30%)',
+        renewed: 'hsl(var(--mono-300))',
+        pending: 'hsl(var(--mono-400))',
+        expired: 'hsl(var(--mono-600))',
+        suspended: 'hsl(var(--mono-700))',
+        didnt_renew: 'hsl(var(--mono-500))',
+        fake_order: 'hsl(var(--mono-800))',
       };
 
       const statusBreakdown = Object.entries(statusCounts).map(([name, value]) => ({
