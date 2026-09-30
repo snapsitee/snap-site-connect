@@ -17,7 +17,7 @@ const Footer = lazy(() => import('@/components/Footer'));
 
 const Index = forwardRef<HTMLDivElement>((_, ref) => {
   return (
-    <div ref={ref} className="min-h-screen bg-background">
+    <div ref={ref} className="min-h-screen bg-background [&_section]:bg-background [&_footer]:bg-background">
       <WelcomePopup />
       <Navbar />
       <main>
