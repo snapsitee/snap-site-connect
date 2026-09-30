@@ -45,12 +45,6 @@ const StepIndicator = ({ currentStep, totalSteps, stepLabels, isRTL }: StepIndic
                 aria-current={isCurrent ? 'step' : undefined}
               >
                 {isCompleted ? <Check className="h-4 w-4" strokeWidth={2} /> : <span>{stepNumber}</span>}
-                {isCurrent && (
-                  <motion.span
-                    layoutId="active-step-marker"
-                    className="absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 bg-primary"
-                  />
-                )}
               </motion.div>
 
               {stepNumber < totalSteps && (
