@@ -25,11 +25,11 @@ const Index = forwardRef<HTMLDivElement>((_, ref) => {
         <PainPointsSection />
         <Suspense fallback={null}>
           <ServicesBentoSection />
-          <WhyUsSection />
-          <PricingSection />
           <SubscriptionExplanationSection />
+          <WhyUsSection />
           <OurSnapsSection />
           <TestimonialsSection />
+          <PricingSection />
           <FAQSection />
           <FinalCTASection />
           <ContactSection />
