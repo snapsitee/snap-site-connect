@@ -53,9 +53,6 @@ const WhyUsSection = () => {
 
   return (
     <section id="why-us" className="py-28 relative">
-      <div className="absolute inset-0 overflow-hidden">
-      </div>
-
       <div className="container mx-auto px-4 relative z-10">
         <ScrollReveal className="text-center mb-20">
           <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-gradient-purple/10 border border-gradient-purple/30 text-gradient-purple mb-6">

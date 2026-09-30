@@ -41,9 +41,6 @@ const SubscriptionExplanationSection = () => {
 
   return (
     <section id="how-it-works" className="py-28 relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden">
-      </div>
-
       <div className="container mx-auto px-4 relative z-10">
         <ScrollReveal className="text-center mb-16">
           <Badge variant="outline" className="mb-4 border-gradient-purple/30 text-gradient-purple bg-gradient-purple/5">

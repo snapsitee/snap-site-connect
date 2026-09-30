@@ -2,7 +2,6 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import LightRays from '@/components/LightRays';
 
 const fade = (delay: number) => ({
   initial: { opacity: 0, y: 16 },
@@ -17,10 +16,6 @@ const HeroSection = () => {
 
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 bg-background">
-      <div className="absolute inset-0 overflow-hidden opacity-25" aria-hidden="true">
-        <LightRays raysOrigin="top-center" raysSpeed={1} lightSpread={0.5} rayLength={3} followMouse mouseInfluence={0.1} noiseAmount={0} distortion={0} pulsating={false} fadeDistance={1} saturation={1} />
-      </div>
-
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
           <motion.div {...fade(0.05)} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/60 bg-card/40 mb-8">
