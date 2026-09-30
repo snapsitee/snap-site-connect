@@ -9,7 +9,7 @@ const WhatsAppIcon = () => (
 
 const WhatsAppFloatingButton = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const whatsappUrl = 'https://wa.me/+201033865141?text=Interested%20About%20SnapSite%20Subscription';
+  const whatsappUrl = 'https://wa.me/+201033865141?text=Hi%20Core%20Studio%2C%20I%27d%20like%20to%20know%20more';
 
   useEffect(() => {
     const handleScroll = () => {

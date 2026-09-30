@@ -29,7 +29,7 @@ export const translations = {
     'hero.cta.pricing': 'View Pricing',
     
     // How It Works
-    'howItWorks.title': 'How SnapSite Works',
+    'howItWorks.title': 'How We Work',
     'howItWorks.subtitle': 'Simple 3-step process to get your website live',
     'howItWorks.step1.title': 'Submit your request',
     'howItWorks.step1.desc': 'Tell us about your business and what you need',
@@ -40,7 +40,7 @@ export const translations = {
     'howItWorks.noContracts': 'No long-term contracts',
     
     // Why Choose Us
-    'whyUs.title': 'Why Businesses Choose SnapSite',
+    'whyUs.title': 'Why Teams Choose Core Studio',
     'whyUs.subtitle': 'Everything you need for a successful online presence',
     'whyUs.fastDelivery.title': 'Fast Delivery',
     'whyUs.fastDelivery.desc': 'Get your website live in just 7-10 days',
@@ -66,7 +66,7 @@ export const translations = {
     // Pricing
     'pricing.title': 'Invest in Results, Not Upfront Costs',
     'pricing.subtitle': 'Everything you need to start getting customers online',
-    'pricing.cardTitle': 'SnapSite Subscription',
+    'pricing.cardTitle': 'Core Studio Subscription',
     'pricing.setupFee': 'Setup Fee',
     'pricing.oneTime': 'one-time',
     'pricing.monthly': 'Monthly',
@@ -106,7 +106,7 @@ export const translations = {
     'contact.error': 'Something went wrong. Please try again.',
     
     // Subscription Popup
-    'popup.title': 'Subscribe to SnapSite',
+    'popup.title': 'Subscribe to Core Studio',
     'popup.subtitle': 'Fill out the form and we\'ll get back to you',
     'popup.name': 'Name',
     'popup.email': 'Email',
@@ -120,11 +120,11 @@ export const translations = {
     'faq.title': 'Got Questions?',
     'faq.subtitle': 'Here are the answers business owners ask most',
     'faq.q1': 'Is this just a website?',
-    'faq.a1': 'No. SnapSite is a complete online system — your website, booking system, lead capture, and customer dashboard all in one. It\'s designed to get you more customers, not just look good.',
+    'faq.a1': 'No. Core Studio is a complete online system — your website, booking system, lead capture, and customer dashboard all in one. It\'s designed to get you more customers, not just look good.',
     'faq.q2': 'What if I already have a website?',
-    'faq.a2': 'Most websites just sit there. SnapSite is built specifically to convert visitors into customers with booking, contact forms, and clear calls-to-action. We can replace or complement your existing site.',
+    'faq.a2': 'Most websites just sit there. Core Studio is built specifically to convert visitors into customers with booking, contact forms, and clear calls-to-action. We can replace or complement your existing site.',
     'faq.q3': 'How is this different from hiring a freelancer?',
-    'faq.a3': 'Freelancers take months, often ghost you, and deliver a static page. SnapSite delivers in 7 days with ongoing support, updates, and a system built for results — not just a design.',
+    'faq.a3': 'Freelancers take months, often ghost you, and deliver a static page. Core Studio delivers in 7 days with ongoing support, updates, and a system built for results — not just a design.',
     'faq.q4': 'What happens after the 7 days?',
     'faq.a4': 'Your system goes live and starts working for you. We continue providing support, updates, and improvements as part of your monthly subscription.',
     'faq.q5': 'Can I cancel anytime?',
@@ -132,7 +132,7 @@ export const translations = {
     
     // Final CTA
     'cta.title': 'Stop Losing Customers Today',
-    'cta.subtitle': 'Book a call and see how SnapSite can grow your business in just 7 days',
+    'cta.subtitle': 'Book a call and see how Core Studio can grow your business in just 7 days',
     'cta.button': 'Book a Call',
     
     // Footer
@@ -189,7 +189,7 @@ export const translations = {
     'hero.cta.pricing': 'الأسعار',
     
     // How It Works
-    'howItWorks.title': 'كيف يعمل SnapSite',
+    'howItWorks.title': 'إزاي بنشتغل',
     'howItWorks.subtitle': '٣ خطوات بسيطة لإطلاق موقعك',
     'howItWorks.step1.title': 'ابعت طلبك',
     'howItWorks.step1.desc': 'أخبرنا عن عملك وما تحتاجه',
@@ -200,7 +200,7 @@ export const translations = {
     'howItWorks.noContracts': 'بدون التزام طويل المدى',
     
     // Why Choose Us
-    'whyUs.title': 'لماذا تختار الشركات SnapSite',
+    'whyUs.title': 'ليه الشركات بتختار Core Studio',
     'whyUs.subtitle': 'كل ما تحتاجه لتواجد ناجح على الإنترنت',
     'whyUs.fastDelivery.title': 'تسليم سريع',
     'whyUs.fastDelivery.desc': 'احصل على موقعك خلال ٧-١٠ أيام',
@@ -226,7 +226,7 @@ export const translations = {
     // Pricing
     'pricing.title': 'استثمر في النتائج، مش في التكاليف المقدمة',
     'pricing.subtitle': 'كل اللي محتاجه عشان تبدأ تجيب عملاء أونلاين',
-    'pricing.cardTitle': 'اشتراك SnapSite',
+    'pricing.cardTitle': 'اشتراك Core Studio',
     'pricing.setupFee': 'رسوم الإعداد',
     'pricing.oneTime': 'مرة واحدة',
     'pricing.monthly': 'شهرياً',
@@ -266,7 +266,7 @@ export const translations = {
     'contact.error': 'حدث خطأ ما. يرجى المحاولة مرة أخرى.',
     
     // Subscription Popup
-    'popup.title': 'اشترك في SnapSite',
+    'popup.title': 'اشترك في Core Studio',
     'popup.subtitle': 'املأ النموذج وسنتواصل معك',
     'popup.name': 'الاسم',
     'popup.email': 'البريد الإلكتروني',
@@ -280,11 +280,11 @@ export const translations = {
     'faq.title': 'عندك أسئلة؟',
     'faq.subtitle': 'دي أكتر أسئلة أصحاب البيزنس بيسألوها',
     'faq.q1': 'ده مجرد موقع؟',
-    'faq.a1': 'لأ. SnapSite نظام أونلاين كامل — موقعك ونظام حجوزات واستقبال عملاء ولوحة تحكم كلهم في حاجة واحدة. مصمم يجيبلك عملاء أكتر، مش بس شكل حلو.',
+    'faq.a1': 'لأ. Core Studio نظام أونلاين كامل — موقعك ونظام حجوزات واستقبال عملاء ولوحة تحكم كلهم في حاجة واحدة. مصمم يجيبلك عملاء أكتر، مش بس شكل حلو.',
     'faq.q2': 'لو عندي موقع بالفعل؟',
-    'faq.a2': 'معظم المواقع بتفضل واقفة مبتعملش حاجة. SnapSite مبني خصيصاً يحوّل الزوار لعملاء بحجوزات وفورم تواصل وأزرار واضحة. ممكن نبدله أو نكمّل عليه.',
+    'faq.a2': 'معظم المواقع بتفضل واقفة مبتعملش حاجة. Core Studio مبني خصيصاً يحوّل الزوار لعملاء بحجوزات وفورم تواصل وأزرار واضحة. ممكن نبدله أو نكمّل عليه.',
     'faq.q3': 'إيه الفرق بينكم وبين فريلانسر؟',
-    'faq.a3': 'الفريلانسرز بياخدوا شهور وغالباً بيختفوا وبيسلموا صفحة ثابتة. SnapSite بيسلم في ٧ أيام مع دعم مستمر وتحديثات ونظام مبني للنتائج — مش مجرد تصميم.',
+    'faq.a3': 'الفريلانسرز بياخدوا شهور وغالباً بيختفوا وبيسلموا صفحة ثابتة. Core Studio بيسلم في ٧ أيام مع دعم مستمر وتحديثات ونظام مبني للنتائج — مش مجرد تصميم.',
     'faq.q4': 'إيه اللي بيحصل بعد ال٧ أيام؟',
     'faq.a4': 'نظامك بيبدأ يشتغل ويجيبلك عملاء. واحنا بنفضل نقدم دعم وتحديثات وتحسينات كجزء من اشتراكك الشهري.',
     'faq.q5': 'أقدر ألغي في أي وقت؟',
@@ -292,7 +292,7 @@ export const translations = {
     
     // Final CTA
     'cta.title': 'بطّل تخسر عملاء من النهاردة',
-    'cta.subtitle': 'احجز مكالمة وشوف إزاي SnapSite هيكبّر بيزنسك في ٧ أيام بس',
+    'cta.subtitle': 'احجز مكالمة وشوف إزاي Core Studio هيكبّر بيزنسك في ٧ أيام بس',
     'cta.button': 'احجز مكالمة',
     
     // Footer
@@ -341,13 +341,13 @@ interface LanguageProviderProps {
 
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>(() => {
-    const saved = localStorage.getItem('snapsite-language');
+    const saved = localStorage.getItem('corestudio-language');
     return (saved as Language) || 'en';
   });
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    localStorage.setItem('snapsite-language', lang);
+    localStorage.setItem('corestudio-language', lang);
   };
 
   const t = (key: string): string => {

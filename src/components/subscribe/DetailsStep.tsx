@@ -174,7 +174,7 @@ const DetailsStep = ({
               value={formData.originalOrderId}
               onChange={(e) => setFormData({ ...formData, originalOrderId: e.target.value.toUpperCase() })}
               className={`uppercase font-mono ${isRTL ? 'pr-10 text-right' : 'pl-10'}`}
-              placeholder="SNP-XXXXXX"
+              placeholder="CS-XXXXXX"
               required
             />
           </div>

@@ -1,3 +1,4 @@
+import logoWhite from '@/assets/core-studio-logo-white.png';
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -156,7 +157,7 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
       <div className={`staggered-navigation-header ${isScrolled && !open ? 'staggered-navigation-scrolled' : ''}`}>
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Button variant="ghost" className="staggered-logo h-12 px-0 hover:bg-transparent" onClick={() => { setMenu(false); navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} aria-label="Core Studio home">
-            <span className="font-mono text-base font-semibold tracking-tight text-foreground" dir="ltr">CORE<span className="text-muted-foreground">/</span>STUDIO</span>
+            <img src={logoWhite} alt="Core Studio" className="h-5 w-auto" width={1066} height={165} />
           </Button>
           <Button ref={triggerRef} variant="ghost" className="staggered-menu-toggle" aria-expanded={open} aria-controls="site-menu" aria-label={open ? (isRTL ? 'اقفل القائمة' : 'Close menu') : (isRTL ? 'افتح القائمة' : 'Open menu')} onClick={() => setMenu(!openRef.current)}>
             <span>{open ? (isRTL ? 'اقفل' : 'Close') : (isRTL ? 'القائمة' : 'Menu')}</span>
