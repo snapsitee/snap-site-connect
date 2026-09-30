@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import RaysBackground from '@/components/RaysBackground';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import Navbar from '@/components/Navbar';
@@ -159,7 +160,8 @@ const Subscribe = () => {
   ];
 
   return (
-    <div className={`min-h-screen bg-background ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+    <div className={`min-h-screen bg-background isolate ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+      <RaysBackground fixed />
       <Navbar />
       <main className="pt-20 sm:pt-24 pb-10 sm:pb-16">
         <div className="container mx-auto px-3 sm:px-4 max-w-2xl">
