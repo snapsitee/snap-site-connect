@@ -4,7 +4,7 @@ import HeroSection from '@/components/sections/HeroSection';
 import PainPointsSection from '@/components/sections/PainPointsSection';
 import WelcomePopup from '@/components/WelcomePopup';
 
-const SnapSiteSystemSection = lazy(() => import('@/components/sections/SnapSiteSystemSection'));
+const ServicesBentoSection = lazy(() => import('@/components/sections/ServicesBentoSection'));
 const HowItWorksSection = lazy(() => import('@/components/sections/HowItWorksSection'));
 const WhyUsSection = lazy(() => import('@/components/sections/WhyUsSection'));
 const WhatYouGetSection = lazy(() => import('@/components/sections/WhatYouGetSection'));
@@ -26,7 +26,7 @@ const Index = forwardRef<HTMLDivElement>((_, ref) => {
         <HeroSection />
         <PainPointsSection />
         <Suspense fallback={null}>
-          <SnapSiteSystemSection />
+          <ServicesBentoSection />
           <HowItWorksSection />
           <WhyUsSection />
           <WhatYouGetSection />

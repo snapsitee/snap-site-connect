@@ -23,6 +23,7 @@ export default {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         cairo: ['Cairo', 'sans-serif'],
+        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       colors: {
         ...monochromePalettes,
