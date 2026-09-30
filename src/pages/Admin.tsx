@@ -4,8 +4,10 @@ import { supabase } from '@/integrations/supabase/client';
 import { User, Session } from '@supabase/supabase-js';
 import AdminLogin from '@/components/admin/AdminLogin';
 import AdminDashboard from '@/components/admin/AdminDashboard';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Admin = forwardRef<HTMLDivElement>((_, ref) => {
+  const { isRTL } = useLanguage();
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -75,15 +77,15 @@ const Admin = forwardRef<HTMLDivElement>((_, ref) => {
 
   if (!isAdmin) {
     return (
-      <div ref={ref} className="min-h-screen bg-background flex items-center justify-center">
+      <div ref={ref} dir={isRTL ? 'rtl' : 'ltr'} className={`min-h-screen bg-background flex items-center justify-center ${isRTL ? 'font-cairo' : ''}`}>
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-destructive mb-2">Access Denied</h1>
-          <p className="text-muted-foreground">Wrong credentials.</p>
+          <h1 className="text-2xl font-bold text-destructive mb-2">{isRTL ? 'الدخول مرفوض' : 'Access Denied'}</h1>
+          <p className="text-muted-foreground">{isRTL ? 'بيانات الدخول غلط.' : 'Wrong credentials.'}</p>
           <button
             onClick={() => supabase.auth.signOut()}
             className="mt-4 text-primary hover:underline"
           >
-            Sign Out
+            {isRTL ? 'تسجيل الخروج' : 'Sign Out'}
           </button>
         </div>
       </div>
