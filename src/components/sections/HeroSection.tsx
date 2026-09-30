@@ -2,7 +2,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
-import Topography from '@/components/Topography';
+import LightRays from '@/components/LightRays';
 
 const HeroSection = () => {
   const { isRTL } = useLanguage();
@@ -16,8 +16,20 @@ const HeroSection = () => {
 
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
-      <div className="absolute inset-0 opacity-40" aria-hidden="true">
-        <Topography />
+      <div className="absolute inset-0 overflow-hidden opacity-40" aria-hidden="true">
+        <LightRays
+          raysOrigin="top-center"
+          raysSpeed={1}
+          lightSpread={0.5}
+          rayLength={3}
+          followMouse
+          mouseInfluence={0.1}
+          noiseAmount={0}
+          distortion={0}
+          pulsating={false}
+          fadeDistance={1}
+          saturation={1}
+        />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
