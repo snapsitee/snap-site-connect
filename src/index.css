@@ -41,7 +41,7 @@ html, body {
     --input: 0 0% 24%;
     --ring: 0 0% 86%;
 
-    --radius: 0.75rem;
+    --radius: 0rem;
 
     /* Retain existing accent utility names while rendering them monochrome. */
     --gradient-purple: 0 0% 96%;
@@ -84,6 +84,7 @@ html, body {
 @layer base {
   * {
     @apply border-border;
+    border-radius: 0 !important;
   }
 
   html {
