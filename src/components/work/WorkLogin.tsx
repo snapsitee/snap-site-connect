@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import RaysBackground from '@/components/RaysBackground';
 import logoWhite from '@/assets/core-studio-logo-white.png';
 
 const schema = z.object({ email: z.string().trim().email().max(255), password: z.string().min(6).max(100) });
@@ -31,7 +32,8 @@ const WorkLogin = () => {
     if (error) toast({ variant: 'destructive', title: isRTL ? 'تسجيل الدخول فشل' : 'Sign in failed', description: isRTL ? 'راجع بيانات الدخول وحاول تاني.' : 'Check your credentials and try again.' });
   };
 
-  return <main className={`min-h-screen bg-background flex items-center justify-center p-4 ${isRTL ? 'font-cairo' : 'font-sans'}`} dir={isRTL ? 'rtl' : 'ltr'}>
+  return <main className={`min-h-screen bg-background relative isolate overflow-hidden flex items-center justify-center p-4 ${isRTL ? 'font-cairo' : 'font-sans'}`} dir={isRTL ? 'rtl' : 'ltr'}>
+    <RaysBackground />
     <div className="absolute top-4 end-4"><LanguageSwitcher /></div>
     <section className="w-full max-w-md border border-border bg-card p-8">
       <img src={logoWhite} alt="Core Studio" className="h-6 w-auto mx-auto mb-8" />

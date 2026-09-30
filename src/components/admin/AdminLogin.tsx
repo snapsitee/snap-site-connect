@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import RaysBackground from '@/components/RaysBackground';
 import logoWhite from '@/assets/core-studio-logo-white.png';
 import { z } from 'zod';
 
@@ -60,7 +61,8 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4 relative isolate overflow-hidden">
+      <RaysBackground />
       <div className="absolute top-4 right-4">
         <LanguageSwitcher />
       </div>
