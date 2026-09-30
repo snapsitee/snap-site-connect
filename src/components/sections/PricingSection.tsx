@@ -62,11 +62,6 @@ const PricingSection = () => {
   return (
     <>
       <section id="pricing" className="py-28 relative">
-        {/* Background effect */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-gradient-blue/10 rounded-full blur-3xl" />
-        </div>
-
         <div className="container mx-auto px-4 relative z-10">
           <ScrollReveal className="text-center mb-16">
             <Badge variant="outline" className="mb-4 border-gradient-purple/30 text-gradient-purple bg-gradient-purple/5">
@@ -89,9 +84,6 @@ const PricingSection = () => {
               transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
               className="rounded-3xl p-8 relative overflow-hidden"
             >
-              {/* Decorative elements */}
-              <div className="absolute -top-20 -right-20 w-40 h-40 bg-gradient-purple/20 rounded-full blur-3xl" />
-              
               {/* Discount badge */}
               {pricing?.discount_enabled && pricing.discount_percent > 0 && (
                 <motion.div 
