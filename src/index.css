@@ -4,10 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* SnapSite Design System - Premium Dark SaaS Theme
-   Primary Gradient: Purple (#DC18EE) → Blue (#1E8CED)
-   All colors MUST be HSL.
-*/
+/* SnapSite monochrome design tokens. All colors are achromatic HSL values. */
 
 html, body {
   overflow-x: hidden;
@@ -16,53 +13,65 @@ html, body {
 @layer base {
   :root {
     /* Dark mode only - these are the default values */
-    --background: 222 47% 4%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
 
-    --card: 222 47% 6%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 222 47% 6%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 290 88% 51%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 0 0% 96%;
+    --primary-foreground: 0 0% 5%;
 
-    --secondary: 210 88% 52%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 0 0% 19%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 217 33% 12%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 70%;
 
-    --accent: 290 88% 51%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 0 0% 24%;
+    --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 0% 34%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 217 33% 15%;
-    --input: 217 33% 15%;
-    --ring: 290 88% 51%;
+    --border: 0 0% 29%;
+    --input: 0 0% 24%;
+    --ring: 0 0% 86%;
 
     --radius: 0.75rem;
 
-    /* Custom gradient colors */
-    --gradient-purple: 290 88% 51%;
-    --gradient-blue: 206 88% 52%;
+    /* Retain existing accent utility names while rendering them monochrome. */
+    --gradient-purple: 0 0% 96%;
+    --gradient-blue: 0 0% 64%;
+
+    --mono-50: 0 0% 98%;
+    --mono-100: 0 0% 95%;
+    --mono-200: 0 0% 88%;
+    --mono-300: 0 0% 77%;
+    --mono-400: 0 0% 67%;
+    --mono-500: 0 0% 52%;
+    --mono-600: 0 0% 43%;
+    --mono-700: 0 0% 35%;
+    --mono-800: 0 0% 26%;
+    --mono-900: 0 0% 17%;
+    --mono-950: 0 0% 10%;
 
     /* Glass morphism */
-    --glass-bg: 222 47% 8%;
-    --glass-border: 217 33% 20%;
+    --glass-bg: 0 0% 10%;
+    --glass-border: 0 0% 29%;
 
     /* Sidebar */
-    --sidebar-background: 222 47% 5%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 290 88% 51%;
-    --sidebar-primary-foreground: 210 40% 98%;
-    --sidebar-accent: 217 33% 12%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 217 33% 15%;
-    --sidebar-ring: 290 88% 51%;
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 0 0% 96%;
+    --sidebar-primary-foreground: 0 0% 5%;
+    --sidebar-accent: 0 0% 18%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 29%;
+    --sidebar-ring: 0 0% 86%;
   }
 
   /* Force dark mode always */
@@ -84,6 +93,10 @@ html, body {
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', sans-serif;
+  }
+
+  img, video {
+    filter: grayscale(1);
   }
 
   /* RTL Support for Arabic */
@@ -109,6 +122,7 @@ html, body {
   /* Gradient background utility */
   .gradient-bg {
     background: linear-gradient(135deg, hsl(var(--gradient-purple)), hsl(var(--gradient-blue)));
+    color: hsl(var(--primary-foreground));
   }
 
   /* Gradient border utility */

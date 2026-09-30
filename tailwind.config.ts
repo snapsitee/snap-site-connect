@@ -1,5 +1,12 @@
 import type { Config } from "tailwindcss";
 
+const monochromeShades = Object.fromEntries(
+  [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map((shade) => [shade, `hsl(var(--mono-${shade}) / <alpha-value>)`]),
+);
+const monochromePalettes = Object.fromEntries(
+  ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'].map((name) => [name, monochromeShades]),
+);
+
 export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
@@ -18,6 +25,7 @@ export default {
         cairo: ['Cairo', 'sans-serif'],
       },
       colors: {
+        ...monochromePalettes,
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

@@ -9,10 +9,10 @@ const WhyUsSection = () => {
   const features = [
     {
       icon: Zap,
-      titleEn: 'Ready in 10–14 Days, Not Months',
-      titleAr: 'جاهز في ١٠-١٤ يوم مش شهور',
-      descEn: 'While agencies take months, your system is live and getting you customers in just 10–14 days',
-      descAr: 'بينما الشركات بتاخد شهور، نظامك بيكون شغّال وبيجيبلك عملاء في ١٠-١٤ يوم بس',
+      titleEn: 'Ready in 7 Days, Not Months',
+      titleAr: 'جاهز في ٧ أيام مش شهور',
+      descEn: 'While agencies take weeks, your system is live and getting you customers in just 7 days',
+      descAr: 'بينما الشركات بتاخد أسابيع، نظامك بيكون شغّال وبيجيبلك عملاء في ٧ أيام بس',
       iconBg: 'from-amber-500 to-orange-500',
     },
     {
@@ -83,7 +83,7 @@ const WhyUsSection = () => {
                 <div className={`p-6 h-full ${isRTL ? 'font-cairo text-right' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
                   <div className="flex items-center gap-4 mb-4">
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.iconBg} flex items-center justify-center shrink-0 shadow-lg`}>
-                      <feature.icon className="w-6 h-6 text-white" />
+                      <feature.icon className="w-6 h-6 text-background" />
                     </div>
                     <h3 className="text-lg font-bold text-foreground">
                       {isRTL ? feature.titleAr : feature.titleEn}

@@ -68,7 +68,7 @@ const HowItWorksSection = () => {
                     </div>
 
                     <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.iconBg} flex items-center justify-center shadow-lg`}>
-                      <step.icon className="w-8 h-8 text-white" />
+                      <step.icon className="w-8 h-8 text-background" />
                     </div>
 
                     <h3 className="text-xl font-bold text-foreground mt-2">

@@ -58,7 +58,7 @@ const SnapSiteSystemSection = () => {
               <div className="gradient-border rounded-2xl">
                 <div className={`p-8 flex flex-col items-center text-center gap-4 min-h-[280px] ${isRTL ? 'font-cairo' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
                   <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${card.iconBg} flex items-center justify-center shadow-lg`}>
-                    <card.icon className="w-8 h-8 text-white" />
+                    <card.icon className="w-8 h-8 text-background" />
                   </div>
                   <h3 className="text-xl font-bold text-foreground mt-2">
                     {isRTL ? card.titleAr : card.titleEn}

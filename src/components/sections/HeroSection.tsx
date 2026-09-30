@@ -16,9 +16,9 @@ const HeroSection = () => {
 
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 opacity-40">
         <LiquidEther
-          colors={['#DC18EE', '#1E8CED', '#B19EEF']}
+          colors={['#ffffff', '#a3a3a3', '#dedede']}
           mouseForce={20}
           cursorSize={100}
           resolution={0.35}
@@ -54,8 +54,8 @@ const HeroSection = () => {
           >
             <span className="gradient-text">
               {isRTL
-                ? 'بطّل تخسر عملاء. ابدأ تكسب أونلاين من النهاردة'
-                : 'Stop Losing Customers. Start Winning Online — Today'}
+                ? 'حوّل زوّارك لعملاء يدفعوا  في ٧ أيام بس'
+                : 'Turn Your Visitors Into Paying Customers In Just 7 Days'}
             </span>
           </motion.h1>
           
@@ -102,7 +102,7 @@ const HeroSection = () => {
           >
             {[
               { value: isRTL ? '+٥٠' : '50+', label: isRTL ? 'بيزنس خدمناهم' : 'Businesses Served' },
-              { value: isRTL ? '١٠-١٤ يوم' : '10–14 Days', label: isRTL ? 'للإطلاق' : 'To Launch' },
+              { value: isRTL ? '٧ أيام' : '7 Days', label: isRTL ? 'للإطلاق' : 'To Launch' },
               { value: isRTL ? '+٩٨%' : '98%', label: isRTL ? 'رضا العملاء' : 'Client Satisfaction' },
             ].map((stat, i) => (
               <motion.div

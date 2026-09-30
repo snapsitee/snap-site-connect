@@ -40,7 +40,7 @@ const FinalCTASection = () => {
               transition={{ duration: 0.5, type: 'spring' }}
               className="w-20 h-20 mx-auto mb-8 rounded-2xl gradient-bg flex items-center justify-center shadow-xl shadow-gradient-purple/30"
             >
-              <Rocket className="w-10 h-10 text-white" />
+              <Rocket className="w-10 h-10 text-primary-foreground" />
             </motion.div>
           </ScrollReveal>
 
@@ -76,7 +76,7 @@ const FinalCTASection = () => {
             <div className="mt-12 flex items-center justify-center gap-8 text-muted-foreground text-sm">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                <span>{isRTL ? 'جاهز في ١٠-١٤ يوم' : 'Ready in 10–14 Days'}</span>
+                <span>{isRTL ? 'جاهز في ٧ أيام' : 'Ready in 7 Days'}</span>
               </div>
               <div className="hidden sm:block w-px h-4 bg-border" />
               <span>{isRTL ? 'بدون التزام' : 'No Commitment'}</span>

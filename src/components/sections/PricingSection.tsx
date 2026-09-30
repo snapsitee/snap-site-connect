@@ -45,7 +45,7 @@ const PricingSection = () => {
     { en: 'Hosting & maintenance included', ar: 'استضافة وصيانة مشمولة' },
     { en: 'Business dashboard', ar: 'لوحة تحكم للبيزنس' },
     { en: 'Ongoing support & updates', ar: 'دعم مستمر وتحديثات' },
-    { en: 'Ready in 10–14 days', ar: 'جاهز في ١٠-١٤ يوم' },
+    { en: 'Ready in 7 days', ar: 'جاهز في ٧ أيام' },
   ];
 
   const formatPrice = (price: number) => {
@@ -101,8 +101,8 @@ const PricingSection = () => {
                   transition={{ duration: 0.5, delay: 0.3 }}
                   className="absolute top-4 right-4 gradient-bg px-4 py-2 rounded-full flex items-center gap-2 shadow-lg"
                 >
-                  <Sparkles className="w-4 h-4 text-white" />
-                  <span className="text-white text-sm font-bold">
+                  <Sparkles className="w-4 h-4 text-primary-foreground" />
+                  <span className="text-primary-foreground text-sm font-bold">
                     {pricing.discount_percent}% {t('pricing.discount')}
                   </span>
                 </motion.div>
@@ -170,7 +170,7 @@ const PricingSection = () => {
                     className="flex items-center gap-3"
                   >
                     <div className="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0 shadow-md shadow-gradient-purple/20">
-                      <Check className="w-3.5 h-3.5 text-white" />
+                      <Check className="w-3.5 h-3.5 text-primary-foreground" />
                     </div>
                     <span className={`${isRTL ? 'font-cairo' : 'font-sans'}`}>{isRTL ? feature.ar : feature.en}</span>
                   </motion.div>
