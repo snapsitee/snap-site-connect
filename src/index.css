@@ -82,7 +82,9 @@ html, body {
 }
 
 @layer base {
-  * {
+  *,
+  *::before,
+  *::after {
     @apply border-border;
     border-radius: 0 !important;
   }
