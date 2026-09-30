@@ -96,7 +96,6 @@ const OurSnapsSection = () => {
 
   return (
     <section className="py-20 md:py-32 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
 
       <div className="container mx-auto px-4 relative z-10">
         <ScrollReveal>
@@ -112,7 +111,7 @@ const OurSnapsSection = () => {
                 {isRTL ? 'أعمالنا' : 'Our Work'}
               </span>
             </motion.div>
-            <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-foreground">
               {isRTL ? 'أحدث أعمالنا' : 'Selected Work'}
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -163,7 +162,7 @@ const OurSnapsSection = () => {
                       />
                     </div>
                     {snaps[index].title && position === 'center' && (
-                      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent">
+                      <div className="absolute bottom-0 left-0 right-0 p-4 bg-black/70">
                         <p className="text-white font-semibold text-sm text-center">
                           {snaps[index].title}
                         </p>

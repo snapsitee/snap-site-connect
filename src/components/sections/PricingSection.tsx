@@ -64,7 +64,6 @@ const PricingSection = () => {
       <section id="pricing" className="py-28 relative">
         {/* Background effect */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-gradient-to-b from-gradient-purple/10 to-transparent" />
           <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-gradient-blue/10 rounded-full blur-3xl" />
         </div>
 
