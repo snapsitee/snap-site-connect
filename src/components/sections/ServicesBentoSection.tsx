@@ -13,12 +13,9 @@ const ServicesBentoSection = () => {
     { icon: Workflow, tag: '02 / n8n', span: '',
       title: isRTL ? 'أتمتة سير العمل' : 'Workflow Automation',
       desc: isRTL ? 'أتمتة للباك إند وربط الـ CRM بـ n8n عشان نلغي الشغل اليدوي.' : 'Backend automation pipelines and CRM syncing using n8n to eliminate manual tasks.' },
-    { icon: PenTool, tag: '03 / Design', span: '',
+    { icon: PenTool, tag: '03 / Design', span: 'md:col-span-2',
       title: isRTL ? 'تصميم جرافيك' : 'Graphic Design',
       desc: isRTL ? 'هوية بصرية، عناصر UI/UX، ومواد تسويقية.' : 'Brand identity, UI/UX assets, and marketing collateral.' },
-    { icon: TrendingUp, tag: '04 / SMS', span: 'md:col-span-2',
-      title: isRTL ? 'خدمات السوشيال ميديا' : 'Social Media Services',
-      desc: isRTL ? 'نمو الجمهور، زيادة المتابعين، وتفاعل مستهدف.' : 'Audience growth, follower scaling, and targeted engagement boosts.' },
   ];
 
   return (
@@ -27,7 +24,7 @@ const ServicesBentoSection = () => {
         <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.5 }} className="mb-12 text-center">
           <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-4">{isRTL ? '// خدماتنا' : '// Services'}</p>
           <h2 className={`text-3xl md:text-5xl font-bold tracking-tight text-foreground ${font}`}>
-            {isRTL ? 'أربع ركايز. محرك واحد.' : 'Four pillars. One engine.'}
+            {isRTL ? 'ثلاث ركايز. محرك واحد.' : 'Three pillars. One engine.'}
           </h2>
         </motion.div>
 
