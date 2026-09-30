@@ -16,7 +16,7 @@ const HeroSection = () => {
 
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 opacity-40">
         <LiquidEther
           colors={['#ffffff', '#a3a3a3', '#dedede']}
           mouseForce={20}
