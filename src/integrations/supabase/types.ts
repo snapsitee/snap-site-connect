@@ -516,6 +516,7 @@ export type Database = {
         Args: { coupon_code: string }
         Returns: undefined
       }
+      order_exists: { Args: { _order_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "user" | "viewer"
