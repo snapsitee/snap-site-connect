@@ -17,7 +17,7 @@ const HeroSection = () => {
 
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 bg-background">
-      <div className="absolute inset-0 opacity-70 pointer-events-none">
+      <div className="absolute inset-0 opacity-80 pointer-events-none">
         <LightRays
           raysOrigin="top-center"
           raysSpeed={0.8}
@@ -25,7 +25,7 @@ const HeroSection = () => {
           rayLength={3}
           followMouse
           mouseInfluence={0.1}
-          fadeDistance={2.5}
+          fadeDistance={5}
           saturation={0}
         />
       </div>
