@@ -6,3 +6,4 @@
 - [x] Align Arabic dashboard headings to the right and move search opposite them in admin and work views.
 - [x] Change the footer contact email to contact@corestudioss.com.
 - [x] Replace site logos with the uploaded white Core Studio word logo and favicon with the uploaded square logo.
+- [x] Replace the website word logo with the new uploaded wider version in white.
