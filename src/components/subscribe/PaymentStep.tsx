@@ -206,11 +206,11 @@ const PaymentStep = ({
       className="space-y-4 sm:space-y-6"
     >
       {/* Amount Display */}
-      <div className="text-center p-3 sm:p-4 rounded-xl bg-primary/10 border border-primary/30">
-        <p className="text-xs sm:text-sm text-muted-foreground mb-1">
+      <div className={`border border-border bg-background p-4 sm:p-5 ${isRTL ? 'text-right' : 'text-left'}`}>
+        <p className="mb-2 font-mono text-[10px] uppercase text-muted-foreground">
           {isRTL ? 'المبلغ المطلوب' : 'Amount Due'}
         </p>
-        <p className="text-2xl sm:text-3xl font-bold text-primary">
+        <p className="text-3xl font-bold text-foreground sm:text-4xl">
           {totalAmount.toLocaleString()} {isRTL ? 'جنيه' : 'EGP'}
         </p>
         {isRenewal && couponData && (
@@ -231,7 +231,7 @@ const PaymentStep = ({
           </Label>
           
           {couponData ? (
-            <div className={`p-3 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <div className={`flex items-center justify-between border border-primary bg-primary/10 p-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
               <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <Check className="w-5 h-5 text-primary" />
                 <span className="font-mono font-medium">{couponData.code}</span>
@@ -266,31 +266,33 @@ const PaymentStep = ({
         </Label>
         
         <div className="grid grid-cols-2 gap-3">
-          <button
+          <Button
             type="button"
+            variant="outline"
             onClick={() => setSelectedPayment('instapay')}
-            className={`p-4 rounded-xl border-2 transition-all ${
+            className={`h-auto min-h-24 flex-col border p-4 transition-all ${
               selectedPayment === 'instapay' 
-                ? 'border-primary bg-primary/5' 
-                : 'border-border hover:border-primary/50'
+                ? 'border-primary bg-primary text-primary-foreground hover:bg-primary/90' 
+                : 'border-border bg-background hover:border-primary'
             }`}
           >
-            <Smartphone className="w-6 h-6 mx-auto mb-2 text-primary" />
+            <Smartphone className="mb-1 h-6 w-6" />
             <span className="font-medium">Instapay</span>
-          </button>
+          </Button>
           
-          <button
+          <Button
             type="button"
+            variant="outline"
             onClick={() => setSelectedPayment('vodafone')}
-            className={`p-4 rounded-xl border-2 transition-all ${
+            className={`h-auto min-h-24 flex-col border p-4 transition-all ${
               selectedPayment === 'vodafone' 
-                ? 'border-primary bg-primary/5' 
-                : 'border-border hover:border-primary/50'
+                ? 'border-primary bg-primary text-primary-foreground hover:bg-primary/90' 
+                : 'border-border bg-background hover:border-primary'
             }`}
           >
-            <Smartphone className="w-6 h-6 mx-auto mb-2 text-red-500" />
+            <Smartphone className="mb-1 h-6 w-6" />
             <span className="font-medium">Vodafone Cash</span>
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -299,7 +301,7 @@ const PaymentStep = ({
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="p-4 rounded-xl bg-muted/50 border border-border space-y-4"
+          className="space-y-4 border border-border bg-muted/50 p-4"
         >
           <div className="flex justify-center">
             <img 
@@ -308,7 +310,7 @@ const PaymentStep = ({
                 : (paymentSettings.vodafone_qr_url || vodafoneQRDefault)
               } 
               alt="QR Code" 
-              className="w-40 h-40 rounded-lg object-cover"
+              className="h-40 w-40 border border-border object-cover"
             />
           </div>
           
@@ -373,10 +375,10 @@ const PaymentStep = ({
           />
           <label
             htmlFor="receipt-upload"
-            className={`flex items-center justify-center gap-2 p-4 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${
+            className={`flex min-h-20 cursor-pointer items-center justify-center gap-2 border border-dashed p-4 transition-colors ${
               receiptFile 
                 ? 'border-primary bg-primary/5' 
-                : 'border-border hover:border-primary/50'
+                : 'border-border bg-background hover:border-primary'
             } ${isRTL ? 'flex-row-reverse' : ''}`}
           >
             {receiptFile ? (

@@ -152,55 +152,60 @@ const Renew = () => {
       <RaysBackground fixed />
       <Navbar />
       <main className="pt-20 sm:pt-24 pb-10 sm:pb-16">
-        <div className="container mx-auto px-3 sm:px-4 max-w-2xl">
+        <div className="container mx-auto max-w-2xl px-3 sm:px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass rounded-2xl sm:rounded-3xl p-4 sm:p-8 gradient-border"
+            className="overflow-hidden border border-border bg-card/90 backdrop-blur-xl"
           >
-            <div className="text-center mb-4 sm:mb-6">
-              <h1 className="text-2xl sm:text-3xl font-bold gradient-text mb-2">
+            <div className={`border-b border-border px-4 py-5 sm:px-8 sm:py-6 ${isRTL ? 'text-right' : 'text-left'}`}>
+              <p className="mb-2 font-mono text-[10px] uppercase text-muted-foreground">
+                {isRTL ? 'كور ستوديو / تجديد' : 'Core Studio / Renewal'}
+              </p>
+              <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
                 {isRTL ? 'تجديد الاشتراك' : 'Renew Subscription'}
               </h1>
             </div>
 
-            {currentStep < 3 && (
-              <StepIndicator currentStep={currentStep} totalSteps={3} stepLabels={stepLabels} isRTL={isRTL} />
-            )}
+            <div className="p-4 sm:p-8">
+              {currentStep < 3 && (
+                <StepIndicator currentStep={currentStep} totalSteps={3} stepLabels={stepLabels} isRTL={isRTL} />
+              )}
 
-            <AnimatePresence mode="wait">
-              {currentStep === 1 && (
-                <PaymentStep
-                  key="payment"
-                  paymentSettings={paymentSettings}
-                  totalAmount={totalAmount}
-                  basePrice={basePrice}
-                  selectedPayment={selectedPayment}
-                  setSelectedPayment={setSelectedPayment}
-                  receiptFile={receiptFile}
-                  setReceiptFile={setReceiptFile}
-                  couponData={couponData}
-                  setCouponData={setCouponData}
-                  onNext={() => setCurrentStep(2)}
-                  onBack={() => window.history.back()}
-                  isRenewal={true}
-                />
-              )}
-              {currentStep === 2 && (
-                <DetailsStep
-                  key="details"
-                  formData={formData}
-                  setFormData={setFormData}
-                  isRenewal={true}
-                  isSubmitting={isSubmitting}
-                  onSubmit={handleSubmit}
-                  onBack={() => setCurrentStep(1)}
-                />
-              )}
-              {currentStep === 3 && (
-                <ConfirmationStep key="confirmation" orderId={submittedId} isRenewal={true} />
-              )}
-            </AnimatePresence>
+              <AnimatePresence mode="wait">
+                {currentStep === 1 && (
+                  <PaymentStep
+                    key="payment"
+                    paymentSettings={paymentSettings}
+                    totalAmount={totalAmount}
+                    basePrice={basePrice}
+                    selectedPayment={selectedPayment}
+                    setSelectedPayment={setSelectedPayment}
+                    receiptFile={receiptFile}
+                    setReceiptFile={setReceiptFile}
+                    couponData={couponData}
+                    setCouponData={setCouponData}
+                    onNext={() => setCurrentStep(2)}
+                    onBack={() => window.history.back()}
+                    isRenewal={true}
+                  />
+                )}
+                {currentStep === 2 && (
+                  <DetailsStep
+                    key="details"
+                    formData={formData}
+                    setFormData={setFormData}
+                    isRenewal={true}
+                    isSubmitting={isSubmitting}
+                    onSubmit={handleSubmit}
+                    onBack={() => setCurrentStep(1)}
+                  />
+                )}
+                {currentStep === 3 && (
+                  <ConfirmationStep key="confirmation" orderId={submittedId} isRenewal={true} />
+                )}
+              </AnimatePresence>
+            </div>
           </motion.div>
         </div>
       </main>
