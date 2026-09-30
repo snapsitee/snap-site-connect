@@ -95,11 +95,9 @@ const Renew = () => {
 
       const publicUrl = fileName;
 
-      const { data: orderCheck } = await supabase
-        .from('orders')
-        .select('order_id')
-        .eq('order_id', formData.originalOrderId.trim().toUpperCase())
-        .maybeSingle();
+      const { data: orderCheck } = await supabase.rpc('order_exists', {
+        _order_id: formData.originalOrderId.trim().toUpperCase(),
+      });
 
       if (!orderCheck) {
         toast({ variant: 'destructive', title: isRTL ? 'رقم الطلب غير موجود' : 'Order ID not found' });
