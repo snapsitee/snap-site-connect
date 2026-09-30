@@ -156,7 +156,7 @@ const OurSnapsSection = () => {
                       <img
                         src={snaps[index].image_url}
                         alt={snaps[index].title || 'Core Studio project'}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover grayscale-0"
                         loading="lazy"
                         draggable={false}
                       />
@@ -233,7 +233,7 @@ const OurSnapsSection = () => {
               exit={{ scale: 0.8, opacity: 0 }}
               src={selectedImage}
               alt="Project preview"
-              className="max-w-full max-h-[90vh] object-contain rounded-lg"
+              className="max-w-full max-h-[90vh] object-contain grayscale-0 rounded-lg"
               onClick={(e) => e.stopPropagation()}
             />
           </motion.div>
