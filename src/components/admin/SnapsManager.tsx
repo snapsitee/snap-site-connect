@@ -75,7 +75,7 @@ const SnapsManager = () => {
         });
         if (error) throw error;
       }
-      toast.success(isRTL ? 'تم رفع الأعمال بنجاح' : 'Work uploaded successfully');
+      toast.success(isRTL ? 'تم رفع العمل بنجاح' : 'Work uploaded successfully');
       fetchSnaps();
     } catch (error: any) {
       toast.error(error.message || (isRTL ? 'فشل رفع الصورة' : 'Failed to upload'));
@@ -175,7 +175,7 @@ const SnapsManager = () => {
           <Label htmlFor="snap-upload" className="cursor-pointer">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-sm">
               <Upload className="w-4 h-4" />
-              {uploading ? (isRTL ? 'جاري الرفع...' : 'Uploading...') : (isRTL ? 'رفع أعمال' : 'Upload Work')}
+              {uploading ? (isRTL ? 'جاري الرفع...' : 'Uploading...') : (isRTL ? 'رفع عمل' : 'Upload Work')}
             </div>
           </Label>
           <Input
