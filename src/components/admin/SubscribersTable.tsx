@@ -266,17 +266,16 @@ const SubscribersTable = () => {
           </p>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
+        {isRTL && (
+          <div className="relative flex-1 sm:flex-none">
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input placeholder="بحث بالاسم أو رقم الطلب..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full sm:w-64 bg-muted border-border pr-10 text-right" dir="rtl" />
+          </div>
+        )}
         <Button onClick={handleExport} className="gradient-bg hover:opacity-90">
           <Download className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
           {isRTL ? 'التصدير إلى Excel' : 'Export Excel'}
         </Button>
-        
-        {isRTL && (
-          <div className="relative w-full sm:w-72">
-            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input placeholder="بحث بالاسم أو رقم الطلب..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pr-10 text-right" dir="rtl" />
-          </div>
-        )}
         {selectedOrders.size > 0 && (
           <AlertDialog>
             <AlertDialogTrigger asChild>
