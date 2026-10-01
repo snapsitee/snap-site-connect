@@ -319,7 +319,7 @@ const PaymentStep = ({
               <p className="text-xs text-muted-foreground">
                 {selectedPayment === 'instapay' 
                   ? (isRTL ? 'رقم الحساب' : 'Account Number')
-                  : (isRTL ? 'الرقم' : 'Number')
+                  : (isRTL ? 'رقم المحفظة' : 'Wallet Number')
                 }
               </p>
               <p className="font-mono font-medium">
