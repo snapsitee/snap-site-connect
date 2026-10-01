@@ -124,7 +124,7 @@ const SnapsManager = () => {
     if (error) {
       toast.error(isRTL ? 'فشل حذف الصورة' : 'Failed to delete snap');
     } else {
-      toast.success(isRTL ? 'تم حذف الصورة' : 'Snap deleted');
+      toast.success(isRTL ? 'تم حذف العمل' : 'Work deleted');
       fetchSnaps();
     }
   };
