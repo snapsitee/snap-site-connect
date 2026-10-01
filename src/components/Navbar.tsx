@@ -157,7 +157,7 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
         </div>
       </div>
       <div className={`staggered-navigation-header ${isScrolled && !open ? 'staggered-navigation-scrolled' : ''}`}>
-        <div className="container mx-auto px-4 h-16 flex items-center gap-6">
+        <div className="container mx-auto px-6 h-16 flex items-center justify-between gap-6">
           <Button variant="ghost" className="staggered-logo h-12 px-0 hover:bg-transparent" onClick={() => { setMenu(false); navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} aria-label="Core Studio home">
             <img src={logoAsset} alt="Core Studio" className="h-7 w-auto" width={178} height={29} />
           </Button>
