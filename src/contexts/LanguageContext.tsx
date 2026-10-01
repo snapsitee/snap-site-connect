@@ -312,7 +312,7 @@ export const translations = {
     'admin.leads': 'العملاء المحتملين',
     'admin.interestedLeads': 'المهتمين بالاشتراك',
     'admin.pricing': 'الأسعار',
-    'admin.exportExcel': 'تصدير إلى Excel',
+    'admin.exportExcel': 'التصدير إلى Excel',
     'admin.markContacted': 'تم التواصل',
     'admin.archive': 'أرشفة',
     'admin.delete': 'حذف',
