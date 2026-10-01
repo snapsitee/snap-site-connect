@@ -7,3 +7,5 @@
 - [x] Change the footer contact email to contact@corestudioss.com.
 - [x] Replace site logos with the uploaded white Core Studio word logo and favicon with the uploaded square logo.
 - [x] Replace the website word logo with the new uploaded wider version in white.
+- [x] Swap Arabic header order (title right, actions left) in Subscribers, Renewals, Leads, Coupons, Payment and Add-on settings.
+- [x] Match the "Export Excel" button in Subscribers and Renewals to the Leads page style.
