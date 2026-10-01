@@ -55,8 +55,8 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
               <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center">
                 <Phone className="w-4 h-4 text-gradient-blue" />
               </div>
-              <a href="tel:+201033865141" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
-                +20-1033865141
+              <a href="tel:+201035302159" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+                +20-01035302159
               </a>
             </div>
           </motion.div>
