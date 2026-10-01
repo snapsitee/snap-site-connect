@@ -94,9 +94,14 @@ const PricingManager = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className={`text-2xl font-bold ${isRTL ? 'font-cairo' : 'font-sans'}`}>
-        {t('admin.pricing')}
-      </h1>
+      <div>
+        <h1 className={`text-2xl font-bold ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+          {t('admin.pricing')}
+        </h1>
+        <p className={`text-muted-foreground ${isRTL ? 'text-right' : ''}`}>
+          {isRTL ? 'إدارة رسوم الإعداد والاشتراك الشهري' : 'Manage your setup and monthly fees'}
+        </p>
+      </div>
 
       <div className="max-w-lg">
         <div className="glass rounded-3xl p-8 gradient-border space-y-6">

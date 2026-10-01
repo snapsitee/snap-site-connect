@@ -111,7 +111,12 @@ const ReviewsManager = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">{isRTL ? 'إدارة التقييمات' : 'Reviews Manager'}</h2>
+        <div>
+          <h2 className={`text-2xl font-bold ${isRTL ? 'text-right' : ''}`}>{isRTL ? 'إدارة التقييمات' : 'Reviews Manager'}</h2>
+          <p className={`text-muted-foreground ${isRTL ? 'text-right' : ''}`}>
+            {isRTL ? 'أضف وعدّل تقييمات العملاء' : 'Add and manage customer reviews'}
+          </p>
+        </div>
         {!showAdd && (
           <Button onClick={() => { setShowAdd(true); setForm(emptyReview); }}>
             <Plus className="w-4 h-4 mr-2" />
