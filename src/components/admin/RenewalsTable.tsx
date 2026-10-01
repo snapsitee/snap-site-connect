@@ -202,8 +202,8 @@ const RenewalsTable = () => {
             {isRTL ? 'إدارة طلبات التجديد' : 'Manage renewal requests'}
           </p>
         </div>
-        <Button onClick={handleExport} variant="outline" className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
-          <Download className="w-4 h-4" />
+        <Button onClick={handleExport} className="gradient-bg hover:opacity-90">
+          <Download className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
           {isRTL ? 'تصدير Excel' : 'Export Excel'}
         </Button>
         
