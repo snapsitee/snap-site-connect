@@ -209,9 +209,14 @@ const LeadsTable = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-4 justify-between">
-        <h1 className={`text-2xl font-bold ${isRTL ? 'font-cairo' : 'font-sans'}`}>
-          {t('admin.leads')}
-        </h1>
+        <div>
+          <h1 className={`text-2xl font-bold ${isRTL ? 'font-cairo' : 'font-sans'}`}>
+            {t('admin.leads')}
+          </h1>
+          <p className={`text-muted-foreground ${isRTL ? 'text-right' : ''}`}>
+            {isRTL ? 'إدارة الطلبات الواردة من الموقع' : 'Manage incoming requests from the site'}
+          </p>
+        </div>
         <div className="flex flex-wrap gap-2">
           <div className="relative flex-1 sm:flex-none">
             <Search className={`absolute top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground ${isRTL ? 'right-3' : 'left-3'}`} />
