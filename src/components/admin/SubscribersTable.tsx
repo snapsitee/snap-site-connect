@@ -267,7 +267,7 @@ const SubscribersTable = () => {
         </div>
         <Button onClick={handleExport} className="gradient-bg hover:opacity-90">
           <Download className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
-          {isRTL ? 'تصدير Excel' : 'Export Excel'}
+          {isRTL ? 'التصدير إلى Excel' : 'Export Excel'}
         </Button>
         
         {selectedOrders.size > 0 && (
