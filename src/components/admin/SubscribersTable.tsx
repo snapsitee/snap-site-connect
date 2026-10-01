@@ -256,7 +256,7 @@ const SubscribersTable = () => {
 
   return (
     <div className="space-y-6">
-      <div className={`flex items-center justify-between flex-wrap gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h2 className={`text-2xl font-bold ${isRTL ? 'text-right' : ''}`}>
             {isRTL ? 'المشتركين' : 'Subscribers'}
