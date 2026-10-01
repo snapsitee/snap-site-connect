@@ -75,7 +75,7 @@ const SnapsManager = () => {
         });
         if (error) throw error;
       }
-      toast.success(isRTL ? 'تم رفع الصور بنجاح' : 'Snaps uploaded successfully');
+      toast.success(isRTL ? 'تم رفع الأعمال بنجاح' : 'Work uploaded successfully');
       fetchSnaps();
     } catch (error: any) {
       toast.error(error.message || (isRTL ? 'فشل رفع الصورة' : 'Failed to upload'));
@@ -165,17 +165,17 @@ const SnapsManager = () => {
       <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
         <div>
           <h2 className="text-2xl font-bold text-foreground">
-            {isRTL ? 'إدارة الأعمال' : 'Snaps Manager'}
+            {isRTL ? 'إدارة الأعمال' : 'Portfolio Manager'}
           </h2>
           <p className="text-muted-foreground">
-            {isRTL ? 'أضف وعدّل صور أعمالك' : 'Add and manage your portfolio snaps'}
+            {isRTL ? 'أضف وعدّل أعمالك' : 'Add and manage your portfolio'}
           </p>
         </div>
         <div className="flex gap-2">
           <Label htmlFor="snap-upload" className="cursor-pointer">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-sm">
               <Upload className="w-4 h-4" />
-              {uploading ? (isRTL ? 'جاري الرفع...' : 'Uploading...') : (isRTL ? 'رفع صور' : 'Upload Snaps')}
+              {uploading ? (isRTL ? 'جاري الرفع...' : 'Uploading...') : (isRTL ? 'رفع أعمال' : 'Upload Work')}
             </div>
           </Label>
           <Input
@@ -194,7 +194,7 @@ const SnapsManager = () => {
         <Card className="p-12 text-center space-y-4">
           <Image className="w-12 h-12 text-muted-foreground mx-auto" />
           <p className="text-muted-foreground">
-            {isRTL ? 'لا توجد صور بعد. ارفع صور جديدة.' : 'No snaps yet. Upload new snaps.'}
+            {isRTL ? 'لا توجد أعمال بعد. ارفع أعمال جديدة.' : 'No work yet. Upload new work.'}
           </p>
         </Card>
       ) : (
