@@ -12,7 +12,7 @@ const ServicesBentoSection = () => {
       desc: isRTL ? 'مواقع متبرمجة مخصوص، تعديلات كل شهر، ومن غير أي صداع في الاستضافة.' : 'Custom-coded websites, monthly iterations, zero hosting headaches.' },
     { icon: Workflow, tag: '02 / n8n', span: '',
       title: isRTL ? 'أتمتة سير العمل' : 'Workflow Automation',
-      desc: isRTL ? 'أتمتة للباك إند وربط الـ CRM بـ n8n عشان نلغي الشغل اليدوي.' : 'Backend automation pipelines and CRM syncing using n8n to eliminate manual tasks.' },
+      desc: isRTL ? 'بنحوّل مهامك اليومية المتكررة لشغل أوتوماتيك ونظام بسيط يشتغل بدالك.' : 'Automating your repetitive daily tasks into one simple, self-running system.' },
     { icon: PenTool, tag: '03 / Design', span: 'md:col-span-3',
       title: isRTL ? 'تصميم جرافيك' : 'Graphic Design',
       desc: isRTL ? 'هوية بصرية، تصميم UI/UX، ومواد تسويقية.' : 'Brand identity, UI/UX design, and marketing collateral.' },
