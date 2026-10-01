@@ -69,7 +69,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
             className={`flex items-center gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}
           >
             <a
-              href="https://drive.google.com/file/d/1Cl1YDolJvo05SCPnqVP1NhDNqNVFijRq/view?usp=drive_link"
+              href="https://drive.google.com/file/d/1SjwuK3ghpyE_CKa_Mkr95yy-D-1BZaxZ/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               className={`text-muted-foreground hover:text-foreground transition-colors text-sm hover:underline ${isRTL ? 'font-cairo' : 'font-sans'}`}
