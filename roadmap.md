@@ -9,3 +9,4 @@
 - [x] Replace the website word logo with the new uploaded wider version in white.
 - [x] Swap Arabic header order (title right, actions left) in Subscribers, Renewals, Leads, Coupons, Payment and Add-on settings.
 - [x] Match the "Export Excel" button in Subscribers and Renewals to the Leads page style.
+- [x] Put the Arabic search box first with the export button after it in Subscribers and Renewals, matching the Leads page.
