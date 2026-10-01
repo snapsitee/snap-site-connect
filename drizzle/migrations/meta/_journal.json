@@ -29,6 +29,13 @@
       "when": 1790808091339,
       "tag": "0003_secure_orders_renewals_receipts",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790813693370,
+      "tag": "0004_restrict_snaps_listing",
+      "breakpoints": true
     }
   ]
 }
