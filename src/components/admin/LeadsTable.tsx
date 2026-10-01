@@ -208,11 +208,11 @@ const LeadsTable = () => {
 
   return (
     <div className="space-y-6">
-      <div className={`flex flex-col sm:flex-row gap-4 justify-between ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+      <div className="flex flex-col sm:flex-row gap-4 justify-between">
         <h1 className={`text-2xl font-bold ${isRTL ? 'font-cairo' : 'font-sans'}`}>
           {t('admin.leads')}
         </h1>
-        <div className={`flex flex-wrap gap-2 ${isRTL ? 'sm:mr-auto' : ''}`}>
+        <div className="flex flex-wrap gap-2">
           <div className="relative flex-1 sm:flex-none">
             <Search className={`absolute top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground ${isRTL ? 'right-3' : 'left-3'}`} />
             <Input

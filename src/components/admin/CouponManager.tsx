@@ -149,7 +149,7 @@ const CouponManager = () => {
 
   return (
     <div className="space-y-6">
-      <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+      <div className="flex items-center gap-3">
         <div>
           <h2 className={`text-2xl font-bold ${isRTL ? 'text-right' : ''}`}>
             {isRTL ? 'إدارة الكوبونات' : 'Coupon Management'}

@@ -81,7 +81,7 @@ const AddonSettingsManager = () => {
 
   return (
     <div className="space-y-6">
-      <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+      <div className="flex items-center justify-between">
         <div>
           <h2 className={`text-2xl font-bold ${isRTL ? 'text-right' : ''}`}>
             {isRTL ? 'إعدادات الإضافات' : 'Add-on Settings'}
