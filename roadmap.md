@@ -11,3 +11,5 @@
 - [x] Match the "Export Excel" button in Subscribers and Renewals to the Leads page style.
 - [x] Put the Arabic search box first with the export button after it in Subscribers and Renewals, matching the Leads page.
 - [x] Remove the gray background from the Arabic search boxes in Subscribers and Renewals.
+- [x] Payment step: 'الرقم' → 'رقم المحفظة' / 'Wallet Number' (done)
+- [x] Restore original word logo in white (done)
