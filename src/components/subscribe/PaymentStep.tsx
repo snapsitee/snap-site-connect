@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Smartphone, Copy, Check, Upload, ArrowRight, ArrowLeft, Ticket, X, Loader2 } from 'lucide-react';
+import { Smartphone, CreditCard, Copy, Check, Upload, ArrowRight, ArrowLeft, Ticket, X, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import instapayQRDefault from '@/assets/instapay-qr.jpeg';
 import vodafoneQRDefault from '@/assets/vodafone-qr.jpeg';
@@ -290,7 +290,7 @@ const PaymentStep = ({
                 : 'border-border bg-background hover:border-primary'
             }`}
           >
-            <Smartphone className="mb-1 h-6 w-6" />
+            <CreditCard className="mb-1 h-6 w-6" />
             <span className="font-medium">Vodafone Cash</span>
           </Button>
         </div>
