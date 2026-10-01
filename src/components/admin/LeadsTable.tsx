@@ -219,7 +219,7 @@ const LeadsTable = () => {
               placeholder={isRTL ? 'بحث...' : 'Search...'}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-full sm:w-64 bg-muted border-border ${isRTL ? 'pr-10 text-right' : 'pl-10'}`}
+              className={`w-full sm:w-64 border-border ${isRTL ? 'pr-10 text-right' : 'pl-10'}`}
               dir={isRTL ? 'rtl' : 'ltr'}
             />
           </div>
