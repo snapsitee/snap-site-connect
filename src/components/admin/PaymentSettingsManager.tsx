@@ -228,7 +228,7 @@ const PaymentSettingsManager = () => {
         {/* Vodafone Cash */}
         <div className="glass rounded-xl p-6 gradient-border">
           <div className={`flex items-center gap-3 mb-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
-            <CreditCard className="w-6 h-6 text-destructive" />
+            <CreditCard className="w-6 h-6 text-foreground" />
             <h3 className="font-semibold text-lg">Vodafone Cash</h3>
           </div>
 
