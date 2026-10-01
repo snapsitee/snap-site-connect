@@ -208,6 +208,12 @@ const RenewalsTable = () => {
           {isRTL ? 'التصدير إلى Excel' : 'Export Excel'}
         </Button>
         
+        {isRTL && (
+          <div className="relative w-full sm:w-72">
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input placeholder="بحث بالاسم أو رقم التجديد..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pr-10 text-right" dir="rtl" />
+          </div>
+        )}
         {selectedRenewals.size > 0 && (
           <AlertDialog>
             <AlertDialogTrigger asChild>
