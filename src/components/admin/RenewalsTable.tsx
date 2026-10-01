@@ -206,7 +206,7 @@ const RenewalsTable = () => {
         {isRTL && (
           <div className="relative flex-1 sm:flex-none">
             <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="بحث بالاسم أو رقم التجديد..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full sm:w-64 bg-muted border-border pr-10 text-right" dir="rtl" />
+            <Input placeholder="بحث بالاسم أو رقم التجديد..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full sm:w-64 border-border pr-10 text-right" dir="rtl" />
           </div>
         )}
         <Button onClick={handleExport} className="gradient-bg hover:opacity-90">
