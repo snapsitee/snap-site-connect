@@ -202,11 +202,18 @@ const RenewalsTable = () => {
             {isRTL ? 'إدارة طلبات التجديد' : 'Manage renewal requests'}
           </p>
         </div>
+        <div className="flex items-center gap-3 flex-wrap">
         <Button onClick={handleExport} className="gradient-bg hover:opacity-90">
           <Download className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
           {isRTL ? 'التصدير إلى Excel' : 'Export Excel'}
         </Button>
         
+        {isRTL && (
+          <div className="relative w-full sm:w-72">
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input placeholder="بحث بالاسم أو رقم التجديد..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pr-10 text-right" dir="rtl" />
+          </div>
+        )}
         {selectedRenewals.size > 0 && (
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -237,12 +244,7 @@ const RenewalsTable = () => {
             </AlertDialogContent>
           </AlertDialog>
         )}
-        {isRTL && (
-          <div className="relative w-full sm:w-72 sm:mr-auto">
-            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input placeholder="بحث بالاسم أو رقم التجديد..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pr-10 text-right" dir="rtl" />
-          </div>
-        )}
+        </div>
       </div>
 
       {/* Filters */}
