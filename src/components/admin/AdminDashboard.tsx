@@ -57,7 +57,7 @@ const AdminDashboard = () => {
           >
             {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
-          <img src={logoAsset} alt="Core Studio" className="h-7 w-auto" />
+          <img src={logoAsset} alt="Core Studios" className="h-7 w-auto" />
           <LanguageSwitcher />
         </div>
       </div>
@@ -69,7 +69,7 @@ const AdminDashboard = () => {
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="p-6 border-b border-sidebar-border">
-            <img src={logoAsset} alt="Core Studio" className="h-8 w-auto" />
+            <img src={logoAsset} alt="Core Studios" className="h-8 w-auto" />
             <p className="text-sm text-sidebar-foreground/60 mt-1">
               {t('admin.dashboard')}
             </p>

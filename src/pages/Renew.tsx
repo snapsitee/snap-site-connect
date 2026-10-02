@@ -158,7 +158,7 @@ const Renew = () => {
           >
             <div className={`border-b border-border px-4 py-5 sm:px-8 sm:py-6 ${isRTL ? 'text-right' : 'text-left'}`}>
               <p className="mb-2 font-mono text-[10px] uppercase text-muted-foreground">
-                {isRTL ? 'كور ستوديو / تجديد' : 'Core Studio / Renewal'}
+                {isRTL ? 'كور ستوديوز / تجديد' : 'Core Studios / Renewal'}
               </p>
               <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
                 {isRTL ? 'تجديد الاشتراك' : 'Renew Subscription'}

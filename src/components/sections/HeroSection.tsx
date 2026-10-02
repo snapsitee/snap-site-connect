@@ -34,7 +34,7 @@ const HeroSection = () => {
           <motion.div {...fade(0.05)} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/60 bg-card/40 mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-foreground" />
             <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-              {isRTL ? 'Core Studio · وكالة رقمية متكاملة' : 'Core Studio · Full-Service Digital Agency'}
+              {isRTL ? 'Core Studios · وكالة رقمية متكاملة' : 'Core Studios · Full-Service Digital Agency'}
             </span>
           </motion.div>
 

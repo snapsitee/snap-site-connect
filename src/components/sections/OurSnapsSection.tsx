@@ -155,7 +155,7 @@ const OurSnapsSection = () => {
                     <div className="aspect-[4/5]">
                       <img
                         src={snaps[index].image_url}
-                        alt={snaps[index].title || 'Core Studio project'}
+                        alt={snaps[index].title || 'Core Studios project'}
                         className="w-full h-full object-cover grayscale-0"
                         loading="lazy"
                         draggable={false}

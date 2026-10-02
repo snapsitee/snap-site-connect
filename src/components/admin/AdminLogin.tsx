@@ -70,7 +70,7 @@ const AdminLogin = () => {
       <div className="w-full max-w-md">
         <div className="glass rounded-3xl p-8 gradient-border">
           <div className="text-center mb-8">
-            <img src={logoAsset} alt="Core Studio" className="h-9 w-auto mx-auto mb-6" />
+            <img src={logoAsset} alt="Core Studios" className="h-9 w-auto mx-auto mb-6" />
             <h1 className={`text-2xl font-bold gradient-text ${isRTL ? 'font-cairo' : 'font-sans'}`}>
               {t('admin.login')}
             </h1>
