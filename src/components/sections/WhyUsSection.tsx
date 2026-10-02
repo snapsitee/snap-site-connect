@@ -56,7 +56,7 @@ const WhyUsSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <ScrollReveal className="text-center mb-20">
           <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-gradient-purple/10 border border-gradient-purple/30 text-gradient-purple mb-6">
-            {isRTL ? 'ليه Core Studio' : 'Why Core Studio'}
+            {isRTL ? 'ليه Core Studios' : 'Why Core Studios'}
           </span>
           <h2 className={`text-3xl md:text-5xl font-bold mb-4 gradient-text ${isRTL ? 'font-cairo' : ''}`}>
             {isRTL ? 'إيه اللي يميّزنا' : 'What Sets Us Apart'}

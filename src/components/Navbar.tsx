@@ -158,8 +158,8 @@ const Navbar = forwardRef<HTMLElement>((_, ref) => {
       </div>
       <div className={`staggered-navigation-header ${isScrolled && !open ? 'staggered-navigation-scrolled' : ''}`}>
         <div className="container mx-auto px-6 h-16 flex items-center justify-between gap-6">
-          <Button variant="ghost" className="staggered-logo h-12 px-0 hover:bg-transparent" onClick={() => { setMenu(false); navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} aria-label="Core Studio home">
-            <img src={logoAsset} alt="Core Studio" className="h-7 w-auto" width={116} height={29} />
+          <Button variant="ghost" className="staggered-logo h-12 px-0 hover:bg-transparent" onClick={() => { setMenu(false); navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} aria-label="Core Studios home">
+            <img src={logoAsset} alt="Core Studios" className="h-7 w-auto" width={171} height={28} />
           </Button>
           <Button ref={triggerRef} variant="ghost" className="staggered-menu-toggle" aria-expanded={open} aria-controls="site-menu" aria-label={open ? (isRTL ? 'اقفل القائمة' : 'Close menu') : (isRTL ? 'افتح القائمة' : 'Open menu')} onClick={() => setMenu(!openRef.current)}>
             <span>{open ? (isRTL ? 'اقفل' : 'Close') : (isRTL ? 'القائمة' : 'Menu')}</span>

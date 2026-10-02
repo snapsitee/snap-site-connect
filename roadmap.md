@@ -13,3 +13,4 @@
 - [x] Remove the gray background from the Arabic search boxes in Subscribers and Renewals.
 - [x] Payment step: 'الرقم' → 'رقم المحفظة' / 'Wallet Number' (done)
 - [x] Restore original word logo in white (done)
+- [x] Replace the site wordmark with the uploaded Core Studios logo and update all visible brand naming.

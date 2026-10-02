@@ -112,8 +112,8 @@ const TestimonialsSection = () => {
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               {isRTL
-                ? 'انضم لمئات العملاء السعداء الذين حوّلوا أعمالهم مع Core Studio'
-                : 'Join hundreds of happy clients who transformed their business with Core Studio'}
+                ? 'انضم لمئات العملاء السعداء الذين حوّلوا أعمالهم مع Core Studios'
+                : 'Join hundreds of happy clients who transformed their business with Core Studios'}
             </p>
           </div>
         </ScrollReveal>
