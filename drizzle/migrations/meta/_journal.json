@@ -36,6 +36,13 @@
       "when": 1790813693370,
       "tag": "0004_restrict_snaps_listing",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791674042456,
+      "tag": "0005_create_expenses",
+      "breakpoints": true
     }
   ]
 }
