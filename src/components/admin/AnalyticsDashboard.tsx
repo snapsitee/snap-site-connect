@@ -121,7 +121,7 @@ const AnalyticsDashboard = () => {
       } else {
         let start = from;
         if (to.getTime() - from.getTime() > 366 * 86400000) start = subDays(to, 366);
-        const days = eachDayOfInterval({ start, end: to });
+        const days = start.getTime() <= to.getTime() ? eachDayOfInterval({ start, end: to }) : [];
         recentOrders = days.map(day => {
           const dateStr = format(day, 'yyyy-MM-dd');
           const count = (allOrders || []).filter(o =>
