@@ -104,22 +104,32 @@ const AnalyticsDashboard = () => {
       const totalLeads = leads.length;
       const convertedLeads = leads.filter(l => l.status === 'contacted').length;
 
-      // Orders by day (last 14 days)
-      const last14Days = eachDayOfInterval({
-        start: subDays(new Date(), 13),
-        end: new Date(),
-      });
-
-      const recentOrders = last14Days.map(day => {
-        const dateStr = format(day, 'yyyy-MM-dd');
-        const count = (allOrders || []).filter(o => 
-          format(parseISO(o.created_at), 'yyyy-MM-dd') === dateStr
-        ).length;
-        return {
-          date: format(day, 'MMM dd', { locale: dateLocale }),
-          count,
-        };
-      });
+      // Orders chart follows the selected range: hourly for 24h, daily otherwise
+      let recentOrders: { date: string; count: number }[];
+      if (range === '24h') {
+        const endHour = new Date(to);
+        endHour.setMinutes(0, 0, 0);
+        recentOrders = Array.from({ length: 24 }, (_, i) => {
+          const start = new Date(endHour.getTime() - (23 - i) * 3600000);
+          const end = start.getTime() + 3600000;
+          const count = (allOrders || []).filter(o => {
+            const t = new Date(o.created_at).getTime();
+            return t >= start.getTime() && t < end;
+          }).length;
+          return { date: format(start, 'HH:00'), count };
+        });
+      } else {
+        let start = from;
+        if (to.getTime() - from.getTime() > 366 * 86400000) start = subDays(to, 366);
+        const days = eachDayOfInterval({ start, end: to });
+        recentOrders = days.map(day => {
+          const dateStr = format(day, 'yyyy-MM-dd');
+          const count = (allOrders || []).filter(o =>
+            format(parseISO(o.created_at), 'yyyy-MM-dd') === dateStr
+          ).length;
+          return { date: format(day, 'MMM dd', { locale: dateLocale }), count };
+        });
+      }
 
       // Status breakdown
       const statusCounts: Record<string, number> = {};
@@ -318,7 +328,10 @@ const AnalyticsDashboard = () => {
         <Card className="glass border-border">
           <CardHeader>
             <CardTitle className={isRTL ? 'text-right' : ''}>
-              {isRTL ? 'الطلبات خلال آخر 14 يوم' : 'Orders (Last 14 Days)'}
+              {range === '24h' && (isRTL ? 'الطلبات خلال آخر 24 ساعة' : 'Orders (Last 24 Hours)')}
+              {range === 'week' && (isRTL ? 'الطلبات خلال آخر 7 أيام' : 'Orders (Last 7 Days)')}
+              {range === 'month' && (isRTL ? 'الطلبات خلال آخر 30 يوم' : 'Orders (Last 30 Days)')}
+              {range === 'custom' && (isRTL ? `الطلبات من ${customFrom} إلى ${customTo}` : `Orders (${customFrom} to ${customTo})`)}
             </CardTitle>
           </CardHeader>
           <CardContent>
