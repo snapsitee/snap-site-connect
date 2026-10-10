@@ -3,7 +3,9 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Users, DollarSign, TrendingUp, UserPlus, Clock, CheckCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Users, DollarSign, TrendingUp, UserPlus, Clock, CheckCircle, Wallet } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { format, subDays, startOfMonth, endOfMonth, eachDayOfInterval, parseISO } from 'date-fns';
 import { ar, enUS } from 'date-fns/locale';
@@ -15,6 +17,7 @@ interface AnalyticsData {
   monthlyRevenue: number;
   totalLeads: number;
   convertedLeads: number;
+  totalExpenses: number;
   recentOrders: { date: string; count: number }[];
   statusBreakdown: { name: string; value: number; color: string }[];
 }
@@ -25,28 +28,39 @@ const AnalyticsDashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dateLocale = language === 'ar' ? ar : enUS;
 
+  type Range = '24h' | 'week' | 'month' | 'custom';
+  const [range, setRange] = useState<Range>('month');
+  const [customFrom, setCustomFrom] = useState(format(subDays(new Date(), 30), 'yyyy-MM-dd'));
+  const [customTo, setCustomTo] = useState(format(new Date(), 'yyyy-MM-dd'));
+
+  const getBounds = (): [Date, Date] => {
+    const now = new Date();
+    if (range === '24h') return [new Date(now.getTime() - 86400000), now];
+    if (range === 'week') return [subDays(now, 7), now];
+    if (range === 'month') return [subDays(now, 30), now];
+    return [new Date(customFrom + 'T00:00:00'), new Date(customTo + 'T23:59:59')];
+  };
+
   useEffect(() => {
     fetchAnalytics();
-  }, []);
+  }, [range, customFrom, customTo]);
 
   const fetchAnalytics = async () => {
     setIsLoading(true);
+    const [from, to] = getBounds();
+    const inRange = (d: string) => { const t = new Date(d).getTime(); return t >= from.getTime() && t <= to.getTime(); };
 
-    // Fetch orders
-    const { data: orders } = await supabase
-      .from('orders')
-      .select('*');
+    const { data: allOrders } = await supabase.from('orders').select('*');
+    const { data: allLeads } = await supabase.from('leads').select('*');
+    const { data: allRenewals } = await supabase.from('renewals').select('*').eq('status', 'confirmed');
+    const { data: allExpenses } = await supabase.from('expenses').select('amount, expense_date');
 
-    // Fetch leads
-    const { data: leads } = await supabase
-      .from('leads')
-      .select('*');
-
-    // Fetch confirmed renewals
-    const { data: renewals } = await supabase
-      .from('renewals')
-      .select('*')
-      .eq('status', 'confirmed');
+    const orders = allOrders?.filter(o => inRange(o.created_at));
+    const leads = allLeads?.filter(l => inRange(l.created_at));
+    const renewals = allRenewals?.filter(r => inRange(r.created_at));
+    const totalExpenses = (allExpenses || [])
+      .filter(e => inRange(e.expense_date + 'T12:00:00'))
+      .reduce((s, e) => s + (e.amount || 0), 0);
 
     if (orders && leads) {
       const confirmedRenewals = renewals || [];
@@ -98,7 +112,7 @@ const AnalyticsDashboard = () => {
 
       const recentOrders = last14Days.map(day => {
         const dateStr = format(day, 'yyyy-MM-dd');
-        const count = orders.filter(o => 
+        const count = (allOrders || []).filter(o => 
           format(parseISO(o.created_at), 'yyyy-MM-dd') === dateStr
         ).length;
         return {
@@ -136,6 +150,7 @@ const AnalyticsDashboard = () => {
         monthlyRevenue,
         totalLeads,
         convertedLeads,
+        totalExpenses,
         recentOrders,
         statusBreakdown,
       });
@@ -157,7 +172,7 @@ const AnalyticsDashboard = () => {
     return labels[status] ? (language === 'ar' ? labels[status].ar : labels[status].en) : status;
   };
 
-  if (isLoading) {
+  if (isLoading && !analytics) {
     return (
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -191,6 +206,26 @@ const AnalyticsDashboard = () => {
         <p className="text-muted-foreground">
           {isRTL ? 'نظرة عامة على أداء المنصة' : 'Overview of platform performance'}
         </p>
+      </div>
+
+      <div className={`flex flex-wrap items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+        {([
+          ['24h', isRTL ? 'آخر 24 ساعة' : 'Last 24h'],
+          ['week', isRTL ? 'آخر أسبوع' : 'Last week'],
+          ['month', isRTL ? 'آخر شهر' : 'Last month'],
+          ['custom', isRTL ? 'من تاريخ لتاريخ' : 'Custom range'],
+        ] as [Range, string][]).map(([id, label]) => (
+          <Button key={id} size="sm" variant={range === id ? 'default' : 'outline'} onClick={() => setRange(id)}>
+            {label}
+          </Button>
+        ))}
+        {range === 'custom' && (
+          <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <Input type="date" value={customFrom} onChange={(e) => setCustomFrom(e.target.value)} className="w-40" />
+            <span className="text-muted-foreground">{isRTL ? 'إلى' : 'to'}</span>
+            <Input type="date" value={customTo} onChange={(e) => setCustomTo(e.target.value)} className="w-40" />
+          </div>
+        )}
       </div>
 
       {/* Key Metrics */}
@@ -262,16 +297,16 @@ const AnalyticsDashboard = () => {
             <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
               <div className={isRTL ? 'text-right' : ''}>
                 <p className="text-sm text-muted-foreground">
-                  {isRTL ? 'معدل التحويل' : 'Conversion Rate'}
+                  {isRTL ? 'المصروفات' : 'Expenses'}
                 </p>
-                <p className="text-3xl font-bold">{conversionRate}%</p>
+                <p className="text-3xl font-bold">{analytics.totalExpenses.toLocaleString()} <span className="text-sm">EGP</span></p>
               </div>
               <div className="p-3 rounded-xl bg-purple-500/10">
-                <CheckCircle className="w-6 h-6 text-purple-500" />
+                <Wallet className="w-6 h-6 text-purple-500" />
               </div>
             </div>
             <div className={`mt-4 text-sm text-muted-foreground ${isRTL ? 'text-right' : ''}`}>
-              {isRTL ? 'من العملاء المحتملين للمشتركين' : 'Leads to subscribers'}
+              {isRTL ? 'صافي الربح:' : 'Net profit:'} {(analytics.totalRevenue - analytics.totalExpenses).toLocaleString()} EGP
             </div>
           </CardContent>
         </Card>
