@@ -89,7 +89,7 @@ const ExpensesManager = () => {
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="h-10 border border-input bg-background px-3 text-sm"
+            className="h-10 w-full border border-input bg-background px-3 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             {CATEGORIES.map((c) => <option key={c.id} value={c.id}>{isRTL ? c.ar : c.en}</option>)}
           </select>
