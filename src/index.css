@@ -207,3 +207,7 @@ html, body {
     50% { opacity: 1; }
   }
 }
+
+/* Dark native date/select controls */
+input[type="date"], select { color-scheme: dark; }
+input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.8; }
